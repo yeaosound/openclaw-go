@@ -71,6 +71,24 @@ export const cliMessages = {
   'cli.browser.trace-start.description': 'Start trace recording',
   'cli.browser.trace-stop.description': 'Stop trace recording and write a .zip',
 
+  // channels-cli
+  'cli.channels.description': 'Manage chat channel accounts',
+  'cli.channels.list.description': 'List configured channels + auth profiles',
+  'cli.channels.status.description': 'Show gateway channel status (use status --deep for local)',
+  'cli.channels.capabilities.description': 'Show provider capabilities (intents/scopes + supported features)',
+  'cli.channels.resolve.description': 'Resolve channel/user names to IDs',
+  'cli.channels.logs.description': 'Show recent channel logs from the gateway log file',
+  'cli.channels.add.description': 'Add or update a channel account',
+  'cli.channels.remove.description': 'Disable or delete a channel account',
+  'cli.channels.link.description': 'Link a channel account (if supported)',
+  'cli.channels.logout.description': 'Log out of a channel session (if supported)',
+
+  // config-cli
+  'cli.config.description': 'Config helpers (get/set/unset). Run without subcommand for the wizard.',
+  'cli.config.get.description': 'Get a config value by dot path',
+  'cli.config.set.description': 'Set a config value by dot path',
+  'cli.config.unset.description': 'Remove a config value by dot path',
+
   // memory-cli
   'cli.memory.description': 'Memory search tools',
   'cli.memory.status.description': 'Show memory search index status',
@@ -78,6 +96,89 @@ export const cliMessages = {
   'cli.memory.search.description': 'Search memory files',
   'cli.memory.indexing': 'Indexing memory…',
   'cli.memory.checking': 'Checking memory…',
+
+  // system-cli
+  'cli.system.description': 'System tools (events, heartbeat, presence)',
+  'cli.system.event.description': 'Enqueue a system event and optionally trigger a heartbeat',
+  'cli.system.heartbeat.description': 'Heartbeat controls',
+  'cli.system.heartbeat.last.description': 'Show the last heartbeat event',
+  'cli.system.heartbeat.enable.description': 'Enable heartbeats',
+  'cli.system.heartbeat.disable.description': 'Disable heartbeats',
+  'cli.system.presence.description': 'List system presence entries',
+
+  // security-cli
+  'cli.security.description': 'Security tools (audit)',
+  'cli.security.audit.description': 'Audit config + local state for common security foot-guns',
+
+  // models-cli
+  'cli.models.description': 'Model discovery, scanning, and configuration',
+  'cli.models.list.description': 'List models (configured by default)',
+  'cli.models.status.description': 'Show configured model state',
+  'cli.models.set.description': 'Set the default model',
+  'cli.models.setImage.description': 'Set the image model',
+  'cli.models.aliases.description': 'Manage model aliases',
+  'cli.models.aliases.list.description': 'List model aliases',
+  'cli.models.aliases.add.description': 'Add or update a model alias',
+  'cli.models.aliases.remove.description': 'Remove a model alias',
+  'cli.models.fallbacks.description': 'Manage model fallback list',
+  'cli.models.fallbacks.list.description': 'List fallback models',
+  'cli.models.fallbacks.add.description': 'Add a fallback model',
+  'cli.models.fallbacks.remove.description': 'Remove a fallback model',
+  'cli.models.fallbacks.clear.description': 'Clear all fallback models',
+  'cli.models.imageFallbacks.description': 'Manage image model fallback list',
+  'cli.models.imageFallbacks.list.description': 'List image fallback models',
+  'cli.models.imageFallbacks.add.description': 'Add an image fallback model',
+  'cli.models.imageFallbacks.remove.description': 'Remove an image fallback model',
+  'cli.models.imageFallbacks.clear.description': 'Clear all image fallback models',
+  'cli.models.scan.description': 'Scan OpenRouter free models for tools + images',
+  'cli.models.auth.description': 'Manage model auth profiles',
+  'cli.models.auth.add.description': 'Interactive auth helper (setup-token or paste token)',
+  'cli.models.auth.login.description': 'Run a provider plugin auth flow (OAuth/API key)',
+  'cli.models.auth.setupToken.description': 'Run a provider CLI to create/sync a token (TTY required)',
+  'cli.models.auth.pasteToken.description': 'Paste a token into auth-profiles.json and update config',
+  'cli.models.auth.loginGithubCopilot.description': 'Login to GitHub Copilot via GitHub device flow (TTY required)',
+  'cli.models.auth.order.description': 'Manage per-agent auth profile order overrides',
+  'cli.models.auth.order.get.description': 'Show per-agent auth order override (from auth-profiles.json)',
+  'cli.models.auth.order.set.description': 'Set per-agent auth order override (locks rotation to this list)',
+  'cli.models.auth.order.clear.description': 'Clear per-agent auth order override (fall back to config/round-robin)',
+
+  // hooks-cli
+  'cli.hooks.description': 'Manage internal agent hooks',
+  'cli.hooks.list.description': 'List all hooks',
+  'cli.hooks.info.description': 'Show detailed information about a hook',
+  'cli.hooks.check.description': 'Check hooks eligibility status',
+  'cli.hooks.enable.description': 'Enable a hook',
+  'cli.hooks.disable.description': 'Disable a hook',
+  'cli.hooks.install.description': 'Install a hook pack (path, archive, or npm spec)',
+  'cli.hooks.update.description': 'Update installed hooks (npm installs only)',
+
+  // exec-approvals-cli
+  'cli.approvals.description': 'Manage exec approvals (gateway or node host)',
+  'cli.approvals.get.description': 'Fetch exec approvals snapshot',
+  'cli.approvals.set.description': 'Replace exec approvals with a JSON file',
+  'cli.approvals.allowlist.description': 'Edit the per-agent allowlist',
+  'cli.approvals.allowlist.add.description': 'Add a glob pattern to an allowlist',
+  'cli.approvals.allowlist.remove.description': 'Remove a glob pattern from an allowlist',
+
+  // devices-cli
+  'cli.devices.description': 'Device pairing and auth tokens',
+  'cli.devices.list.description': 'List pending and paired devices',
+  'cli.devices.approve.description': 'Approve a pending device pairing request',
+  'cli.devices.reject.description': 'Reject a pending device pairing request',
+  'cli.devices.rotate.description': 'Rotate a device token for a role',
+  'cli.devices.revoke.description': 'Revoke a device token for a role',
+
+  // sandbox-cli
+  'cli.sandbox.description': 'Manage sandbox containers (Docker-based agent isolation)',
+  'cli.sandbox.list.description': 'List sandbox containers and their status',
+  'cli.sandbox.recreate.description': 'Remove containers to force recreation with updated config',
+  'cli.sandbox.explain.description': 'Explain effective sandbox/tool policy for a session/agent',
+
+  // skills-cli
+  'cli.skills.description': 'List and inspect available skills',
+  'cli.skills.list.description': 'List all available skills',
+  'cli.skills.info.description': 'Show detailed information about a skill',
+  'cli.skills.check.description': 'Check which skills are ready vs missing requirements',
 
   // Service status
   'cli.service.alreadyRunning': 'Service already running',

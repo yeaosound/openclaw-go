@@ -1,6 +1,7 @@
 import type { Command } from "commander";
 
 import { danger } from "../globals.js";
+import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
@@ -23,7 +24,7 @@ const normalizeWakeMode = (raw: unknown) => {
 export function registerSystemCli(program: Command) {
   const system = program
     .command("system")
-    .description("System tools (events, heartbeat, presence)")
+    .description(t("cli.system.description"))
     .addHelpText(
       "after",
       () =>
@@ -33,7 +34,7 @@ export function registerSystemCli(program: Command) {
   addGatewayClientOptions(
     system
       .command("event")
-      .description("Enqueue a system event and optionally trigger a heartbeat")
+      .description(t("cli.system.event.description"))
       .requiredOption("--text <text>", "System event text")
       .option("--mode <mode>", "Wake mode (now|next-heartbeat)", "next-heartbeat")
       .option("--json", "Output JSON", false),
@@ -56,12 +57,12 @@ export function registerSystemCli(program: Command) {
     }
   });
 
-  const heartbeat = system.command("heartbeat").description("Heartbeat controls");
+  const heartbeat = system.command("heartbeat").description(t("cli.system.heartbeat.description"));
 
   addGatewayClientOptions(
     heartbeat
       .command("last")
-      .description("Show the last heartbeat event")
+      .description(t("cli.system.heartbeat.last.description"))
       .option("--json", "Output JSON", false),
   ).action(async (opts: GatewayRpcOpts & { json?: boolean }) => {
     try {
@@ -78,7 +79,7 @@ export function registerSystemCli(program: Command) {
   addGatewayClientOptions(
     heartbeat
       .command("enable")
-      .description("Enable heartbeats")
+      .description(t("cli.system.heartbeat.enable.description"))
       .option("--json", "Output JSON", false),
   ).action(async (opts: GatewayRpcOpts & { json?: boolean }) => {
     try {
@@ -98,7 +99,7 @@ export function registerSystemCli(program: Command) {
   addGatewayClientOptions(
     heartbeat
       .command("disable")
-      .description("Disable heartbeats")
+      .description(t("cli.system.heartbeat.disable.description"))
       .option("--json", "Output JSON", false),
   ).action(async (opts: GatewayRpcOpts & { json?: boolean }) => {
     try {
@@ -118,7 +119,7 @@ export function registerSystemCli(program: Command) {
   addGatewayClientOptions(
     system
       .command("presence")
-      .description("List system presence entries")
+      .description(t("cli.system.presence.description"))
       .option("--json", "Output JSON", false),
   ).action(async (opts: GatewayRpcOpts & { json?: boolean }) => {
     try {

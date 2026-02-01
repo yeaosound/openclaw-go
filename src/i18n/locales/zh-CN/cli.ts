@@ -71,6 +71,24 @@ export const cliMessages = {
   'cli.browser.trace-start.description': '开始录制跟踪',
   'cli.browser.trace-stop.description': '停止录制跟踪并写入 .zip',
 
+  // channels-cli
+  'cli.channels.description': '管理聊天频道账户',
+  'cli.channels.list.description': '列出已配置的频道 + 认证配置文件',
+  'cli.channels.status.description': '显示网关频道状态（本地使用 status --deep）',
+  'cli.channels.capabilities.description': '显示提供商能力（意图/范围 + 支持的功能）',
+  'cli.channels.resolve.description': '将频道/用户名解析为 ID',
+  'cli.channels.logs.description': '从网关日志文件显示最近的频道日志',
+  'cli.channels.add.description': '添加或更新频道账户',
+  'cli.channels.remove.description': '禁用或删除频道账户',
+  'cli.channels.link.description': '链接频道账户（如果支持）',
+  'cli.channels.logout.description': '退出频道会话（如果支持）',
+
+  // config-cli
+  'cli.config.description': '配置助手（获取/设置/取消设置）。不带子命令运行以启动向导。',
+  'cli.config.get.description': '通过点路径获取配置值',
+  'cli.config.set.description': '通过点路径设置配置值',
+  'cli.config.unset.description': '通过点路径移除配置值',
+
   // memory-cli
   'cli.memory.description': '内存搜索工具',
   'cli.memory.status.description': '显示内存搜索索引状态',
@@ -78,6 +96,89 @@ export const cliMessages = {
   'cli.memory.search.description': '搜索内存文件',
   'cli.memory.indexing': '正在索引内存…',
   'cli.memory.checking': '正在检查内存…',
+
+  // system-cli
+  'cli.system.description': '系统工具（事件、心跳、在线状态）',
+  'cli.system.event.description': '将系统事件加入队列并可选地触发心跳',
+  'cli.system.heartbeat.description': '心跳控制',
+  'cli.system.heartbeat.last.description': '显示上次心跳事件',
+  'cli.system.heartbeat.enable.description': '启用心跳',
+  'cli.system.heartbeat.disable.description': '禁用心跳',
+  'cli.system.presence.description': '列出系统在线状态条目',
+
+  // security-cli
+  'cli.security.description': '安全工具（审计）',
+  'cli.security.audit.description': '审计配置和本地状态以发现常见安全隐患',
+
+  // models-cli
+  'cli.models.description': '模型发现、扫描和配置',
+  'cli.models.list.description': '列出模型（默认已配置）',
+  'cli.models.status.description': '显示已配置的模型状态',
+  'cli.models.set.description': '设置默认模型',
+  'cli.models.setImage.description': '设置图像模型',
+  'cli.models.aliases.description': '管理模型别名',
+  'cli.models.aliases.list.description': '列出模型别名',
+  'cli.models.aliases.add.description': '添加或更新模型别名',
+  'cli.models.aliases.remove.description': '移除模型别名',
+  'cli.models.fallbacks.description': '管理模型回退列表',
+  'cli.models.fallbacks.list.description': '列出回退模型',
+  'cli.models.fallbacks.add.description': '添加回退模型',
+  'cli.models.fallbacks.remove.description': '移除回退模型',
+  'cli.models.fallbacks.clear.description': '清除所有回退模型',
+  'cli.models.imageFallbacks.description': '管理图像模型回退列表',
+  'cli.models.imageFallbacks.list.description': '列出图像回退模型',
+  'cli.models.imageFallbacks.add.description': '添加图像回退模型',
+  'cli.models.imageFallbacks.remove.description': '移除图像回退模型',
+  'cli.models.imageFallbacks.clear.description': '清除所有图像回退模型',
+  'cli.models.scan.description': '扫描 OpenRouter 免费模型（工具和图像）',
+  'cli.models.auth.description': '管理模型认证配置文件',
+  'cli.models.auth.add.description': '交互式认证助手（设置令牌或粘贴令牌）',
+  'cli.models.auth.login.description': '运行提供商插件认证流程（OAuth/API 密钥）',
+  'cli.models.auth.setupToken.description': '运行提供商 CLI 创建/同步令牌（需要 TTY）',
+  'cli.models.auth.pasteToken.description': '将令牌粘贴到 auth-profiles.json 并更新配置',
+  'cli.models.auth.loginGithubCopilot.description': '通过 GitHub 设备流程登录 GitHub Copilot（需要 TTY）',
+  'cli.models.auth.order.description': '管理每个代理的认证配置文件顺序覆盖',
+  'cli.models.auth.order.get.description': '显示每个代理的认证顺序覆盖（来自 auth-profiles.json）',
+  'cli.models.auth.order.set.description': '设置每个代理的认证顺序覆盖（锁定到此列表轮换）',
+  'cli.models.auth.order.clear.description': '清除每个代理的认证顺序覆盖（回退到配置/轮询）',
+
+  // hooks-cli
+  'cli.hooks.description': '管理内部代理钩子',
+  'cli.hooks.list.description': '列出所有钩子',
+  'cli.hooks.info.description': '显示钩子的详细信息',
+  'cli.hooks.check.description': '检查钩子资格状态',
+  'cli.hooks.enable.description': '启用钩子',
+  'cli.hooks.disable.description': '禁用钩子',
+  'cli.hooks.install.description': '安装钩子包（路径、压缩包或 npm 规范）',
+  'cli.hooks.update.description': '更新已安装的钩子（仅限 npm 安装）',
+
+  // exec-approvals-cli
+  'cli.approvals.description': '管理执行批准（网关或节点主机）',
+  'cli.approvals.get.description': '获取执行批准快照',
+  'cli.approvals.set.description': '用 JSON 文件替换执行批准',
+  'cli.approvals.allowlist.description': '编辑每个代理的允许列表',
+  'cli.approvals.allowlist.add.description': '向允许列表添加 glob 模式',
+  'cli.approvals.allowlist.remove.description': '从允许列表移除 glob 模式',
+
+  // devices-cli
+  'cli.devices.description': '设备配对和认证令牌',
+  'cli.devices.list.description': '列出待处理和已配对的设备',
+  'cli.devices.approve.description': '批准待处理的设备配对请求',
+  'cli.devices.reject.description': '拒绝待处理的设备配对请求',
+  'cli.devices.rotate.description': '为角色轮换设备令牌',
+  'cli.devices.revoke.description': '撤销角色的设备令牌',
+
+  // sandbox-cli
+  'cli.sandbox.description': '管理沙盒容器（基于 Docker 的代理隔离）',
+  'cli.sandbox.list.description': '列出沙盒容器及其状态',
+  'cli.sandbox.recreate.description': '移除容器以强制使用更新后的配置重新创建',
+  'cli.sandbox.explain.description': '解释会话/代理的有效沙盒/工具策略',
+
+  // skills-cli
+  'cli.skills.description': '列出和检查可用技能',
+  'cli.skills.list.description': '列出所有可用技能',
+  'cli.skills.info.description': '显示技能的详细信息',
+  'cli.skills.check.description': '检查哪些技能已就绪 vs 缺少要求',
 
   // Service status
   'cli.service.alreadyRunning': '服务已在运行',
