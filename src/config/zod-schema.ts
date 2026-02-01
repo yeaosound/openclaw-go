@@ -29,6 +29,7 @@ const NodeHostSchema = z
 
 export const OpenClawSchema = z
   .object({
+    lang: z.string().optional(),
     meta: z
       .object({
         lastTouchedVersion: z.string().optional(),
