@@ -38,6 +38,7 @@ import { buildSlackSlashCommandMatcher, resolveSlackSlashCommandConfig } from ".
 import type { SlackMonitorContext } from "./context.js";
 import { isSlackChannelAllowedByPolicy } from "./policy.js";
 import { deliverSlackSlashReplies } from "./replies.js";
+import { t } from "../../i18n/index.js";
 
 type SlackBlock = { type: string; [key: string]: unknown };
 
@@ -166,7 +167,7 @@ export function registerSlackMonitorSlashCommands(params: {
     try {
       if (!prompt.trim()) {
         await ack({
-          text: "Message required.",
+          text: t('channel.slack.slash.messageRequired'),
           response_type: "ephemeral",
         });
         return;
@@ -193,7 +194,7 @@ export function registerSlackMonitorSlashCommands(params: {
         })
       ) {
         await respond({
-          text: "This channel is not allowed.",
+          text: t('channel.slack.notAllowed'),
           response_type: "ephemeral",
         });
         return;
@@ -208,7 +209,7 @@ export function registerSlackMonitorSlashCommands(params: {
       if (isDirectMessage) {
         if (!ctx.dmEnabled || ctx.dmPolicy === "disabled") {
           await respond({
-            text: "Slack DMs are disabled.",
+            text: t('channel.slack.dmsDisabled'),
             response_type: "ephemeral",
           });
           return;
@@ -245,13 +246,13 @@ export function registerSlackMonitorSlashCommands(params: {
                 });
               }
             } else {
-              logVerbose(
-                `slack: blocked slash sender ${command.user_id} (dmPolicy=${ctx.dmPolicy}, ${allowMatchMeta})`,
-              );
-              await respond({
-                text: "You are not authorized to use this command.",
-                response_type: "ephemeral",
-              });
+          logVerbose(
+            `slack: blocked slash sender ${command.user_id} (dmPolicy=${ctx.dmPolicy}, ${allowMatchMeta})`,
+          );
+          await respond({
+            text: t('channel.slack.notAuthorized'),
+            response_type: "ephemeral",
+          });
             }
             return;
           }
@@ -278,7 +279,7 @@ export function registerSlackMonitorSlashCommands(params: {
             })
           ) {
             await respond({
-              text: "This channel is not allowed.",
+              text: t('channel.slack.notAllowed'),
               response_type: "ephemeral",
             });
             return;
@@ -289,7 +290,7 @@ export function registerSlackMonitorSlashCommands(params: {
           const hasExplicitConfig = Boolean(channelConfig?.matchSource);
           if (!channelAllowed && (ctx.groupPolicy !== "open" || hasExplicitConfig)) {
             await respond({
-              text: "This channel is not allowed.",
+              text: t('channel.slack.notAllowed'),
               response_type: "ephemeral",
             });
             return;
@@ -310,7 +311,7 @@ export function registerSlackMonitorSlashCommands(params: {
         : false;
       if (channelUsersAllowlistConfigured && !channelUserAllowed) {
         await respond({
-          text: "You are not authorized to use this command here.",
+          text: t('channel.slack.notAuthorizedHere'),
           response_type: "ephemeral",
         });
         return;
@@ -331,7 +332,7 @@ export function registerSlackMonitorSlashCommands(params: {
         });
         if (ctx.useAccessGroups && !commandAuthorized) {
           await respond({
-            text: "You are not authorized to use this command.",
+            text: t('channel.slack.notAuthorized'),
             response_type: "ephemeral",
           });
           return;
@@ -473,7 +474,7 @@ export function registerSlackMonitorSlashCommands(params: {
     } catch (err) {
       runtime.error?.(danger(`slack slash handler failed: ${String(err)}`));
       await respond({
-        text: "Sorry, something went wrong handling that command.",
+        text: t('channel.slack.slash.error'),
         response_type: "ephemeral",
       });
     }
@@ -568,14 +569,14 @@ export function registerSlackMonitorSlashCommands(params: {
       const parsed = parseSlackCommandArgValue(action?.value);
       if (!parsed) {
         await respondFn({
-          text: "Sorry, that button is no longer valid.",
+          text: t('channel.slack.slash.buttonExpired'),
           response_type: "ephemeral",
         });
         return;
       }
       if (body.user?.id && parsed.userId !== body.user.id) {
         await respondFn({
-          text: "That menu is for another user.",
+          text: t('channel.slack.slash.menuOtherUser'),
           response_type: "ephemeral",
         });
         return;

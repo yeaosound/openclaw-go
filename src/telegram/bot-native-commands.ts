@@ -49,6 +49,7 @@ import {
 } from "./bot/helpers.js";
 import { firstDefined, isSenderAllowed, normalizeAllowFromWithStore } from "./bot-access.js";
 import { readTelegramAllowFromStore } from "./pairing-store.js";
+import { t } from "../i18n/index.js";
 
 const EMPTY_RESPONSE_FALLBACK = "No response generated. Please try again.";
 
@@ -139,33 +140,33 @@ async function resolveTelegramCommandAuth(params: {
   if (isGroup && groupConfig?.enabled === false) {
     await withTelegramApiErrorLogging({
       operation: "sendMessage",
-      fn: () => bot.api.sendMessage(chatId, "This group is disabled."),
+      fn: () => bot.api.sendMessage(chatId, t('channel.telegram.groupDisabled')),
     });
     return null;
   }
   if (isGroup && topicConfig?.enabled === false) {
     await withTelegramApiErrorLogging({
       operation: "sendMessage",
-      fn: () => bot.api.sendMessage(chatId, "This topic is disabled."),
+      fn: () => bot.api.sendMessage(chatId, t('channel.telegram.topicDisabled')),
     });
     return null;
   }
   if (requireAuth && isGroup && hasGroupAllowOverride) {
-    if (
-      senderIdRaw == null ||
-      !isSenderAllowed({
-        allow: effectiveGroupAllow,
-        senderId: String(senderIdRaw),
-        senderUsername,
-      })
-    ) {
-      await withTelegramApiErrorLogging({
-        operation: "sendMessage",
-        fn: () => bot.api.sendMessage(chatId, "You are not authorized to use this command."),
-      });
-      return null;
+      if (
+        senderIdRaw == null ||
+        !isSenderAllowed({
+          allow: effectiveGroupAllow,
+          senderId: String(senderIdRaw),
+          senderUsername,
+        })
+      ) {
+        await withTelegramApiErrorLogging({
+          operation: "sendMessage",
+          fn: () => bot.api.sendMessage(chatId, t('channel.telegram.notAuthorized')),
+        });
+        return null;
+      }
     }
-  }
 
   if (isGroup && useAccessGroups) {
     const defaultGroupPolicy = cfg.channels?.defaults?.groupPolicy;
@@ -173,7 +174,7 @@ async function resolveTelegramCommandAuth(params: {
     if (groupPolicy === "disabled") {
       await withTelegramApiErrorLogging({
         operation: "sendMessage",
-        fn: () => bot.api.sendMessage(chatId, "Telegram group commands are disabled."),
+        fn: () => bot.api.sendMessage(chatId, t('channel.telegram.groupCommandsDisabled')),
       });
       return null;
     }
@@ -188,7 +189,7 @@ async function resolveTelegramCommandAuth(params: {
       ) {
         await withTelegramApiErrorLogging({
           operation: "sendMessage",
-          fn: () => bot.api.sendMessage(chatId, "You are not authorized to use this command."),
+          fn: () => bot.api.sendMessage(chatId, t('channel.telegram.notAuthorized')),
         });
         return null;
       }
@@ -197,7 +198,7 @@ async function resolveTelegramCommandAuth(params: {
     if (groupAllowlist.allowlistEnabled && !groupAllowlist.allowed) {
       await withTelegramApiErrorLogging({
         operation: "sendMessage",
-        fn: () => bot.api.sendMessage(chatId, "This group is not allowed."),
+        fn: () => bot.api.sendMessage(chatId, t('channel.telegram.groupNotAllowed')),
       });
       return null;
     }
@@ -220,7 +221,7 @@ async function resolveTelegramCommandAuth(params: {
   if (requireAuth && !commandAuthorized) {
     await withTelegramApiErrorLogging({
       operation: "sendMessage",
-      fn: () => bot.api.sendMessage(chatId, "You are not authorized to use this command."),
+      fn: () => bot.api.sendMessage(chatId, t('channel.telegram.notAuthorized')),
     });
     return null;
   }
@@ -576,7 +577,7 @@ export const registerTelegramNativeCommands = ({
             await withTelegramApiErrorLogging({
               operation: "sendMessage",
               runtime,
-              fn: () => bot.api.sendMessage(chatId, "Command not found."),
+              fn: () => bot.api.sendMessage(chatId, t('channel.telegram.commandNotFound')),
             });
             return;
           }

@@ -2,6 +2,7 @@ import type { AgentToolResult } from "@mariozechner/pi-agent-core";
 import type { DiscordActionConfig } from "../../config/config.js";
 import { banMemberDiscord, kickMemberDiscord, timeoutMemberDiscord } from "../../discord/send.js";
 import { type ActionGate, jsonResult, readStringParam } from "./common.js";
+import { t } from "../../i18n/index.js";
 
 export async function handleDiscordModerationAction(
   action: string,
@@ -12,7 +13,7 @@ export async function handleDiscordModerationAction(
   switch (action) {
     case "timeout": {
       if (!isActionEnabled("moderation", false)) {
-        throw new Error("Discord moderation is disabled.");
+        throw new Error(t('channel.tools.discord.moderationDisabled'));
       }
       const guildId = readStringParam(params, "guildId", {
         required: true,
@@ -48,7 +49,7 @@ export async function handleDiscordModerationAction(
     }
     case "kick": {
       if (!isActionEnabled("moderation", false)) {
-        throw new Error("Discord moderation is disabled.");
+        throw new Error(t('channel.tools.discord.moderationDisabled'));
       }
       const guildId = readStringParam(params, "guildId", {
         required: true,
@@ -66,7 +67,7 @@ export async function handleDiscordModerationAction(
     }
     case "ban": {
       if (!isActionEnabled("moderation", false)) {
-        throw new Error("Discord moderation is disabled.");
+        throw new Error(t('channel.tools.discord.moderationDisabled'));
       }
       const guildId = readStringParam(params, "guildId", {
         required: true,

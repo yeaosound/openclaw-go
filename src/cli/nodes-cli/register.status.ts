@@ -1,4 +1,5 @@
 import type { Command } from "commander";
+import { t } from "../../i18n/index.js";
 import { defaultRuntime } from "../../runtime.js";
 import { formatAge, formatPermissions, parseNodeList, parsePairingList } from "./format.js";
 import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
@@ -99,7 +100,7 @@ export function registerNodesStatusCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("status")
-      .description("List known nodes with connection status and capabilities")
+      .description(t("cli.nodes.status.description"))
       .option("--connected", "Only show connected nodes")
       .option("--last-connected <duration>", "Only show nodes connected within duration (e.g. 24h)")
       .action(async (opts: NodesRpcOpts) => {
@@ -212,7 +213,7 @@ export function registerNodesStatusCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("describe")
-      .description("Describe a node (capabilities + supported invoke commands)")
+      .description(t("cli.nodes.status.describe.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .action(async (opts: NodesRpcOpts) => {
         await runNodesCommand("describe", async () => {
@@ -295,7 +296,7 @@ export function registerNodesStatusCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("list")
-      .description("List pending and paired nodes")
+      .description(t("cli.nodes.status.list.description"))
       .option("--connected", "Only show connected nodes")
       .option("--last-connected <duration>", "Only show nodes connected within duration (e.g. 24h)")
       .action(async (opts: NodesRpcOpts) => {

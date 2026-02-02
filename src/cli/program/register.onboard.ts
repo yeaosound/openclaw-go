@@ -12,6 +12,7 @@ import { defaultRuntime } from "../../runtime.js";
 import { formatDocsLink } from "../../terminal/links.js";
 import { theme } from "../../terminal/theme.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
+import { t } from "../../i18n/index.js";
 
 function resolveInstallDaemonFlag(
   command: unknown,
@@ -40,7 +41,7 @@ function resolveInstallDaemonFlag(
 export function registerOnboardCommand(program: Command) {
   program
     .command("onboard")
-    .description("Interactive wizard to set up the gateway, workspace, and skills")
+    .description(t("cli.onboard.description"))
     .addHelpText(
       "after",
       () =>

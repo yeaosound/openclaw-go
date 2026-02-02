@@ -1,4 +1,5 @@
 import fs from "node:fs/promises";
+import { t } from "../../i18n/index.js";
 import type { Command } from "commander";
 import { randomIdempotencyKey } from "../../gateway/call.js";
 import { defaultRuntime } from "../../runtime.js";
@@ -29,12 +30,12 @@ async function invokeCanvas(opts: NodesRpcOpts, command: string, params?: Record
 export function registerNodesCanvasCommands(nodes: Command) {
   const canvas = nodes
     .command("canvas")
-    .description("Capture or render canvas content from a paired node");
+    .description(t("cli.nodes.canvas.description"));
 
   nodesCallOpts(
     canvas
       .command("snapshot")
-      .description("Capture a canvas snapshot (prints MEDIA:<path>)")
+      .description(t("cli.nodes.canvas.snapshot.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--format <png|jpg|jpeg>", "Image format", "jpg")
       .option("--max-width <px>", "Max width in px (optional)")
@@ -95,7 +96,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     canvas
       .command("present")
-      .description("Show the canvas (optionally with a target URL/path)")
+      .description(t("cli.nodes.canvas.present.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--target <urlOrPath>", "Target URL/path (optional)")
       .option("--x <px>", "Placement x coordinate")
@@ -135,7 +136,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     canvas
       .command("hide")
-      .description("Hide the canvas")
+      .description(t("cli.nodes.canvas.hide.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--invoke-timeout <ms>", "Node invoke timeout in ms")
       .action(async (opts: NodesRpcOpts) => {
@@ -152,7 +153,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     canvas
       .command("navigate")
-      .description("Navigate the canvas to a URL")
+      .description(t("cli.nodes.canvas.navigate.description"))
       .argument("<url>", "Target URL/path")
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--invoke-timeout <ms>", "Node invoke timeout in ms")
@@ -170,7 +171,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     canvas
       .command("eval")
-      .description("Evaluate JavaScript in the canvas")
+      .description(t("cli.nodes.canvas.eval.description"))
       .argument("[js]", "JavaScript to evaluate")
       .option("--js <code>", "JavaScript to evaluate")
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
@@ -202,12 +203,12 @@ export function registerNodesCanvasCommands(nodes: Command) {
       }),
   );
 
-  const a2ui = canvas.command("a2ui").description("Render A2UI content on the canvas");
+  const a2ui = canvas.command("a2ui").description(t("cli.nodes.canvas.a2ui.description"));
 
   nodesCallOpts(
     a2ui
       .command("push")
-      .description("Push A2UI JSONL to the canvas")
+      .description(t("cli.nodes.canvas.a2ui.push.description"))
       .option("--jsonl <path>", "Path to JSONL payload")
       .option("--text <text>", "Render a quick A2UI text payload")
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
@@ -245,7 +246,7 @@ export function registerNodesCanvasCommands(nodes: Command) {
   nodesCallOpts(
     a2ui
       .command("reset")
-      .description("Reset A2UI renderer state")
+      .description(t("cli.nodes.canvas.a2ui.reset.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--invoke-timeout <ms>", "Node invoke timeout in ms")
       .action(async (opts: NodesRpcOpts) => {

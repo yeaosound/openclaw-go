@@ -191,4 +191,4 @@ export function getTranslationStats(): Record<string, number> {
 
 // Re-export types
 export type { InterpolationParams, AvailableLocale } from './types.js';
-export { DEFAULT_LOCALE, isAvailableLocale, AVAILABLE_LOCALES } from './types.js';
+export { DEFAULT_LOCALE, isAvailableLocale, AVAILABLE_LOCALES, LANG_ENV_VAR } from './types.js';

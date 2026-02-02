@@ -12,6 +12,7 @@ import {
   DEFAULT_LOCALE,
   isAvailableLocale,
   LANG_ENV_VAR,
+  getAvailableLocales,
 } from './index.js';
 
 /**

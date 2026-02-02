@@ -6,11 +6,12 @@ import { formatDocsLink } from "../../terminal/links.js";
 import { theme } from "../../terminal/theme.js";
 import { hasExplicitOptions } from "../command-options.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
+import { t } from "../../i18n/index.js";
 
 export function registerSetupCommand(program: Command) {
   program
     .command("setup")
-    .description("Initialize ~/.openclaw/openclaw.json and the agent workspace")
+    .description(t("cli.setup.description"))
     .addHelpText(
       "after",
       () =>

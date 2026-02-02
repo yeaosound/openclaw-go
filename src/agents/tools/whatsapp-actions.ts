@@ -3,6 +3,7 @@ import type { AgentToolResult } from "@mariozechner/pi-agent-core";
 import type { OpenClawConfig } from "../../config/config.js";
 import { sendReactionWhatsApp } from "../../web/outbound.js";
 import { createActionGate, jsonResult, readReactionParams, readStringParam } from "./common.js";
+import { t } from "../../i18n/index.js";
 
 export async function handleWhatsAppAction(
   params: Record<string, unknown>,
@@ -13,7 +14,7 @@ export async function handleWhatsAppAction(
 
   if (action === "react") {
     if (!isActionEnabled("reactions")) {
-      throw new Error("WhatsApp reactions are disabled.");
+      throw new Error(t('channel.tools.whatsapp.reactionsDisabled'));
     }
     const chatJid = readStringParam(params, "chatJid", { required: true });
     const messageId = readStringParam(params, "messageId", { required: true });

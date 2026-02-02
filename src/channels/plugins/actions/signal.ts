@@ -1,4 +1,5 @@
 import { createActionGate, jsonResult, readStringParam } from "../../../agents/tools/common.js";
+import { t } from "../../../i18n/index.js";
 import { listEnabledSignalAccounts, resolveSignalAccount } from "../../../signal/accounts.js";
 import { resolveSignalReactionLevel } from "../../../signal/reaction-level.js";
 import { sendReactionSignal, removeReactionSignal } from "../../../signal/send-reactions.js";
@@ -75,8 +76,8 @@ export const signalMessageActions: ChannelMessageActionAdapter = {
       });
       if (!reactionLevelInfo.agentReactionsEnabled) {
         throw new Error(
-          `Signal agent reactions disabled (reactionLevel="${reactionLevelInfo.level}"). ` +
-            `Set channels.signal.reactionLevel to "minimal" or "extensive" to enable.`,
+          t('channel.signal.reactionsDisabled', { level: reactionLevelInfo.level }) +
+            ' Set channels.signal.reactionLevel to "minimal" or "extensive" to enable.',
         );
       }
 
@@ -84,7 +85,7 @@ export const signalMessageActions: ChannelMessageActionAdapter = {
       const actionConfig = resolveSignalAccount({ cfg, accountId }).config.actions;
       const isActionEnabled = createActionGate(actionConfig);
       if (!isActionEnabled("reactions")) {
-        throw new Error("Signal reactions are disabled via actions.reactions.");
+        throw new Error(t('channel.signal.reactionsDisabledViaActions'));
       }
 
       const recipientRaw =
