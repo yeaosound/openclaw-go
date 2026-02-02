@@ -40,7 +40,7 @@ export async function configureGatewayForOnboarding(
             await prompter.text({
               message: t('wizard.gateway.port'),
               initialValue: String(localPort),
-              validate: (value) => (Number.isFinite(Number(value)) ? undefined : "Invalid port"),
+              validate: (value) => (Number.isFinite(Number(value)) ? undefined : t('validation.invalidPort')),
             }),
           ),
           10,
@@ -65,17 +65,17 @@ export async function configureGatewayForOnboarding(
     const needsPrompt = flow !== "quickstart" || !customBindHost;
     if (needsPrompt) {
       const input = await prompter.text({
-        message: "Custom IP address",
+        message: t('wizard.gateway.customIpPrompt'),
         placeholder: "192.168.1.100",
         initialValue: customBindHost ?? "",
         validate: (value) => {
           if (!value) {
-            return "IP address is required for custom bind mode";
+            return t('validation.ipRequired');
           }
           const trimmed = value.trim();
           const parts = trimmed.split(".");
           if (parts.length !== 4) {
-            return "Invalid IPv4 address (e.g., 192.168.1.100)";
+            return t('validation.invalidIpFormat');
           }
           if (
             parts.every((part) => {
@@ -85,7 +85,7 @@ export async function configureGatewayForOnboarding(
           ) {
             return undefined;
           }
-          return "Invalid IPv4 address (each octet must be 0-255)";
+          return t('validation.invalidIpRange');
         },
       });
       customBindHost = typeof input === "string" ? input.trim() : undefined;
@@ -101,7 +101,7 @@ export async function configureGatewayForOnboarding(
             {
               value: "token",
               label: t('wizard.gateway.auth.token'),
-              hint: "Recommended default (local + remote)",
+              hint: t('wizard.gateway.auth.hint'),
             },
             { value: "password", label: t('wizard.gateway.auth.password') },
           ],
@@ -118,12 +118,12 @@ export async function configureGatewayForOnboarding(
             {
               value: "serve",
               label: t('wizard.gateway.tailscale.serve'),
-              hint: "Private HTTPS for your tailnet (devices on Tailscale)",
+              hint: t('wizard.gateway.tailscale.serveHint'),
             },
             {
               value: "funnel",
               label: t('wizard.gateway.tailscale.funnel'),
-              hint: "Public HTTPS via Tailscale Funnel (internet)",
+              hint: t('wizard.gateway.tailscale.funnelHint'),
             },
           ],
         });
@@ -133,14 +133,8 @@ export async function configureGatewayForOnboarding(
     const tailscaleBin = await findTailscaleBinary();
     if (!tailscaleBin) {
       await prompter.note(
-        [
-          "Tailscale binary not found in PATH or /Applications.",
-          "Ensure Tailscale is installed from:",
-          "  https://tailscale.com/download/mac",
-          "",
-          "You can continue setup, but serve/funnel will fail at runtime.",
-        ].join("\n"),
-        "Tailscale Warning",
+        t('wizard.tailscale.warning'),
+        t('wizard.tailscale.title'),
       );
     }
   }
@@ -151,11 +145,11 @@ export async function configureGatewayForOnboarding(
       ["Docs:", "https://docs.openclaw.ai/gateway/tailscale", "https://docs.openclaw.ai/web"].join(
         "\n",
       ),
-      "Tailscale",
+      t('wizard.tailscale.title'),
     );
     tailscaleResetOnExit = Boolean(
       await prompter.confirm({
-        message: "Reset Tailscale serve/funnel on exit?",
+        message: t('wizard.gateway.tailscale.resetPrompt'),
         initialValue: false,
       }),
     );
@@ -181,8 +175,8 @@ export async function configureGatewayForOnboarding(
       gatewayToken = quickstartGateway.token ?? randomToken();
     } else {
       const tokenInput = await prompter.text({
-        message: "Gateway token (blank to generate)",
-        placeholder: "Needed for multi-machine or non-loopback access",
+        message: t('wizard.gateway.tokenPrompt'),
+        placeholder: t('wizard.gateway.tokenPlaceholder'),
         initialValue: quickstartGateway.token ?? "",
       });
       gatewayToken = normalizeGatewayTokenInput(tokenInput) || randomToken();
@@ -194,8 +188,8 @@ export async function configureGatewayForOnboarding(
       flow === "quickstart" && quickstartGateway.password
         ? quickstartGateway.password
         : await prompter.text({
-            message: "Gateway password",
-            validate: (value) => (value?.trim() ? undefined : "Required"),
+            message: t('wizard.gateway.passwordPrompt'),
+            validate: (value) => (value?.trim() ? undefined : t('validation.required')),
           });
     nextConfig = {
       ...nextConfig,

@@ -125,7 +125,7 @@ export async function runOnboardingWizard(
   let baseConfig: OpenClawConfig = snapshot.valid ? snapshot.config : {};
 
   if (snapshot.exists && !snapshot.valid) {
-    await prompter.note(summarizeExistingConfig(baseConfig), "Invalid config");
+    await prompter.note(summarizeExistingConfig(baseConfig), t('wizard.config.invalidTitle'));
     if (snapshot.issues.length > 0) {
       await prompter.note(
         [
@@ -133,18 +133,18 @@ export async function runOnboardingWizard(
           "",
           "Docs: https://docs.openclaw.ai/gateway/configuration",
         ].join("\n"),
-        "Config issues",
+        t('wizard.config.issuesTitle'),
       );
     }
     await prompter.outro(
-      `Config invalid. Run \`${formatCliCommand("openclaw doctor")}\` to repair it, then re-run onboarding.`,
+      t('wizard.config.invalidOutro', { command: formatCliCommand("openclaw doctor") }),
     );
     runtime.exit(1);
     return;
   }
 
-  const quickstartHint = `Configure details later via ${formatCliCommand("openclaw configure")}.`;
-  const manualHint = "Configure port, network, Tailscale, and auth options.";
+  const quickstartHint = t('wizard.onboarding.quickstartHint', { command: formatCliCommand("openclaw configure") });
+  const manualHint = t('wizard.onboarding.manualHint');
   const explicitFlowRaw = opts.flow?.trim();
   const normalizedExplicitFlow = explicitFlowRaw === "manual" ? "advanced" : explicitFlowRaw;
   if (
@@ -152,7 +152,7 @@ export async function runOnboardingWizard(
     normalizedExplicitFlow !== "quickstart" &&
     normalizedExplicitFlow !== "advanced"
   ) {
-    runtime.error("Invalid --flow (use quickstart, manual, or advanced).");
+    runtime.error(t('wizard.onboarding.invalidFlow'));
     runtime.exit(1);
     return;
   }
@@ -349,7 +349,7 @@ export async function runOnboardingWizard(
               value: "remote",
               label: t('wizard.setup.remote'),
               hint: !remoteUrl
-                ? "No remote URL configured yet"
+                ? t('wizard.setup.noRemoteUrl')
                 : remoteProbe?.ok
                   ? `Gateway reachable (${remoteUrl})`
                   : `Configured but unreachable (${remoteUrl})`,
@@ -362,7 +362,7 @@ export async function runOnboardingWizard(
     nextConfig = applyWizardMetadata(nextConfig, { command: "onboard", mode });
     await writeConfigFile(nextConfig);
     logConfigUpdated(runtime);
-    await prompter.outro("Remote gateway configured.");
+    await prompter.outro(t('wizard.setup.remoteConfigured'));
     return;
   }
 
@@ -371,7 +371,7 @@ export async function runOnboardingWizard(
     (flow === "quickstart"
       ? (baseConfig.agents?.defaults?.workspace ?? DEFAULT_WORKSPACE)
       : await prompter.text({
-          message: "Workspace directory",
+          message: t('wizard.workspace.prompt'),
           initialValue: baseConfig.agents?.defaults?.workspace ?? DEFAULT_WORKSPACE,
         }));
 
@@ -445,7 +445,7 @@ export async function runOnboardingWizard(
   const settings = gateway.settings;
 
   if (opts.skipChannels ?? opts.skipProviders) {
-    await prompter.note("Skipping channel setup.", "Channels");
+    await prompter.note(t('wizard.channels.skip'), t('wizard.channels.title'));
   } else {
     const quickstartAllowFromChannels =
       flow === "quickstart"
@@ -469,7 +469,7 @@ export async function runOnboardingWizard(
   });
 
   if (opts.skipSkills) {
-    await prompter.note("Skipping skills setup.", "Skills");
+    await prompter.note(t('wizard.skills.skip'), t('wizard.skills.title'));
   } else {
     nextConfig = await setupSkills(nextConfig, workspaceDir, runtime, prompter);
   }
@@ -492,7 +492,7 @@ export async function runOnboardingWizard(
   });
 
   const installShell = await prompter.confirm({
-    message: "Install shell completion script?",
+    message: t('wizard.completion.prompt'),
     initialValue: true,
   });
 

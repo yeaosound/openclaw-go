@@ -210,6 +210,7 @@ Must read: https://docs.openclaw.ai/gateway/security`,
 
   // Control UI
   'wizard.controlui.title': 'Control UI',
+  'wizard.webui.seeded': 'Web UI seeded in the background. Open later with:',
   'wizard.controlui.webui': 'Web UI',
   'wizard.controlui.webuiWithToken': 'Web UI (with token)',
   'wizard.controlui.gatewayWs': 'Gateway WS',
@@ -273,10 +274,80 @@ Must read: https://docs.openclaw.ai/gateway/security`,
   // Shell Completion
   'wizard.completion.prompt': 'Install shell completion script?',
 
-  // Onboarding
   'wizard.onboarding.invalidFlow': 'Invalid --flow (use quickstart, manual, or advanced).',
+
+  'validation.invalidPort': 'Invalid port',
+  'validation.ipRequired': 'IP address is required for custom bind mode',
+  'validation.invalidIpFormat': 'Invalid IPv4 address (e.g., 192.168.1.100)',
+  'validation.invalidIpRange': 'Invalid IPv4 address (each octet must be 0-255)',
+
+  'wizard.gateway.customIpPrompt': 'Custom IP address',
+  'wizard.gateway.auth.hint': 'Recommended default (local + remote)',
+  'wizard.gateway.tailscale.serveHint': 'Private HTTPS for your tailnet (devices on Tailscale)',
+  'wizard.gateway.tailscale.funnelHint': 'Public HTTPS via Tailscale Funnel (internet)',
+  'wizard.gateway.tailscale.resetPrompt': 'Reset Tailscale serve/funnel on exit?',
+  'wizard.gateway.tokenPrompt': 'Gateway token (blank to generate)',
+  'wizard.gateway.tokenPlaceholder': 'Needed for multi-machine or non-loopback access',
+  'wizard.gateway.passwordPrompt': 'Gateway password',
+
+  'wizard.tailscale.warning': 'Tailscale binary not found in PATH or /Applications. Ensure Tailscale is installed from https://tailscale.com/download. You can continue setup, but serve/funnel will fail at runtime.',
+  'wizard.tailscale.title': 'Tailscale',
+  'wizard.config.invalidTitle': 'Invalid config',
+  'wizard.config.issuesTitle': 'Config issues',
+  'wizard.config.invalidOutro': 'Config invalid. Run `{command}` to repair it, then re-run onboarding.',
+  'wizard.onboarding.quickstartHint': 'Configure details later via `{command}`.',
+  'wizard.onboarding.manualHint': 'Configure port, network, Tailscale, and auth options.',
+  'wizard.setup.noRemoteUrl': 'No remote URL configured yet',
+  'wizard.setup.remoteConfigured': 'Remote gateway configured.',
+  'wizard.workspace.prompt': 'Workspace directory',
+  'wizard.channels.title': 'Channels',
+  'wizard.skills.title': 'Skills',
   'wizard.channels.skip': 'Skipping channel setup.',
   'wizard.skills.skip': 'Skipping skills setup.',
+
+  'wizard.channels.action.modify': 'Modify settings',
+  'wizard.channels.action.disable': 'Disable (keeps config)',
+  'wizard.channels.action.delete': 'Delete config',
+  'wizard.channels.action.skip': 'Skip (leave as-is)',
+  'wizard.channels.configuredPrompt': 'already configured. What do you want to do?',
+  'wizard.channels.accountPrompt': 'account',
+  'wizard.channels.dmPolicy.confirm': 'Configure DM access policies now? (default: pairing)',
+  'wizard.channels.dmPolicy.note': `Default: pairing (unknown DMs get a pairing code).
+Approve: {approveCommand}
+Allowlist DMs: {policyKey}="allowlist" + {allowFromKey} entries.
+Public DMs: {policyKey}="open" + {allowFromKey} includes "*".
+Multi-user DMs: set session.dmScope="per-channel-peer" (or "per-account-channel-peer" for multi-account channels) to isolate sessions.
+Docs: {docsLink}`,
+  'wizard.channels.dmPolicy.accessTitle': 'DM access',
+  'wizard.channels.dmPolicy.selectTitle': 'DM policy',
+  'wizard.channels.dmPolicy.pairing': 'Pairing (recommended)',
+  'wizard.channels.dmPolicy.allowlist': 'Allowlist (specific users only)',
+  'wizard.channels.dmPolicy.open': 'Open (public inbound DMs)',
+  'wizard.channels.dmPolicy.disabled': 'Disabled (ignore DMs)',
+  'wizard.channels.statusNoteTitle': 'Channel status',
+  'wizard.channels.setupConfirm': 'Configure chat channels now?',
+  'wizard.channels.pluginNotAvailable': 'plugin not available.',
+  'wizard.channels.noOnboarding': 'does not support onboarding yet.',
+  'wizard.channels.selectPrompt': 'Select a channel',
+  'wizard.channels.selectedTitle': 'Selected channels',
+
+  'wizard.remote.discoverPrompt': 'Discover gateway on LAN (Bonjour)?',
+  'wizard.remote.bonjourRequired': 'Bonjour discovery requires dns-sd (macOS) or avahi-browse (Linux).',
+  'wizard.remote.discoveryTitle': 'Discovery',
+  'wizard.remote.searching': 'Searching for gateways…',
+  'wizard.remote.found': 'Found {count} gateway(s)',
+  'wizard.remote.noneFound': 'No gateways found',
+  'wizard.remote.selectGateway': 'Select gateway',
+  'wizard.remote.manualUrl': 'Enter URL manually',
+  'wizard.remote.connectionMethod': 'Connection method',
+  'wizard.remote.directWs': 'Direct gateway WS',
+  'wizard.remote.sshTunnel': 'SSH tunnel (loopback)',
+  'wizard.remote.sshNote': `Start a tunnel before using the CLI:
+ssh -N -L 18789:127.0.0.1:18789 <user>@<host>
+Docs: https://docs.openclaw.ai/gateway/remote`,
+  'wizard.remote.wsUrlPrompt': 'Gateway WebSocket URL',
+  'wizard.remote.authPrompt': 'Gateway auth',
+  'wizard.remote.tokenPrompt': 'Gateway token',
 };
 
 export default wizardMessages;

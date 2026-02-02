@@ -293,12 +293,12 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
     await prompter.note(
       [
-        "Gateway token: shared auth for the Gateway + Control UI.",
-        "Stored in: ~/.openclaw/openclaw.json (gateway.auth.token) or OPENCLAW_GATEWAY_TOKEN.",
-        "Web UI stores a copy in this browser's localStorage (openclaw.control.settings.v1).",
-        `Get the tokenized link anytime: ${formatCliCommand("openclaw dashboard --no-open")}`,
+        t('wizard.token.description'),
+        t('wizard.token.storage'),
+        t('wizard.token.webuiStorage'),
+        `${t('wizard.token.getLink')}: ${formatCliCommand("openclaw dashboard --no-open")}`,
       ].join("\n"),
-      "Token",
+      t('wizard.token.title'),
     );
 
     hatchChoice = await prompter.select({
@@ -325,10 +325,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       }
       if (seededInBackground) {
         await prompter.note(
-          `Web UI seeded in the background. Open later with: ${formatCliCommand(
-            "openclaw dashboard --no-open",
-          )}`,
-          "Web UI",
+          `${t('wizard.webui.seeded')}: ${formatCliCommand("openclaw dashboard --no-open")}`,
+          t('wizard.controlui.title'),
         );
       }
     } else if (hatchChoice === "web") {
@@ -351,37 +349,34 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       }
       await prompter.note(
         [
-          `Dashboard link (with token): ${authedUrl}`,
+          `${t('wizard.dashboard.link')}: ${authedUrl}`,
           controlUiOpened
-            ? "Opened in your browser. Keep that tab to control OpenClaw."
-            : "Copy/paste this URL in a browser on this machine to control OpenClaw.",
+            ? t('wizard.dashboard.opened')
+            : t('wizard.dashboard.copyPaste'),
           controlUiOpenHint,
         ]
           .filter(Boolean)
           .join("\n"),
-        "Dashboard ready",
+        t('wizard.dashboard.title'),
       );
     } else {
       await prompter.note(
-        `When you're ready: ${formatCliCommand("openclaw dashboard --no-open")}`,
-        "Later",
+        t('wizard.later.description', { command: formatCliCommand("openclaw dashboard --no-open") }),
+        t('wizard.later.title'),
       );
     }
   } else if (opts.skipUi) {
-    await prompter.note("Skipping Control UI/TUI prompts.", "Control UI");
+    await prompter.note(t('wizard.skipUi'), t('wizard.controlui.title'));
   }
 
   await prompter.note(
-    [
-      "Back up your agent workspace.",
-      "Docs: https://docs.openclaw.ai/concepts/agent-workspace",
-    ].join("\n"),
-    "Workspace backup",
+    t('wizard.workspaceBackup.description'),
+    t('wizard.workspaceBackup.title'),
   );
 
   await prompter.note(
-    "Running agents on your computer is risky — harden your setup: https://docs.openclaw.ai/security",
-    "Security",
+    t('wizard.security.final.desc'),
+    t('wizard.security.final.title'),
   );
 
   const shouldOpenControlUi =
@@ -428,38 +423,27 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
   await prompter.note(
     hasWebSearchKey
       ? [
-          "Web search is enabled, so your agent can look things up online when needed.",
+          t('wizard.websearch.enabled'),
           "",
           webSearchKey
-            ? "API key: stored in config (tools.web.search.apiKey)."
-            : "API key: provided via BRAVE_API_KEY env var (Gateway environment).",
+            ? t('wizard.websearch.apiKeyConfig')
+            : t('wizard.websearch.apiKeyEnv'),
           "Docs: https://docs.openclaw.ai/tools/web",
         ].join("\n")
-      : [
-          "If you want your agent to be able to search the web, you’ll need an API key.",
-          "",
-          "OpenClaw uses Brave Search for the `web_search` tool. Without a Brave Search API key, web search won’t work.",
-          "",
-          "Set it up interactively:",
-          `- Run: ${formatCliCommand("openclaw configure --section web")}`,
-          "- Enable web_search and paste your Brave Search API key",
-          "",
-          "Alternative: set BRAVE_API_KEY in the Gateway environment (no config changes).",
-          "Docs: https://docs.openclaw.ai/tools/web",
-        ].join("\n"),
-    "Web search (optional)",
+      : t('wizard.websearch.disabled'),
+    t('wizard.websearch.title'),
   );
 
   await prompter.note(
-    'What now: https://openclaw.ai/showcase ("What People Are Building").',
-    "What now",
+    t('wizard.whatnow.desc'),
+    t('wizard.whatnow.title'),
   );
 
   await prompter.outro(
     controlUiOpened
-      ? "Onboarding complete. Dashboard opened with your token; keep that tab to control OpenClaw."
+      ? t('wizard.completion.dashboardOpened')
       : seededInBackground
-        ? "Onboarding complete. Web UI seeded in the background; open it anytime with the tokenized link above."
-        : "Onboarding complete. Use the tokenized dashboard link above to control OpenClaw.",
+        ? t('wizard.completion.webUiSeeded')
+        : t('wizard.completion.useLink'),
   );
 }

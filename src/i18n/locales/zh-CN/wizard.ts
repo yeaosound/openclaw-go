@@ -210,6 +210,7 @@ openclaw security audit --fix
 
   // Control UI
   'wizard.controlui.title': '控制界面',
+  'wizard.webui.seeded': 'Web 界面已在后台初始化。稍后打开：',
   'wizard.controlui.webui': 'Web 界面',
   'wizard.controlui.webuiWithToken': 'Web 界面（带令牌）',
   'wizard.controlui.gatewayWs': '网关 WS',
@@ -273,10 +274,80 @@ openclaw security audit --fix
   // Shell Completion
   'wizard.completion.prompt': '安装 shell 补全脚本？',
 
-  // Onboarding
   'wizard.onboarding.invalidFlow': '无效的 --flow（使用 quickstart、manual 或 advanced）。',
+
+  'validation.invalidPort': '无效端口',
+  'validation.ipRequired': '自定义绑定模式需要 IP 地址',
+  'validation.invalidIpFormat': '无效 IPv4 地址（例如：192.168.1.100）',
+  'validation.invalidIpRange': '无效 IPv4 地址（每个八位字节必须为 0-255）',
+
+  'wizard.gateway.customIpPrompt': '自定义 IP 地址',
+  'wizard.gateway.auth.hint': '推荐默认值（本地 + 远程）',
+  'wizard.gateway.tailscale.serveHint': '为您的 tailnet 提供私有 HTTPS（Tailscale 上的设备）',
+  'wizard.gateway.tailscale.funnelHint': '通过 Tailscale Funnel 提供公共 HTTPS（互联网）',
+  'wizard.gateway.tailscale.resetPrompt': '退出时重置 Tailscale serve/funnel？',
+  'wizard.gateway.tokenPrompt': '网关令牌（留空以生成）',
+  'wizard.gateway.tokenPlaceholder': '多机器或非回环访问所需',
+  'wizard.gateway.passwordPrompt': '网关密码',
+
+  'wizard.tailscale.warning': '在 PATH 或 /Applications 中找不到 Tailscale 二进制文件。确保从 https://tailscale.com/download 安装 Tailscale。您可以继续设置，但 serve/funnel 将在运行时失败。',
+  'wizard.tailscale.title': 'Tailscale',
+  'wizard.config.invalidTitle': '配置无效',
+  'wizard.config.issuesTitle': '配置问题',
+  'wizard.config.invalidOutro': '配置无效。运行 `{command}` 修复它，然后重新运行 onboarding。',
+  'wizard.onboarding.quickstartHint': '稍后在 `{command}` 中配置详细信息。',
+  'wizard.onboarding.manualHint': '配置端口、网络、Tailscale 和身份验证选项。',
+  'wizard.setup.noRemoteUrl': '尚未配置远程 URL',
+  'wizard.setup.remoteConfigured': '远程网关已配置。',
+  'wizard.workspace.prompt': '工作区目录',
+  'wizard.channels.title': '频道',
+  'wizard.skills.title': '技能',
   'wizard.channels.skip': '跳过频道设置。',
   'wizard.skills.skip': '跳过技能设置。',
+
+  'wizard.channels.action.modify': '修改设置',
+  'wizard.channels.action.disable': '禁用（保留配置）',
+  'wizard.channels.action.delete': '删除配置',
+  'wizard.channels.action.skip': '跳过（保持原样）',
+  'wizard.channels.configuredPrompt': '已配置。您想做什么？',
+  'wizard.channels.accountPrompt': '账户',
+  'wizard.channels.dmPolicy.confirm': '立即配置 DM 访问策略？（默认：配对）',
+  'wizard.channels.dmPolicy.note': `默认：配对（未知 DM 获得配对码）。
+批准：{approveCommand}
+白名单 DM：{policyKey}="allowlist" + {allowFromKey} 条目。
+公共 DM：{policyKey}="open" + {allowFromKey} 包含 "*".
+多用户 DM：设置 session.dmScope="per-channel-peer"（或多账户频道使用 "per-account-channel-peer"）来隔离会话。
+文档：{docsLink}`,
+  'wizard.channels.dmPolicy.accessTitle': 'DM 访问',
+  'wizard.channels.dmPolicy.selectTitle': 'DM 策略',
+  'wizard.channels.dmPolicy.pairing': '配对（推荐）',
+  'wizard.channels.dmPolicy.allowlist': '白名单（仅特定用户）',
+  'wizard.channels.dmPolicy.open': '开放（公共入站 DM）',
+  'wizard.channels.dmPolicy.disabled': '禁用（忽略 DM）',
+  'wizard.channels.statusNoteTitle': '频道状态',
+  'wizard.channels.setupConfirm': '立即配置聊天频道？',
+  'wizard.channels.pluginNotAvailable': '插件不可用。',
+  'wizard.channels.noOnboarding': '尚不支持 onboarding。',
+  'wizard.channels.selectPrompt': '选择一个频道',
+  'wizard.channels.selectedTitle': '已选频道',
+
+  'wizard.remote.discoverPrompt': '在局域网上发现网关（Bonjour）？',
+  'wizard.remote.bonjourRequired': 'Bonjour 发现需要 dns-sd（macOS）或 avahi-browse（Linux）。',
+  'wizard.remote.discoveryTitle': '发现',
+  'wizard.remote.searching': '正在搜索网关…',
+  'wizard.remote.found': '找到 {count} 个网关',
+  'wizard.remote.noneFound': '未找到网关',
+  'wizard.remote.selectGateway': '选择网关',
+  'wizard.remote.manualUrl': '手动输入 URL',
+  'wizard.remote.connectionMethod': '连接方式',
+  'wizard.remote.directWs': '直接网关 WS',
+  'wizard.remote.sshTunnel': 'SSH 隧道（回环）',
+  'wizard.remote.sshNote': `启动隧道前使用 CLI：
+ssh -N -L 18789:127.0.0.1:18789 <user>@<host>
+文档：https://docs.openclaw.ai/gateway/remote`,
+  'wizard.remote.wsUrlPrompt': '网关 WebSocket URL',
+  'wizard.remote.authPrompt': '网关认证',
+  'wizard.remote.tokenPrompt': '网关令牌',
 };
 
 export default wizardMessages;
