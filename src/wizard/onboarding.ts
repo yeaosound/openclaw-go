@@ -55,10 +55,10 @@ async function promptLanguageSelection(
   opts: OnboardOptions,
   prompter: WizardPrompter,
   runtime: RuntimeEnv,
-): Promise<void> {
+): Promise<string | undefined> {
   // Skip if language was specified via command line (not auto)
   if (opts.lang && opts.lang !== "auto") {
-    return;
+    return opts.lang;
   }
 
   const currentSettings = await getLanguageSettings();
@@ -82,6 +82,8 @@ async function promptLanguageSelection(
     await updateLanguageSetting(selectedLocale);
     runtime.log(t("wizard.language.changed", { locale: selectedLocale }));
   }
+
+  return selectedLocale;
 }
 
 async function requireRiskAcknowledgement(params: {
@@ -114,8 +116,9 @@ export async function runOnboardingWizard(
   printWizardHeader(runtime);
 
   // Prompt for language selection in interactive mode
+  let selectedLang: string | undefined;
   if (!opts.nonInteractive) {
-    await promptLanguageSelection(opts, prompter, runtime);
+    selectedLang = await promptLanguageSelection(opts, prompter, runtime);
   }
 
   await prompter.intro(t('wizard.intro.title'));
@@ -359,6 +362,10 @@ export async function runOnboardingWizard(
 
   if (mode === "remote") {
     let nextConfig = await promptRemoteGatewayConfig(baseConfig, prompter);
+    // Ensure language setting is preserved (may have been set during language prompt)
+    if (selectedLang) {
+      nextConfig = { ...nextConfig, lang: selectedLang };
+    }
     nextConfig = applyWizardMetadata(nextConfig, { command: "onboard", mode });
     await writeConfigFile(nextConfig);
     logConfigUpdated(runtime);
@@ -379,6 +386,8 @@ export async function runOnboardingWizard(
 
   let nextConfig: OpenClawConfig = {
     ...baseConfig,
+    // Preserve language setting from config (may have been set during language prompt)
+    lang: selectedLang ?? baseConfig.lang,
     agents: {
       ...baseConfig.agents,
       defaults: {
