@@ -9,6 +9,7 @@ import {
 } from "../presenter";
 import type { ChannelUiMetaEntry, CronJob, CronRunLogEntry, CronStatus } from "../types";
 import type { CronFormState } from "../ui-types";
+import { t, translate } from "../../i18n/lit.js";
 
 export type CronProps = {
   loading: boolean;
@@ -57,35 +58,35 @@ export function renderCron(props: CronProps) {
   return html`
     <section class="grid grid-cols-2">
       <div class="card">
-        <div class="card-title">Scheduler</div>
-        <div class="card-sub">Gateway-owned cron scheduler status.</div>
+        <div class="card-title">${t("views.cron.title")}</div>
+        <div class="card-sub">${t("views.cron.subtitle")}</div>
         <div class="stat-grid" style="margin-top: 16px;">
           <div class="stat">
-            <div class="stat-label">Enabled</div>
+            <div class="stat-label">${t("views.cron.status.enabled")}</div>
             <div class="stat-value">
-              ${props.status ? (props.status.enabled ? "Yes" : "No") : "n/a"}
+              ${props.status ? (props.status.enabled ? t("views.cron.status.yes") : t("views.cron.status.no")) : "n/a"}
             </div>
           </div>
           <div class="stat">
-            <div class="stat-label">Jobs</div>
+            <div class="stat-label">${t("views.cron.stats.jobs")}</div>
             <div class="stat-value">${props.status?.jobs ?? "n/a"}</div>
           </div>
           <div class="stat">
-            <div class="stat-label">Next wake</div>
+            <div class="stat-label">${t("views.overview.stats.cronNext")}</div>
             <div class="stat-value">${formatNextRun(props.status?.nextWakeAtMs ?? null)}</div>
           </div>
         </div>
         <div class="row" style="margin-top: 12px;">
           <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-            ${props.loading ? "Refreshing…" : "Refresh"}
+            ${props.loading ? t("views.cron.refresh.refreshing") : t("views.cron.refresh.refresh")}
           </button>
           ${props.error ? html`<span class="muted">${props.error}</span>` : nothing}
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">New Job</div>
-        <div class="card-sub">Create a scheduled wakeup or agent run.</div>
+        <div class="card-title">${t("views.cron.newJob.title")}</div>
+        <div class="card-sub">${t("views.cron.newJob.subtitle")}</div>
         <div class="form-grid" style="margin-top: 16px;">
           <label class="field">
             <span>Name</span>
@@ -273,12 +274,12 @@ export function renderCron(props: CronProps) {
     </section>
 
     <section class="card" style="margin-top: 18px;">
-      <div class="card-title">Jobs</div>
-      <div class="card-sub">All scheduled jobs stored in the gateway.</div>
+      <div class="card-title">${t("views.cron.jobsList.title")}</div>
+      <div class="card-sub">${t("views.cron.jobsList.subtitle")}</div>
       ${
         props.jobs.length === 0
           ? html`
-              <div class="muted" style="margin-top: 12px">No jobs yet.</div>
+              <div class="muted" style="margin-top: 12px">${t("views.cron.jobsList.noJobs")}</div>
             `
           : html`
             <div class="list" style="margin-top: 12px;">
@@ -289,16 +290,16 @@ export function renderCron(props: CronProps) {
     </section>
 
     <section class="card" style="margin-top: 18px;">
-      <div class="card-title">Run history</div>
-      <div class="card-sub">Latest runs for ${props.runsJobId ?? "(select a job)"}.</div>
+      <div class="card-title">${t("views.cron.runHistory.title")}</div>
+      <div class="card-sub">${translate("views.cron.runHistory.subtitle", { jobId: props.runsJobId ?? translate("views.cron.runHistory.selectJob") })}</div>
       ${
         props.runsJobId == null
           ? html`
-              <div class="muted" style="margin-top: 12px">Select a job to inspect run history.</div>
+              <div class="muted" style="margin-top: 12px">${t("views.cron.runHistory.selectHint")}</div>
             `
           : props.runs.length === 0
             ? html`
-                <div class="muted" style="margin-top: 12px">No runs yet.</div>
+                <div class="muted" style="margin-top: 12px">${t("views.cron.runHistory.noRuns")}</div>
               `
             : html`
               <div class="list" style="margin-top: 12px;">

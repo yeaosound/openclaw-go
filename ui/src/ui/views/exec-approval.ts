@@ -1,5 +1,6 @@
 import { html, nothing } from "lit";
 
+import { t, translate } from "../../i18n/lit.js";
 import type { AppViewState } from "../app-view-state";
 
 function formatRemaining(ms: number): string {
@@ -17,6 +18,12 @@ function renderMetaRow(label: string, value?: string | null) {
   return html`<div class="exec-approval-meta-row"><span>${label}</span><span>${value}</span></div>`;
 }
 
+function translateMetaRow(key: string, value?: string | null) {
+  if (!value) return nothing;
+  const label = translate(`views.execApproval.fields.${key}` as any);
+  return renderMetaRow(label, value);
+}
+
 export function renderExecApprovalPrompt(state: AppViewState) {
   const active = state.execApprovalQueue[0];
   if (!active) return nothing;
@@ -29,28 +36,28 @@ export function renderExecApprovalPrompt(state: AppViewState) {
       <div class="exec-approval-card">
         <div class="exec-approval-header">
           <div>
-            <div class="exec-approval-title">Exec approval needed</div>
+            <div class="exec-approval-title">${t("views.execApproval.title")}</div>
             <div class="exec-approval-sub">${remaining}</div>
           </div>
           ${
             queueCount > 1
-              ? html`<div class="exec-approval-queue">${queueCount} pending</div>`
+              ? html`<div class="exec-approval-queue">${t("views.execApproval.queue.pending", { count: queueCount })}</div>`
               : nothing
           }
         </div>
         <div class="exec-approval-command mono">${request.command}</div>
         <div class="exec-approval-meta">
-          ${renderMetaRow("Host", request.host)}
-          ${renderMetaRow("Agent", request.agentId)}
-          ${renderMetaRow("Session", request.sessionKey)}
+          ${translateMetaRow("host", request.host)}
+          ${translateMetaRow("agent", request.agentId)}
+          ${translateMetaRow("session", request.sessionKey)}
           ${renderMetaRow("CWD", request.cwd)}
-          ${renderMetaRow("Resolved", request.resolvedPath)}
-          ${renderMetaRow("Security", request.security)}
-          ${renderMetaRow("Ask", request.ask)}
+          ${translateMetaRow("resolved", request.resolvedPath)}
+          ${translateMetaRow("security", request.security)}
+          ${translateMetaRow("ask", request.ask)}
         </div>
         ${
           state.execApprovalError
-            ? html`<div class="exec-approval-error">${state.execApprovalError}</div>`
+            ? html`<div class="exec-approval-error">${t("views.execApproval.error")}: ${state.execApprovalError}</div>`
             : nothing
         }
         <div class="exec-approval-actions">

@@ -1,5 +1,6 @@
 import { html, nothing } from "lit";
 
+import { t } from "../../i18n/lit.js";
 import { formatAgo } from "../format";
 import type { WhatsAppStatus } from "../types";
 import type { ChannelsProps } from "./channels.types";
@@ -15,26 +16,26 @@ export function renderWhatsAppCard(params: {
 
   return html`
     <div class="card">
-      <div class="card-title">WhatsApp</div>
-      <div class="card-sub">Link WhatsApp Web and monitor connection health.</div>
+      <div class="card-title">${t("views.channels.whatsapp.title")}</div>
+      <div class="card-sub">${t("views.channels.whatsapp.subtitle")}</div>
       ${accountCountLabel}
 
       <div class="status-list" style="margin-top: 16px;">
         <div>
-          <span class="label">Configured</span>
-          <span>${whatsapp?.configured ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.configured")}</span>
+          <span>${whatsapp?.configured ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Linked</span>
-          <span>${whatsapp?.linked ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.whatsapp.linked")}</span>
+          <span>${whatsapp?.linked ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Running</span>
-          <span>${whatsapp?.running ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.running")}</span>
+          <span>${whatsapp?.running ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Connected</span>
-          <span>${whatsapp?.connected ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.connected")}</span>
+          <span>${whatsapp?.connected ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
           <span class="label">Last connect</span>
@@ -75,7 +76,7 @@ export function renderWhatsAppCard(params: {
       ${
         props.whatsappQrDataUrl
           ? html`<div class="qr-wrap">
-            <img src=${props.whatsappQrDataUrl} alt="WhatsApp QR" />
+            <img src=${props.whatsappQrDataUrl} alt=${t("views.channels.whatsapp.qrTitle")} />
           </div>`
           : nothing
       }
@@ -86,7 +87,7 @@ export function renderWhatsAppCard(params: {
           ?disabled=${props.whatsappBusy}
           @click=${() => props.onWhatsAppStart(false)}
         >
-          ${props.whatsappBusy ? "Working…" : "Show QR"}
+          ${props.whatsappBusy ? t("views.channels.whatsapp.working") : t("views.channels.whatsapp.showQr")}
         </button>
         <button
           class="btn"

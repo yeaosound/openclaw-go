@@ -2,6 +2,7 @@ import { html, nothing } from "lit";
 import type { ConfigUiHints } from "../types";
 import { analyzeConfigSchema, renderConfigForm, SECTION_META } from "./config-form";
 import { hintForPath, humanize, schemaType, type JsonSchema } from "./config-form.shared";
+import { t, translate } from "../../i18n/lit.js";
 
 export type ConfigProps = {
   raw: string;
@@ -262,20 +263,19 @@ const sidebarIcons = {
   `,
 };
 
-// Section definitions
 const SECTIONS: Array<{ key: string; label: string }> = [
-  { key: "env", label: "Environment" },
-  { key: "update", label: "Updates" },
-  { key: "agents", label: "Agents" },
-  { key: "auth", label: "Authentication" },
-  { key: "channels", label: "Channels" },
-  { key: "messages", label: "Messages" },
-  { key: "commands", label: "Commands" },
-  { key: "hooks", label: "Hooks" },
-  { key: "skills", label: "Skills" },
-  { key: "tools", label: "Tools" },
-  { key: "gateway", label: "Gateway" },
-  { key: "wizard", label: "Setup Wizard" },
+  { key: "env", label: "views.config.sections.env" },
+  { key: "update", label: "views.config.sections.update" },
+  { key: "agents", label: "views.config.sections.agents" },
+  { key: "auth", label: "views.config.sections.auth" },
+  { key: "channels", label: "views.config.sections.channels" },
+  { key: "messages", label: "views.config.sections.messages" },
+  { key: "commands", label: "views.config.sections.commands" },
+  { key: "hooks", label: "views.config.sections.hooks" },
+  { key: "skills", label: "views.config.sections.skills" },
+  { key: "tools", label: "views.config.sections.tools" },
+  { key: "gateway", label: "views.config.sections.gateway" },
+  { key: "wizard", label: "views.config.sections.wizard" },
 ];
 
 type SubsectionEntry = {
@@ -386,7 +386,7 @@ export function renderConfig(props: ConfigProps) {
   const knownKeys = new Set(SECTIONS.map((s) => s.key));
   const extraSections = Object.keys(schemaProps)
     .filter((k) => !knownKeys.has(k))
-    .map((k) => ({ key: k, label: k.charAt(0).toUpperCase() + k.slice(1) }));
+    .map((k) => ({ key: k, label: `views.config.sections.${k}` }));
 
   const allSections = [...availableSections, ...extraSections];
 
@@ -439,8 +439,8 @@ export function renderConfig(props: ConfigProps) {
       <!-- Sidebar -->
       <aside class="config-sidebar">
         <div class="config-sidebar__header">
-          <div class="config-sidebar__title">Settings</div>
-          <span class="pill pill--sm ${validity === "valid" ? "pill--ok" : validity === "invalid" ? "pill--danger" : ""}">${validity}</span>
+          <div class="config-sidebar__title">${t('views.config.title')}</div>
+          <span class="pill pill--sm ${validity === "valid" ? "pill--ok" : validity === "invalid" ? "pill--danger" : ""}">${validity === "valid" ? translate('views.config.validity.valid') : validity === "invalid" ? translate('views.config.validity.invalid') : validity}</span>
         </div>
 
         <!-- Search -->
@@ -452,7 +452,7 @@ export function renderConfig(props: ConfigProps) {
           <input
             type="text"
             class="config-search__input"
-            placeholder="Search settings..."
+            placeholder=${translate('views.config.searchPlaceholder')}
             .value=${props.searchQuery}
             @input=${(e: Event) => props.onSearchChange((e.target as HTMLInputElement).value)}
           />
@@ -475,7 +475,7 @@ export function renderConfig(props: ConfigProps) {
             @click=${() => props.onSectionChange(null)}
           >
             <span class="config-nav__icon">${sidebarIcons.all}</span>
-            <span class="config-nav__label">All Settings</span>
+            <span class="config-nav__label">${t('views.config.nav.all')}</span>
           </button>
           ${allSections.map(
             (section) => html`
@@ -484,7 +484,7 @@ export function renderConfig(props: ConfigProps) {
               @click=${() => props.onSectionChange(section.key)}
             >
               <span class="config-nav__icon">${getSectionIcon(section.key)}</span>
-              <span class="config-nav__label">${section.label}</span>
+              <span class="config-nav__label">${translate(section.label)}</span>
             </button>
           `,
           )}
@@ -518,37 +518,37 @@ export function renderConfig(props: ConfigProps) {
             ${
               hasChanges
                 ? html`
-              <span class="config-changes-badge">${props.formMode === "raw" ? "Unsaved changes" : `${diff.length} unsaved change${diff.length !== 1 ? "s" : ""}`}</span>
+              <span class="config-changes-badge">${props.formMode === "raw" ? translate('views.config.changes.unsaved') : translate(diff.length === 1 ? 'views.config.changes.unsavedCount' : 'views.config.changes.unsavedCountPlural', { count: diff.length })}</span>
             `
                 : html`
-                    <span class="config-status muted">No changes</span>
+                    <span class="config-status muted">${translate('views.config.changes.none')}</span>
                   `
             }
           </div>
           <div class="config-actions__right">
             <button class="btn btn--sm" ?disabled=${props.loading} @click=${props.onReload}>
-              ${props.loading ? "Loading…" : "Reload"}
+              ${props.loading ? translate('views.config.actions.reload.loading') : translate('views.config.actions.reload.reload')}
             </button>
             <button
               class="btn btn--sm primary"
               ?disabled=${!canSave}
               @click=${props.onSave}
             >
-              ${props.saving ? "Saving…" : "Save"}
+              ${props.saving ? translate('views.config.actions.save.saving') : translate('views.config.actions.save.save')}
             </button>
             <button
               class="btn btn--sm"
               ?disabled=${!canApply}
               @click=${props.onApply}
             >
-              ${props.applying ? "Applying…" : "Apply"}
+              ${props.applying ? translate('views.config.actions.apply.applying') : translate('views.config.actions.apply.apply')}
             </button>
             <button
               class="btn btn--sm"
               ?disabled=${!canUpdate}
               @click=${props.onUpdate}
             >
-              ${props.updating ? "Updating…" : "Update"}
+              ${props.updating ? translate('views.config.actions.update.updating') : translate('views.config.actions.update.update')}
             </button>
           </div>
         </div>
@@ -559,12 +559,20 @@ export function renderConfig(props: ConfigProps) {
             ? html`
           <details class="config-diff">
             <summary class="config-diff__summary">
-              <span>View ${diff.length} pending change${diff.length !== 1 ? "s" : ""}</span>
+              <span>${translate(diff.length === 1 ? 'views.config.changes.unsavedCount' : 'views.config.changes.unsavedCountPlural', { count: diff.length })}</span>
               <svg class="config-diff__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </summary>
             <div class="config-diff__content">
+              <div class="config-diff__item" style="font-weight: 600; border-bottom: 1px solid var(--border);">
+                <div class="config-diff__path">${translate('views.config.diff.path')}</div>
+                <div class="config-diff__values">
+                  <span class="config-diff__from">${translate('views.config.diff.from')}</span>
+                  <span class="config-diff__arrow"></span>
+                  <span class="config-diff__to">${translate('views.config.diff.to')}</span>
+                </div>
+              </div>
               ${diff.map(
                 (change) => html`
                 <div class="config-diff__item">
@@ -592,7 +600,7 @@ export function renderConfig(props: ConfigProps) {
                   <div class="config-section-hero__title">${activeSectionMeta.label}</div>
                   ${
                     activeSectionMeta.description
-                      ? html`<div class="config-section-hero__desc">${activeSectionMeta.description}</div>`
+                      ? html`                <div class="config-section-hero__desc"><span style="font-weight: 600;">${translate('views.config.sectionHero.desc')}:</span> ${activeSectionMeta.description}</div>`
                       : nothing
                   }
                 </div>
@@ -609,7 +617,7 @@ export function renderConfig(props: ConfigProps) {
                   class="config-subnav__item ${effectiveSubsection === null ? "active" : ""}"
                   @click=${() => props.onSubsectionChange(ALL_SUBSECTION)}
                 >
-                  All
+                  ${translate('views.config.nav.all')}
                 </button>
                 ${subsections.map(
                   (entry) => html`
@@ -639,7 +647,7 @@ export function renderConfig(props: ConfigProps) {
                     ? html`
                         <div class="config-loading">
                           <div class="config-loading__spinner"></div>
-                          <span>Loading schema…</span>
+                          <span>${translate('views.config.form.loading')}</span>
                         </div>
                       `
                     : renderConfigForm({
@@ -666,7 +674,7 @@ export function renderConfig(props: ConfigProps) {
               `
               : html`
                 <label class="field config-raw-field">
-                  <span>Raw JSON5</span>
+                  <span>${translate('views.config.form.raw')}</span>
                   <textarea
                     .value=${props.raw}
                     @input=${(e: Event) =>

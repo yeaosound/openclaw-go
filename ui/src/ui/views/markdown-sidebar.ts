@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 import { unsafeHTML } from "lit/directives/unsafe-html.js";
 
+import { t } from "../../i18n/lit.js";
 import { icons } from "../icons";
 import { toSanitizedMarkdownHtml } from "../markdown";
 
@@ -15,8 +16,8 @@ export function renderMarkdownSidebar(props: MarkdownSidebarProps) {
   return html`
     <div class="sidebar-panel">
       <div class="sidebar-header">
-        <div class="sidebar-title">Tool Output</div>
-        <button @click=${props.onClose} class="btn" title="Close sidebar">
+        <div class="sidebar-title">${t("views.markdownSidebar.title")}</div>
+        <button @click=${props.onClose} class="btn" title="${t("views.markdownSidebar.actions.close")}">
           ${icons.x}
         </button>
       </div>
@@ -24,7 +25,7 @@ export function renderMarkdownSidebar(props: MarkdownSidebarProps) {
         ${
           props.error
             ? html`
-              <div class="callout danger">${props.error}</div>
+              <div class="callout danger">${t("views.markdownSidebar.error")}: ${props.error}</div>
               <button @click=${props.onViewRawText} class="btn" style="margin-top: 12px;">
                 View Raw Text
               </button>
@@ -32,7 +33,7 @@ export function renderMarkdownSidebar(props: MarkdownSidebarProps) {
             : props.content
               ? html`<div class="sidebar-markdown">${unsafeHTML(toSanitizedMarkdownHtml(props.content))}</div>`
               : html`
-                  <div class="muted">No content available</div>
+                  <div class="muted">${t("views.markdownSidebar.empty")}</div>
                 `
         }
       </div>

@@ -1,5 +1,6 @@
 import { html, nothing } from "lit";
 
+import { t } from "../../i18n/lit.js";
 import { formatAgo } from "../format";
 import type { SignalStatus } from "../types";
 import type { ChannelsProps } from "./channels.types";
@@ -14,29 +15,29 @@ export function renderSignalCard(params: {
 
   return html`
     <div class="card">
-      <div class="card-title">Signal</div>
-      <div class="card-sub">signal-cli status and channel configuration.</div>
+      <div class="card-title">${t("views.channels.signal.title")}</div>
+      <div class="card-sub">${t("views.channels.signal.subtitle")}</div>
       ${accountCountLabel}
 
       <div class="status-list" style="margin-top: 16px;">
         <div>
-          <span class="label">Configured</span>
-          <span>${signal?.configured ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.configured")}</span>
+          <span>${signal?.configured ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Running</span>
-          <span>${signal?.running ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.running")}</span>
+          <span>${signal?.running ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Base URL</span>
+          <span class="label">${t("views.channels.signal.baseUrl")}</span>
           <span>${signal?.baseUrl ?? "n/a"}</span>
         </div>
         <div>
-          <span class="label">Last start</span>
+          <span class="label">${t("views.channels.common.lastStart")}</span>
           <span>${signal?.lastStartAt ? formatAgo(signal.lastStartAt) : "n/a"}</span>
         </div>
         <div>
-          <span class="label">Last probe</span>
+          <span class="label">${t("views.channels.common.lastProbe")}</span>
           <span>${signal?.lastProbeAt ? formatAgo(signal.lastProbeAt) : "n/a"}</span>
         </div>
       </div>
