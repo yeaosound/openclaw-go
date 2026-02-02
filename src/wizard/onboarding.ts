@@ -266,54 +266,54 @@ export async function runOnboardingWizard(
   if (flow === "quickstart") {
     const formatBind = (value: "loopback" | "lan" | "auto" | "custom" | "tailnet") => {
       if (value === "loopback") {
-        return "Loopback (127.0.0.1)";
+        return t('wizard.gateway.bind.loopback');
       }
       if (value === "lan") {
-        return "LAN";
+        return t('wizard.gateway.bind.lan');
       }
       if (value === "custom") {
-        return "Custom IP";
+        return t('wizard.gateway.bind.custom');
       }
       if (value === "tailnet") {
-        return "Tailnet (Tailscale IP)";
+        return t('wizard.gateway.bind.tailnet');
       }
-      return "Auto";
+      return t('wizard.gateway.bind.auto');
     };
     const formatAuth = (value: GatewayAuthChoice) => {
       if (value === "token") {
-        return "Token (default)";
+        return t('wizard.gateway.auth.token.default');
       }
-      return "Password";
+      return t('wizard.gateway.auth.password');
     };
     const formatTailscale = (value: "off" | "serve" | "funnel") => {
       if (value === "off") {
-        return "Off";
+        return t('common.off');
       }
       if (value === "serve") {
-        return "Serve";
+        return t('wizard.gateway.tailscale.serve');
       }
-      return "Funnel";
+      return t('wizard.gateway.tailscale.funnel');
     };
     const quickstartLines = quickstartGateway.hasExisting
       ? [
-          "Keeping your current gateway settings:",
-          `Gateway port: ${quickstartGateway.port}`,
-          `Gateway bind: ${formatBind(quickstartGateway.bind)}`,
+          t('wizard.quickstart.keepingSettings'),
+          `${t('wizard.gateway.port')}: ${quickstartGateway.port}`,
+          `${t('wizard.gateway.bind')}: ${formatBind(quickstartGateway.bind)}`,
           ...(quickstartGateway.bind === "custom" && quickstartGateway.customBindHost
-            ? [`Gateway custom IP: ${quickstartGateway.customBindHost}`]
+            ? [`${t('wizard.gateway.customIp')}: ${quickstartGateway.customBindHost}`]
             : []),
-          `Gateway auth: ${formatAuth(quickstartGateway.authMode)}`,
-          `Tailscale exposure: ${formatTailscale(quickstartGateway.tailscaleMode)}`,
-          "Direct to chat channels.",
+          `${t('wizard.gateway.auth')}: ${formatAuth(quickstartGateway.authMode)}`,
+          `${t('wizard.gateway.tailscale')}: ${formatTailscale(quickstartGateway.tailscaleMode)}`,
+          t('wizard.quickstart.directToChannels'),
         ]
       : [
-          `Gateway port: ${DEFAULT_GATEWAY_PORT}`,
-          "Gateway bind: Loopback (127.0.0.1)",
-          "Gateway auth: Token (default)",
-          "Tailscale exposure: Off",
-          "Direct to chat channels.",
+          `${t('wizard.gateway.port')}: ${DEFAULT_GATEWAY_PORT}`,
+          `${t('wizard.gateway.bind')}: ${t('wizard.gateway.bind.loopback')}`,
+          `${t('wizard.gateway.auth')}: ${t('wizard.gateway.auth.token.default')}`,
+          `${t('wizard.gateway.tailscale')}: ${t('common.off')}`,
+          t('wizard.quickstart.directToChannels'),
         ];
-    await prompter.note(quickstartLines.join("\n"), "QuickStart");
+    await prompter.note(quickstartLines.join("\n"), t('wizard.quickstart.title'));
   }
 
   const localPort = resolveGatewayPort(baseConfig);
@@ -336,18 +336,18 @@ export async function runOnboardingWizard(
     (flow === "quickstart"
       ? "local"
       : ((await prompter.select({
-          message: "What do you want to set up?",
+          message: t('wizard.setup.question'),
           options: [
             {
               value: "local",
-              label: "Local gateway (this machine)",
+              label: t('wizard.setup.local'),
               hint: localProbe.ok
                 ? `Gateway reachable (${localUrl})`
                 : `No gateway detected (${localUrl})`,
             },
             {
               value: "remote",
-              label: "Remote gateway (info-only)",
+              label: t('wizard.setup.remote'),
               hint: !remoteUrl
                 ? "No remote URL configured yet"
                 : remoteProbe?.ok

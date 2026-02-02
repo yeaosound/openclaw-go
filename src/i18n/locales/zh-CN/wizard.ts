@@ -56,14 +56,53 @@ openclaw security audit --fix
 
   // Gateway configuration
   'wizard.gateway.port': '网关端口',
+  'wizard.gateway.bind': '网关绑定',
+  'wizard.gateway.bind.loopback': '本地回环 (127.0.0.1)',
+  'wizard.gateway.bind.lan': '局域网',
+  'wizard.gateway.bind.tailnet': 'Tailnet',
+  'wizard.gateway.bind.auto': '自动',
+  'wizard.gateway.bind.custom': '自定义',
+  'wizard.gateway.customIp': '网关自定义 IP',
+  'wizard.gateway.auth': '网关认证',
   'wizard.gateway.auth.mode': '网关身份验证模式',
   'wizard.gateway.auth.token': '网关令牌',
+  'wizard.gateway.auth.token.default': '令牌（默认）',
+  'wizard.gateway.auth.password': '密码',
+  'wizard.gateway.tailscale': 'Tailscale 暴露',
+  'wizard.gateway.tailscale.off': '关闭',
+  'wizard.gateway.tailscale.serve': 'Serve',
+  'wizard.gateway.tailscale.funnel': 'Funnel',
+  'wizard.gateway.tailscale.noExposure': '无 Tailscale 暴露',
   'wizard.gateway.probe.success': '网关可访问！',
   'wizard.gateway.probe.failed': '无法访问网关。',
+  'wizard.quickstart.title': '快速开始',
+  'wizard.quickstart.directToChannels': '直接连接到聊天频道。',
+  'wizard.quickstart.nodeRuntime': '快速开始使用 Node 作为网关服务（稳定且受支持）。',
+  'wizard.quickstart.keepingSettings': '保留您当前的网关设置：',
 
   // Channel setup
   'wizard.channels.setup': '设置频道',
   'wizard.channels.select': '选择要配置的频道',
+  'wizard.channels.select.quickstart': '选择频道（快速开始）',
+  'wizard.channels.status.title': '频道状态',
+  'wizard.channels.status.configured': '已配置',
+  'wizard.channels.status.notConfigured': '未配置',
+  'wizard.channels.status.pluginDisabled': '插件已禁用',
+  'wizard.channels.status.installPlugin': '安装插件以启用',
+  'wizard.channels.status.plugin': '插件',
+  'wizard.channels.status.install': '安装',
+  'wizard.channels.how.title': '频道工作方式',
+  'wizard.channels.how.dmSecurity': 'DM 安全：默认是配对模式；未知 DM 会收到配对码。',
+  'wizard.channels.how.approveWith': '使用以下命令批准',
+  'wizard.channels.how.publicDms': '公共 DM 需要 dmPolicy="open" + allowFrom=["*"]。',
+  'wizard.channels.how.multiUser': '多用户 DM：设置 session.dmScope="per-channel-peer"（或多账户频道使用 "per-account-channel-peer"）来隔离会话。',
+
+  // Model/auth setup
+  'wizard.model.provider.title': '模型/认证提供商',
+  'wizard.model.provider.choice': '模型/认证选择',
+  'wizard.model.default.title': '默认模型',
+  'wizard.model.default.keep': '默认模型（留空以保持）',
+  'wizard.model.filter.provider': '按提供商筛选模型',
 
   // Skills setup
   'wizard.skills.setup': '设置技能',
@@ -85,6 +124,18 @@ openclaw security audit --fix
   'wizard.back': '返回',
   'wizard.next': '下一步',
   'wizard.finish': '完成',
+
+  // Setup mode
+  'wizard.setup.question': '您想要设置什么？',
+  'wizard.setup.local': '本地网关（在此设备上运行）',
+  'wizard.setup.remote': '远程网关（连接到现有网关）',
+
+  // Generic
+  'common.yes': '是',
+  'common.no': '否',
+  'common.skip': '跳过',
+  'common.skipForNow': '暂时跳过',
+  'common.off': '关闭',
 };
 
 export default wizardMessages;

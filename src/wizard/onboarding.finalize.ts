@@ -18,6 +18,7 @@ import {
   resolveControlUiLinks,
 } from "../commands/onboard-helpers.js";
 import { formatCliCommand } from "../cli/command-format.js";
+import { t } from "../i18n/index.js";
 import type { OnboardOptions } from "../commands/onboard-types.js";
 import type { OpenClawConfig } from "../config/config.js";
 import { resolveGatewayService } from "../daemon/service.js";
@@ -118,7 +119,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
           });
     if (flow === "quickstart") {
       await prompter.note(
-        "QuickStart uses Node for the Gateway service (stable + supported).",
+        t('wizard.quickstart.nodeRuntime'),
         "Gateway service runtime",
       );
     }

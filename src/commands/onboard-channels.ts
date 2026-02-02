@@ -31,6 +31,7 @@ import type {
   ChannelOnboardingStatus,
   SetupChannelsOptions,
 } from "./onboarding/types.js";
+import { t } from "../i18n/index.js";
 
 type ConfiguredChannelAction = "update" | "disable" | "delete" | "skip";
 
@@ -133,20 +134,24 @@ async function collectChannelStatus(params: {
     .filter((meta) => !statusByChannel.has(meta.id))
     .map((meta) => {
       const configured = isChannelConfigured(params.cfg, meta.id);
-      const statusLabel = configured ? "configured (plugin disabled)" : "not configured";
+      const statusLabel = configured 
+        ? `${t('wizard.channels.status.configured')} (${t('wizard.channels.status.pluginDisabled')})` 
+        : t('wizard.channels.status.notConfigured');
       return {
         channel: meta.id,
         configured,
         statusLines: [`${meta.label}: ${statusLabel}`],
-        selectionHint: configured ? "configured · plugin disabled" : "not configured",
+        selectionHint: configured 
+          ? `${t('wizard.channels.status.configured')} · ${t('wizard.channels.status.pluginDisabled')}` 
+          : t('wizard.channels.status.notConfigured'),
         quickstartScore: 0,
       };
     });
   const catalogStatuses = catalogEntries.map((entry) => ({
     channel: entry.id,
     configured: false,
-    statusLines: [`${entry.meta.label}: install plugin to enable`],
-    selectionHint: "plugin · install",
+    statusLines: [`${entry.meta.label}: ${t('wizard.channels.status.installPlugin')}`],
+    selectionHint: `${t('wizard.channels.status.plugin')} · ${t('wizard.channels.status.install')}`,
     quickstartScore: 0,
   }));
   const combinedStatuses = [...statusEntries, ...fallbackStatuses, ...catalogStatuses];
@@ -172,7 +177,7 @@ export async function noteChannelStatus(params: {
     accountOverrides: params.accountOverrides ?? {},
   });
   if (statusLines.length > 0) {
-    await params.prompter.note(statusLines.join("\n"), "Channel status");
+    await params.prompter.note(statusLines.join("\n"), t('wizard.channels.status.title'));
   }
 }
 
@@ -191,15 +196,15 @@ async function noteChannelPrimer(
   );
   await prompter.note(
     [
-      "DM security: default is pairing; unknown DMs get a pairing code.",
-      `Approve with: ${formatCliCommand("openclaw pairing approve <channel> <code>")}`,
-      'Public DMs require dmPolicy="open" + allowFrom=["*"].',
-      'Multi-user DMs: set session.dmScope="per-channel-peer" (or "per-account-channel-peer" for multi-account channels) to isolate sessions.',
+      t('wizard.channels.how.dmSecurity'),
+      `${t('wizard.channels.how.approveWith')}: ${formatCliCommand("openclaw pairing approve <channel> <code>")}`,
+      t('wizard.channels.how.publicDms'),
+      t('wizard.channels.how.multiUser'),
       `Docs: ${formatDocsLink("/start/pairing", "start/pairing")}`,
       "",
       ...channelLines,
     ].join("\n"),
-    "How channels work",
+    t('wizard.channels.how.title'),
   );
 }
 
@@ -610,12 +615,12 @@ export async function setupChannels(
   if (options?.quickstartDefaults) {
     const { entries } = getChannelEntries();
     const choice = (await prompter.select({
-      message: "Select channel (QuickStart)",
+      message: t('wizard.channels.select.quickstart'),
       options: [
         ...buildSelectionOptions(entries),
         {
           value: "__skip__",
-          label: "Skip for now",
+          label: t('common.skipForNow'),
           hint: `You can add channels later via \`${formatCliCommand("openclaw channels add")}\``,
         },
       ],
