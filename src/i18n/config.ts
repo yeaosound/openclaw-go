@@ -13,7 +13,38 @@ import {
   isAvailableLocale,
   LANG_ENV_VAR,
   getAvailableLocales,
+  AVAILABLE_LOCALES,
 } from './index.js';
+
+/**
+ * Detect system language from environment variables
+ * Returns the best matching available locale or undefined
+ */
+export function detectSystemLanguage(): typeof AVAILABLE_LOCALES[number] | undefined {
+  try {
+    const systemLang = process.env.LANG ||
+                       process.env.LC_ALL ||
+                       process.env.LC_MESSAGES ||
+                       process.env.LANGUAGE;
+
+    if (!systemLang) return undefined;
+
+    // Extract language code (e.g., "zh_CN.UTF-8" -> "zh-CN")
+    const langCode = systemLang.split('.')[0].replace(/_/g, '-');
+
+    // Check for exact match
+    if (isAvailableLocale(langCode)) {
+      return langCode;
+    }
+
+    // Check for language match (e.g., "zh" matches "zh-CN")
+    const baseLang = langCode.split('-')[0];
+    const match = AVAILABLE_LOCALES.find(loc => loc.startsWith(baseLang));
+    return match;
+  } catch {
+    return undefined;
+  }
+}
 
 /**
  * Initialize i18n from environment variable or config file
@@ -48,7 +79,14 @@ export async function initializeI18n(): Promise<void> {
     // Config file may not exist, continue to defaults
   }
 
-  // 3. Use default
+  // 3. Try to detect system language
+  const systemLang = detectSystemLanguage();
+  if (systemLang) {
+    setLocale(systemLang);
+    return;
+  }
+
+  // 4. Use default
   setLocale(DEFAULT_LOCALE);
 }
 
@@ -62,9 +100,16 @@ export function initializeI18nSync(): void {
   const envLang = process.env[LANG_ENV_VAR];
   if (envLang && isAvailableLocale(envLang)) {
     setLocale(envLang);
-  } else {
-    setLocale(DEFAULT_LOCALE);
+    return;
   }
+
+  const systemLang = detectSystemLanguage();
+  if (systemLang) {
+    setLocale(systemLang);
+    return;
+  }
+
+  setLocale(DEFAULT_LOCALE);
 }
 
 /**
@@ -74,7 +119,7 @@ export function initializeI18nSync(): void {
  */
 export async function getLanguageSettings(): Promise<{
   locale: string;
-  source: 'env' | 'config' | 'default';
+  source: 'env' | 'config' | 'system' | 'default';
 }> {
   // Check environment variable
   const envLang = process.env[LANG_ENV_VAR];
@@ -93,6 +138,12 @@ export async function getLanguageSettings(): Promise<{
     }
   } catch {
     // Config file may not exist
+  }
+
+  // Check system language
+  const systemLang = detectSystemLanguage();
+  if (systemLang) {
+    return { locale: systemLang, source: 'system' };
   }
 
   // Default
@@ -144,4 +195,4 @@ export function getAvailableLocalesWithNames(): Array<{
 /**
  * Re-export for convenience
  */
-export { getLocale, DEFAULT_LOCALE, isAvailableLocale, LANG_ENV_VAR } from './index.js';
+export { getLocale, DEFAULT_LOCALE, isAvailableLocale, LANG_ENV_VAR, AVAILABLE_LOCALES } from './index.js';

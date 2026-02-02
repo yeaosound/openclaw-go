@@ -1,5 +1,10 @@
 // English translations for wizard module
 export const wizardMessages = {
+  // Language selection
+  'wizard.language.select': 'Select your preferred language',
+  'wizard.language.current': 'current',
+  'wizard.language.changed': 'Language changed to: {locale}',
+
   // Onboarding
   'wizard.intro.title': 'OpenClaw Onboarding',
 

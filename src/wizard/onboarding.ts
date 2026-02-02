@@ -35,6 +35,12 @@ import {
   writeConfigFile,
 } from "../config/config.js";
 import { logConfigUpdated } from "../config/logging.js";
+import {
+  getAvailableLocalesWithNames,
+  updateLanguageSetting,
+  getLanguageSettings,
+} from "../i18n/config.js";
+import { setLocale, getLocale } from "../i18n/index.js";
 import { t } from "../i18n/index.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
@@ -44,6 +50,39 @@ import { configureGatewayForOnboarding } from "./onboarding.gateway-config.js";
 import type { QuickstartGatewayDefaults, WizardFlow } from "./onboarding.types.js";
 import { WizardCancelledError, type WizardPrompter } from "./prompts.js";
 import { installCompletion } from "../cli/completion-cli.js";
+
+async function promptLanguageSelection(
+  opts: OnboardOptions,
+  prompter: WizardPrompter,
+  runtime: RuntimeEnv,
+): Promise<void> {
+  // Skip if language was specified via command line (not auto)
+  if (opts.lang && opts.lang !== "auto") {
+    return;
+  }
+
+  const currentSettings = await getLanguageSettings();
+  const locales = getAvailableLocalesWithNames();
+
+  const selectedLocale = await prompter.select({
+    message: t("wizard.language.select"),
+    options: locales.map((loc) => ({
+      value: loc.code,
+      label: `${loc.nativeName} (${loc.name})`,
+      hint:
+        loc.code === currentSettings.locale
+          ? t("wizard.language.current")
+          : undefined,
+    })),
+    initialValue: currentSettings.locale,
+  });
+
+  if (selectedLocale !== getLocale()) {
+    setLocale(selectedLocale);
+    await updateLanguageSetting(selectedLocale);
+    runtime.log(t("wizard.language.changed", { locale: selectedLocale }));
+  }
+}
 
 async function requireRiskAcknowledgement(params: {
   opts: OnboardOptions;
@@ -73,6 +112,12 @@ export async function runOnboardingWizard(
   prompter: WizardPrompter,
 ) {
   printWizardHeader(runtime);
+
+  // Prompt for language selection in interactive mode
+  if (!opts.nonInteractive) {
+    await promptLanguageSelection(opts, prompter, runtime);
+  }
+
   await prompter.intro(t('wizard.intro.title'));
   await requireRiskAcknowledgement({ opts, prompter });
 

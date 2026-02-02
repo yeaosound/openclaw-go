@@ -1,5 +1,10 @@
 import { readConfigFileSnapshot } from "../config/config.js";
 import { assertSupportedRuntime } from "../infra/runtime-guard.js";
+import {
+  updateLanguageSetting,
+  getAvailableLocalesWithNames,
+} from "../i18n/config.js";
+import { setLocale, getLocale, isAvailableLocale } from "../i18n/index.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
 import { resolveUserPath } from "../utils.js";
@@ -9,9 +14,43 @@ import { runNonInteractiveOnboarding } from "./onboard-non-interactive.js";
 import { formatCliCommand } from "../cli/command-format.js";
 import type { OnboardOptions } from "./onboard-types.js";
 
-export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv = defaultRuntime) {
+async function handleLanguageOption(
+  opts: OnboardOptions,
+  runtime: RuntimeEnv,
+): Promise<void> {
+  // Skip if lang is not specified or set to auto
+  if (!opts.lang || opts.lang === "auto") {
+    return;
+  }
+
+  // Validate and apply the specified language
+  if (isAvailableLocale(opts.lang)) {
+    if (getLocale() !== opts.lang) {
+      setLocale(opts.lang);
+      await updateLanguageSetting(opts.lang);
+    }
+  } else {
+    const available = getAvailableLocalesWithNames()
+      .map((l) => `${l.code} (${l.nativeName})`)
+      .join(", ");
+    runtime.error(
+      `Invalid language "${opts.lang}". Available locales: ${available}`,
+    );
+    runtime.exit(1);
+  }
+}
+
+export async function onboardCommand(
+  opts: OnboardOptions,
+  runtime: RuntimeEnv = defaultRuntime,
+) {
   assertSupportedRuntime(runtime);
-  const authChoice = opts.authChoice === "oauth" ? ("setup-token" as const) : opts.authChoice;
+
+  // Handle language option early, before any UI is shown
+  await handleLanguageOption(opts, runtime);
+
+  const authChoice =
+    opts.authChoice === "oauth" ? ("setup-token" as const) : opts.authChoice;
   const normalizedAuthChoice =
     authChoice === "claude-cli"
       ? ("setup-token" as const)

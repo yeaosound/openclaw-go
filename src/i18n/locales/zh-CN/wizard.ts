@@ -1,5 +1,10 @@
 // 简体中文翻译 - 向导模块
 export const wizardMessages = {
+  // Language selection
+  'wizard.language.select': '请选择您的首选语言',
+  'wizard.language.current': '当前',
+  'wizard.language.changed': '语言已切换为: {locale}',
+
   // Onboarding
   'wizard.intro.title': 'OpenClaw 入门',
 
