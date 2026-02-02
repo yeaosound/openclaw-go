@@ -20,7 +20,7 @@ importers:
         version: 3.980.0
       '@buape/carbon':
         specifier: 0.14.0
-        version: 0.14.0(hono@4.11.4)
+        version: 0.14.0(hono@4.11.7)
       '@clack/prompts':
         specifier: ^1.0.0
         version: 1.0.0
@@ -308,7 +308,7 @@ importers:
     devDependencies:
       openclaw:
         specifier: workspace:*
-        version: link:../..
+        version: 2026.2.1(@napi-rs/canvas@0.1.89)(@types/express@5.0.6)(audio-decode@2.2.3)(node-llama-cpp@3.15.1(typescript@5.9.3))(signal-polyfill@0.2.2)
 
   extensions/imessage:
     devDependencies:
@@ -366,7 +366,7 @@ importers:
     devDependencies:
       openclaw:
         specifier: workspace:*
-        version: link:../..
+        version: 2026.2.1(@napi-rs/canvas@0.1.89)(@types/express@5.0.6)(audio-decode@2.2.3)(node-llama-cpp@3.15.1(typescript@5.9.3))(signal-polyfill@0.2.2)
 
   extensions/memory-lancedb:
     dependencies:
@@ -545,6 +545,12 @@ importers:
       dompurify:
         specifier: ^3.3.1
         version: 3.3.1
+      i18next:
+        specifier: ^25.8.0
+        version: 25.8.0(typescript@5.9.3)
+      i18next-browser-languagedetector:
+        specifier: ^8.2.0
+        version: 8.2.0
       lit:
         specifier: ^3.3.2
         version: 3.3.2
@@ -1336,13 +1342,30 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
+  '@mariozechner/clipboard-darwin-arm64@0.3.2':
+    resolution: {integrity: sha512-uBf6K7Je1ihsgvmWxA8UCGCeI+nbRVRXoarZdLjl6slz94Zs1tNKFZqx7aCI5O1i3e0B6ja82zZ06BWrl0MCVw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
   '@mariozechner/clipboard-darwin-universal@0.3.0':
     resolution: {integrity: sha512-FVZLGdIkmvqtPQjD0GQwKLVheL+zV7DjA6I5NcsHGjBeWpG2nACS6COuelNf8ruMoPxJFw7RoB4fjw6mmjT+Nw==}
     engines: {node: '>= 10'}
     os: [darwin]
 
+  '@mariozechner/clipboard-darwin-universal@0.3.2':
+    resolution: {integrity: sha512-mxSheKTW2U9LsBdXy0SdmdCAE5HqNS9QUmpNHLnfJ+SsbFKALjEZc5oRrVMXxGQSirDvYf5bjmRyT0QYYonnlg==}
+    engines: {node: '>= 10'}
+    os: [darwin]
+
   '@mariozechner/clipboard-darwin-x64@0.3.0':
     resolution: {integrity: sha512-KuurQYEqRhalvBji3CH5xIq1Ts23IgVRE3rjanhqFDI77luOhCnlNbDtqv3No5OxJhEBLykQNrAzfgjqPsPWdA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@mariozechner/clipboard-darwin-x64@0.3.2':
+    resolution: {integrity: sha512-U1BcVEoidvwIp95+HJswSW+xr28EQiHR7rZjH6pn8Sja5yO4Yoe3yCN0Zm8Lo72BbSOK/fTSq0je7CJpaPCspg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
@@ -1353,8 +1376,26 @@ packages:
     cpu: [arm64]
     os: [linux]
 
+  '@mariozechner/clipboard-linux-arm64-gnu@0.3.2':
+    resolution: {integrity: sha512-BsinwG3yWTIjdgNCxsFlip7LkfwPk+ruw/aFCXHUg/fb5XC/Ksp+YMQ7u0LUtiKzIv/7LMXgZInJQH6gxbAaqQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@mariozechner/clipboard-linux-arm64-musl@0.3.2':
+    resolution: {integrity: sha512-0/Gi5Xq2V6goXBop19ePoHvXsmJD9SzFlO3S+d6+T2b+BlPcpOu3Oa0wTjl+cZrLAAEzA86aPNBI+VVAFDFPKw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
   '@mariozechner/clipboard-linux-riscv64-gnu@0.3.0':
     resolution: {integrity: sha512-4BC08CIaOXSSAGRZLEjqJmQfioED8ohAzwt0k2amZPEbH96YKoBNorq5EdwPf5VT+odS0DeyCwhwtxokRLZIvQ==}
+    engines: {node: '>= 10'}
+    cpu: [riscv64]
+    os: [linux]
+
+  '@mariozechner/clipboard-linux-riscv64-gnu@0.3.2':
+    resolution: {integrity: sha512-2AFFiXB24qf0zOZsxI1GJGb9wQGlOJyN6UwoXqmKS3dpQi/l6ix30IzDDA4c4ZcCcx4D+9HLYXhC1w7Sov8pXA==}
     engines: {node: '>= 10'}
     cpu: [riscv64]
     os: [linux]
@@ -1365,8 +1406,20 @@ packages:
     cpu: [x64]
     os: [linux]
 
+  '@mariozechner/clipboard-linux-x64-gnu@0.3.2':
+    resolution: {integrity: sha512-v6fVnsn7WMGg73Dab8QMwyFce7tzGfgEixKgzLP8f1GJqkJZi5zO4k4FOHzSgUufgLil63gnxvMpjWkgfeQN7A==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
   '@mariozechner/clipboard-linux-x64-musl@0.3.0':
     resolution: {integrity: sha512-+PnR48/x9GMY5Kh8BLjzHMx6trOegMtxAuqTM9X/bhV3QuW6sLLd7nojDHSGj/ZueK6i0tcQxvOrgNLozVtNDA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  '@mariozechner/clipboard-linux-x64-musl@0.3.2':
+    resolution: {integrity: sha512-xVUtnoMQ8v2JVyfJLKKXACA6avdnchdbBkTsZs8BgJQo29qwCp5NIHAUO8gbJ40iaEGToW5RlmVk2M9V0HsHEw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
@@ -1377,14 +1430,30 @@ packages:
     cpu: [arm64]
     os: [win32]
 
+  '@mariozechner/clipboard-win32-arm64-msvc@0.3.2':
+    resolution: {integrity: sha512-AEgg95TNi8TGgak2wSXZkXKCvAUTjWoU1Pqb0ON7JHrX78p616XUFNTJohtIon3e0w6k0pYPZeCuqRCza/Tqeg==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+
   '@mariozechner/clipboard-win32-x64-msvc@0.3.0':
     resolution: {integrity: sha512-dfpHrUpKHl7ad3xVGE1+gIN3cEnjjPZa4I0BIYMuj2OKq07Gf1FKTXMypB41rDFv6XNzcfhYQnY+ZNgIu9FB8A==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
 
+  '@mariozechner/clipboard-win32-x64-msvc@0.3.2':
+    resolution: {integrity: sha512-tGRuYpZwDOD7HBrCpyRuhGnHHSCknELvqwKKUG4JSfSB7JIU7LKRh6zx6fMUOQd8uISK35TjFg5UcNih+vJhFA==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
+
   '@mariozechner/clipboard@0.3.0':
     resolution: {integrity: sha512-tQrCRAtr58BLmWcvwCqlJo5GJgqBGb3zwOBFFBKCEKvRgD8y/EawhCyXsfOh9XOOde1NTAYsYuYyVOYw2tLnoQ==}
+    engines: {node: '>= 10'}
+
+  '@mariozechner/clipboard@0.3.2':
+    resolution: {integrity: sha512-IHQpksNjo7EAtGuHFU+tbWDp5LarH3HU/8WiB9O70ZEoBPHOg0/6afwSLK0QyNMMmx4Bpi/zl6+DcBXe95nWYA==}
     engines: {node: '>= 10'}
 
   '@mariozechner/jiti@2.6.5':
@@ -1395,8 +1464,17 @@ packages:
     resolution: {integrity: sha512-iSNh+7QQFVge3co0Au1X6sqXAr+X6e3XlRXM7oE3m6zMWj76A1YCciV2sLI/imBcoFLum8blIaM0empwL477dQ==}
     engines: {node: '>=20.0.0'}
 
+  '@mariozechner/pi-agent-core@0.51.0':
+    resolution: {integrity: sha512-pHHCpp9kSY3q5aDg/hA5vsQDxjRQxTr7yV3dUFngNpq5Qrdl3osPic83d5qPrcy64J3hFhfzq8OYs60FibrexA==}
+    engines: {node: '>=20.0.0'}
+
   '@mariozechner/pi-ai@0.50.7':
     resolution: {integrity: sha512-mVqaTE/Ulijd1olduEU02IfIP91aNt6F0UYJQNLR+m3b/6bsn21csZJZnkjYia0kHX7PnOLtikO2jG7dJpYY6g==}
+    engines: {node: '>=20.0.0'}
+    hasBin: true
+
+  '@mariozechner/pi-ai@0.51.0':
+    resolution: {integrity: sha512-M8gB0cq7g2weCCuRRxbQH/pnnW5NMHV19fpu19XIpDbGscqf6nUNKFyjzwHEl5Ett6egq5l8bBqTxCDvY6an4A==}
     engines: {node: '>=20.0.0'}
     hasBin: true
 
@@ -1405,8 +1483,17 @@ packages:
     engines: {node: '>=20.0.0'}
     hasBin: true
 
+  '@mariozechner/pi-coding-agent@0.51.0':
+    resolution: {integrity: sha512-TYECttYU83Oy1+uOptgglDacQSJL3BV007swD2fN057gw8txlj2ORSYDsrBvOeRA8CsNSCqiwWuni5Cehp7qOg==}
+    engines: {node: '>=20.0.0'}
+    hasBin: true
+
   '@mariozechner/pi-tui@0.50.7':
     resolution: {integrity: sha512-O8H8hXqoWdE+5eUUPiswq+WT+2eeshJHJmXKWMJMoSitNqdwzYZds9umAKdVLII6ZvjnFtd0awnf4VThYQBFIA==}
+    engines: {node: '>=20.0.0'}
+
+  '@mariozechner/pi-tui@0.51.0':
+    resolution: {integrity: sha512-B5+zg3TNr6ge3wVsZF4L8if+2RKz/doYw2iN2veSwqpyJDQTiBqjjkLS9lBxxbmybAmfao/lWN9zho1AeUOynA==}
     engines: {node: '>=20.0.0'}
 
   '@matrix-org/matrix-sdk-crypto-nodejs@0.4.0':
@@ -3180,6 +3267,10 @@ packages:
   core-util-is@1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
 
+  croner@10.0.1:
+    resolution: {integrity: sha512-ixNtAJndqh173VQ4KodSdJEI6nuioBWI0V1ITNKhZZsO0pEMoDxz539T4FTTbSZ/xIOSuDnzxLVRqBVSvPNE2g==}
+    engines: {node: '>=18.0'}
+
   croner@9.1.0:
     resolution: {integrity: sha512-p9nwwR4qyT5W996vBZhdvBCnMhicY5ytZkR4D1Xj0wuTDEiMnjwR57Q3RXYY/s0EpX6Ay3vgIcfaR+ewGHsi+g==}
     engines: {node: '>=18.0'}
@@ -3650,8 +3741,8 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
 
-  hono@4.11.4:
-    resolution: {integrity: sha512-U7tt8JsyrxSRKspfhtLET79pU8K+tInj5QZXs1jSugO1Vq5dFj3kmZsRldo29mTBfcjDRVRXrEZ6LS63Cog9ZA==}
+  hono@4.11.7:
+    resolution: {integrity: sha512-l7qMiNee7t82bH3SeyUCt9UF15EVmaBvsppY2zQtrbIhl/yzBTny+YUxsVjSjQ6gaqaeVtZmGocom8TzBlA4Yw==}
     engines: {node: '>=16.9.0'}
 
   hookified@1.15.0:
@@ -3691,6 +3782,17 @@ packages:
   https-proxy-agent@7.0.6:
     resolution: {integrity: sha512-vK9P5/iUfdl95AI+JVyUuIcVtd4ofvtrOr3HNtM2yxC9bnMbEdp3x01OhQNnjb8IJYi38VlTE3mBXwcfvywuSw==}
     engines: {node: '>= 14'}
+
+  i18next-browser-languagedetector@8.2.0:
+    resolution: {integrity: sha512-P+3zEKLnOF0qmiesW383vsLdtQVyKtCNA9cjSoKCppTKPQVfKd2W8hbVo5ZhNJKDqeM7BOcvNoKJOjpHh4Js9g==}
+
+  i18next@25.8.0:
+    resolution: {integrity: sha512-urrg4HMFFMQZ2bbKRK7IZ8/CTE7D8H4JRlAwqA2ZwDRFfdd0K/4cdbNNLgfn9mo+I/h9wJu61qJzH7jCFAhUZQ==}
+    peerDependencies:
+      typescript: ^5
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
@@ -4256,6 +4358,9 @@ packages:
       typescript:
         optional: true
 
+  node-readable-to-web-readable-stream@0.4.2:
+    resolution: {integrity: sha512-/cMZNI34v//jUTrI+UIo4ieHAB5EZRY/+7OmXZgBxaWBMcW2tGdceIw06RFxWxrKZ5Jp3sI2i5TsRo+CBhtVLQ==}
+
   node-wav@0.0.2:
     resolution: {integrity: sha512-M6Rm/bbG6De/gKGxOpeOobx/dnGuP0dz40adqx38boqHhlWssBJZgLCPBNtb9NkrmnKYiV04xELq+R6PFOnoLA==}
     engines: {node: '>=4.4.0'}
@@ -4353,6 +4458,14 @@ packages:
         optional: true
       zod:
         optional: true
+
+  openclaw@2026.2.1:
+    resolution: {integrity: sha512-SCGnsg/E9XPpYd1KCH+hvfQFTg+RLptBAAPbc+9e7PHn7aNzte7mcm+2W/kxn71Aie8jqwbZgWx9JdEPneiaLQ==}
+    engines: {node: '>=22.12.0'}
+    hasBin: true
+    peerDependencies:
+      '@napi-rs/canvas': ^0.1.89
+      node-llama-cpp: 3.15.1
 
   opus-decoder@0.7.11:
     resolution: {integrity: sha512-+e+Jz3vGQLxRTBHs8YJQPRPc1Tr+/aC6coV/DlZylriA29BdHQAYXhvNRKtjftof17OFng0+P4wsFIqQu3a48A==}
@@ -4475,6 +4588,10 @@ packages:
 
   pdfjs-dist@5.4.530:
     resolution: {integrity: sha512-r1hWsSIGGmyYUAHR26zSXkxYWLXLMd6AwqcaFYG9YUZ0GBf5GvcjJSeo512tabM4GYFhxhl5pMCmPr7Q72Rq2Q==}
+    engines: {node: '>=20.16.0 || >=22.3.0'}
+
+  pdfjs-dist@5.4.624:
+    resolution: {integrity: sha512-sm6TxKTtWv1Oh6n3C6J6a8odejb5uO4A4zo/2dgkHuC0iu8ZMAXOezEODkVaoVp8nX1Xzr+0WxFJJmUr45hQzg==}
     engines: {node: '>=20.16.0 || >=22.3.0'}
 
   peberminta@0.9.0:
@@ -5093,6 +5210,10 @@ packages:
 
   undici@7.19.2:
     resolution: {integrity: sha512-4VQSpGEGsWzk0VYxyB/wVX/Q7qf9t5znLRgs0dzszr9w9Fej/8RVNQ+S20vdXSAyra/bJ7ZQfGv6ZMj7UEbzSg==}
+    engines: {node: '>=20.18.1'}
+
+  undici@7.20.0:
+    resolution: {integrity: sha512-MJZrkjyd7DeC+uPZh+5/YaMDxFiiEEaDgbUSVMXayofAkDWF1088CDo+2RPg7B1BuS1qf1vgNE7xqwPxE0DuSQ==}
     engines: {node: '>=20.18.1'}
 
   universal-github-app-jwt@2.2.2:
@@ -5851,14 +5972,14 @@ snapshots:
 
   '@borewit/text-codec@0.2.1': {}
 
-  '@buape/carbon@0.14.0(hono@4.11.4)':
+  '@buape/carbon@0.14.0(hono@4.11.7)':
     dependencies:
       '@types/node': 25.1.0
       discord-api-types: 0.38.37
     optionalDependencies:
       '@cloudflare/workers-types': 4.20260120.0
       '@discordjs/voice': 0.19.0
-      '@hono/node-server': 1.19.9(hono@4.11.4)
+      '@hono/node-server': 1.19.9(hono@4.11.7)
       '@types/bun': 1.3.6
       '@types/ws': 8.18.1
       ws: 8.19.0
@@ -6112,9 +6233,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@hono/node-server@1.19.9(hono@4.11.4)':
+  '@hono/node-server@1.19.9(hono@4.11.7)':
     dependencies:
-      hono: 4.11.4
+      hono: 4.11.7
     optional: true
 
   '@huggingface/jinja@0.5.4': {}
@@ -6348,28 +6469,58 @@ snapshots:
   '@mariozechner/clipboard-darwin-arm64@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-darwin-arm64@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-darwin-universal@0.3.0':
+    optional: true
+
+  '@mariozechner/clipboard-darwin-universal@0.3.2':
     optional: true
 
   '@mariozechner/clipboard-darwin-x64@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-darwin-x64@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-linux-arm64-gnu@0.3.0':
+    optional: true
+
+  '@mariozechner/clipboard-linux-arm64-gnu@0.3.2':
+    optional: true
+
+  '@mariozechner/clipboard-linux-arm64-musl@0.3.2':
     optional: true
 
   '@mariozechner/clipboard-linux-riscv64-gnu@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-linux-riscv64-gnu@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-linux-x64-gnu@0.3.0':
+    optional: true
+
+  '@mariozechner/clipboard-linux-x64-gnu@0.3.2':
     optional: true
 
   '@mariozechner/clipboard-linux-x64-musl@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-linux-x64-musl@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-win32-arm64-msvc@0.3.0':
     optional: true
 
+  '@mariozechner/clipboard-win32-arm64-msvc@0.3.2':
+    optional: true
+
   '@mariozechner/clipboard-win32-x64-msvc@0.3.0':
+    optional: true
+
+  '@mariozechner/clipboard-win32-x64-msvc@0.3.2':
     optional: true
 
   '@mariozechner/clipboard@0.3.0':
@@ -6383,6 +6534,20 @@ snapshots:
       '@mariozechner/clipboard-linux-x64-musl': 0.3.0
       '@mariozechner/clipboard-win32-arm64-msvc': 0.3.0
       '@mariozechner/clipboard-win32-x64-msvc': 0.3.0
+
+  '@mariozechner/clipboard@0.3.2':
+    optionalDependencies:
+      '@mariozechner/clipboard-darwin-arm64': 0.3.2
+      '@mariozechner/clipboard-darwin-universal': 0.3.2
+      '@mariozechner/clipboard-darwin-x64': 0.3.2
+      '@mariozechner/clipboard-linux-arm64-gnu': 0.3.2
+      '@mariozechner/clipboard-linux-arm64-musl': 0.3.2
+      '@mariozechner/clipboard-linux-riscv64-gnu': 0.3.2
+      '@mariozechner/clipboard-linux-x64-gnu': 0.3.2
+      '@mariozechner/clipboard-linux-x64-musl': 0.3.2
+      '@mariozechner/clipboard-win32-arm64-msvc': 0.3.2
+      '@mariozechner/clipboard-win32-x64-msvc': 0.3.2
+    optional: true
 
   '@mariozechner/jiti@2.6.5':
     dependencies:
@@ -6402,7 +6567,44 @@ snapshots:
       - ws
       - zod
 
+  '@mariozechner/pi-agent-core@0.51.0(ws@8.19.0)(zod@4.3.6)':
+    dependencies:
+      '@mariozechner/pi-ai': 0.51.0(ws@8.19.0)(zod@4.3.6)
+      '@mariozechner/pi-tui': 0.51.0
+    transitivePeerDependencies:
+      - '@modelcontextprotocol/sdk'
+      - aws-crt
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
   '@mariozechner/pi-ai@0.50.7(ws@8.19.0)(zod@4.3.6)':
+    dependencies:
+      '@anthropic-ai/sdk': 0.71.2(zod@4.3.6)
+      '@aws-sdk/client-bedrock-runtime': 3.980.0
+      '@google/genai': 1.34.0
+      '@mistralai/mistralai': 1.10.0
+      '@sinclair/typebox': 0.34.47
+      ajv: 8.17.1
+      ajv-formats: 3.0.1(ajv@8.17.1)
+      chalk: 5.6.2
+      openai: 6.10.0(ws@8.19.0)(zod@4.3.6)
+      partial-json: 0.1.7
+      proxy-agent: 6.5.0
+      undici: 7.19.2
+      zod-to-json-schema: 3.25.1(zod@4.3.6)
+    transitivePeerDependencies:
+      - '@modelcontextprotocol/sdk'
+      - aws-crt
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
+  '@mariozechner/pi-ai@0.51.0(ws@8.19.0)(zod@4.3.6)':
     dependencies:
       '@anthropic-ai/sdk': 0.71.2(zod@4.3.6)
       '@aws-sdk/client-bedrock-runtime': 3.980.0
@@ -6453,7 +6655,43 @@ snapshots:
       - ws
       - zod
 
+  '@mariozechner/pi-coding-agent@0.51.0(ws@8.19.0)(zod@4.3.6)':
+    dependencies:
+      '@mariozechner/jiti': 2.6.5
+      '@mariozechner/pi-agent-core': 0.51.0(ws@8.19.0)(zod@4.3.6)
+      '@mariozechner/pi-ai': 0.51.0(ws@8.19.0)(zod@4.3.6)
+      '@mariozechner/pi-tui': 0.51.0
+      '@silvia-odwyer/photon-node': 0.3.4
+      chalk: 5.6.2
+      cli-highlight: 2.1.11
+      diff: 8.0.3
+      file-type: 21.3.0
+      glob: 11.1.0
+      ignore: 7.0.5
+      marked: 15.0.12
+      minimatch: 10.1.1
+      proper-lockfile: 4.1.2
+      yaml: 2.8.2
+    optionalDependencies:
+      '@mariozechner/clipboard': 0.3.2
+    transitivePeerDependencies:
+      - '@modelcontextprotocol/sdk'
+      - aws-crt
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+      - ws
+      - zod
+
   '@mariozechner/pi-tui@0.50.7':
+    dependencies:
+      '@types/mime-types': 2.1.4
+      chalk: 5.6.2
+      get-east-asian-width: 1.4.0
+      marked: 15.0.12
+      mime-types: 3.0.2
+
+  '@mariozechner/pi-tui@0.51.0':
     dependencies:
       '@types/mime-types': 2.1.4
       chalk: 5.6.2
@@ -8435,6 +8673,8 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
+  croner@10.0.1: {}
+
   croner@9.1.0: {}
 
   cross-spawn@7.0.6:
@@ -8985,8 +9225,7 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  hono@4.11.4:
-    optional: true
+  hono@4.11.7: {}
 
   hookified@1.15.0: {}
 
@@ -9045,6 +9284,16 @@ snapshots:
       debug: 4.4.3
     transitivePeerDependencies:
       - supports-color
+
+  i18next-browser-languagedetector@8.2.0:
+    dependencies:
+      '@babel/runtime': 7.28.6
+
+  i18next@25.8.0(typescript@5.9.3):
+    dependencies:
+      '@babel/runtime': 7.28.6
+    optionalDependencies:
+      typescript: 5.9.3
 
   iconv-lite@0.4.24:
     dependencies:
@@ -9621,6 +9870,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  node-readable-to-web-readable-stream@0.4.2:
+    optional: true
+
   node-wav@0.0.2:
     optional: true
 
@@ -9714,6 +9966,80 @@ snapshots:
     optionalDependencies:
       ws: 8.19.0
       zod: 4.3.6
+
+  openclaw@2026.2.1(@napi-rs/canvas@0.1.89)(@types/express@5.0.6)(audio-decode@2.2.3)(node-llama-cpp@3.15.1(typescript@5.9.3))(signal-polyfill@0.2.2):
+    dependencies:
+      '@agentclientprotocol/sdk': 0.13.1(zod@4.3.6)
+      '@aws-sdk/client-bedrock': 3.980.0
+      '@buape/carbon': 0.14.0(hono@4.11.7)
+      '@clack/prompts': 1.0.0
+      '@grammyjs/runner': 2.0.3(grammy@1.39.3)
+      '@grammyjs/transformer-throttler': 1.2.1(grammy@1.39.3)
+      '@homebridge/ciao': 1.3.4
+      '@line/bot-sdk': 10.6.0
+      '@lydell/node-pty': 1.2.0-beta.3
+      '@mariozechner/pi-agent-core': 0.51.0(ws@8.19.0)(zod@4.3.6)
+      '@mariozechner/pi-ai': 0.51.0(ws@8.19.0)(zod@4.3.6)
+      '@mariozechner/pi-coding-agent': 0.51.0(ws@8.19.0)(zod@4.3.6)
+      '@mariozechner/pi-tui': 0.51.0
+      '@mozilla/readability': 0.6.0
+      '@napi-rs/canvas': 0.1.89
+      '@sinclair/typebox': 0.34.47
+      '@slack/bolt': 4.6.0(@types/express@5.0.6)
+      '@slack/web-api': 7.13.0
+      '@whiskeysockets/baileys': 7.0.0-rc.9(audio-decode@2.2.3)(sharp@0.34.5)
+      ajv: 8.17.1
+      chalk: 5.6.2
+      chokidar: 5.0.0
+      cli-highlight: 2.1.11
+      commander: 14.0.3
+      croner: 10.0.1
+      discord-api-types: 0.38.38
+      dotenv: 17.2.3
+      express: 5.2.1
+      file-type: 21.3.0
+      grammy: 1.39.3
+      hono: 4.11.7
+      jiti: 2.6.1
+      json5: 2.2.3
+      jszip: 3.10.1
+      linkedom: 0.18.12
+      long: 5.3.2
+      markdown-it: 14.1.0
+      node-edge-tts: 1.2.9
+      node-llama-cpp: 3.15.1(typescript@5.9.3)
+      osc-progress: 0.3.0
+      pdfjs-dist: 5.4.624
+      playwright-core: 1.58.1
+      proper-lockfile: 4.1.2
+      qrcode-terminal: 0.12.0
+      sharp: 0.34.5
+      signal-utils: 0.21.1(signal-polyfill@0.2.2)
+      sqlite-vec: 0.1.7-alpha.2
+      tar: 7.5.7
+      tslog: 4.10.2
+      undici: 7.20.0
+      ws: 8.19.0
+      yaml: 2.8.2
+      zod: 4.3.6
+    transitivePeerDependencies:
+      - '@discordjs/opus'
+      - '@modelcontextprotocol/sdk'
+      - '@types/express'
+      - audio-decode
+      - aws-crt
+      - bufferutil
+      - canvas
+      - debug
+      - encoding
+      - ffmpeg-static
+      - jimp
+      - link-preview-js
+      - node-opus
+      - opusscript
+      - signal-polyfill
+      - supports-color
+      - utf-8-validate
 
   opus-decoder@0.7.11:
     dependencies:
@@ -9857,6 +10183,11 @@ snapshots:
   pdfjs-dist@5.4.530:
     optionalDependencies:
       '@napi-rs/canvas': 0.1.89
+
+  pdfjs-dist@5.4.624:
+    optionalDependencies:
+      '@napi-rs/canvas': 0.1.89
+      node-readable-to-web-readable-stream: 0.4.2
 
   peberminta@0.9.0: {}
 
@@ -10617,6 +10948,8 @@ snapshots:
   undici-types@7.16.0: {}
 
   undici@7.19.2: {}
+
+  undici@7.20.0: {}
 
   universal-github-app-jwt@2.2.2: {}
 
