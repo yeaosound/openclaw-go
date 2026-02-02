@@ -65,8 +65,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     process.platform === "linux" ? await isSystemdUserServiceAvailable() : true;
   if (process.platform === "linux" && !systemdAvailable) {
     await prompter.note(
-      "Systemd user services are unavailable. Skipping lingering checks and service install.",
-      "Systemd",
+      t('wizard.systemd.unavailable'),
+      t('wizard.systemd.title'),
     );
   }
 
@@ -78,8 +78,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         confirm: prompter.confirm,
         note: prompter.note,
       },
-      reason:
-        "Linux installs use a systemd user service by default. Without lingering, systemd stops the user session on logout/idle and kills the Gateway.",
+      reason: t('wizard.systemd.lingerReason'),
       requireConfirm: false,
     });
   }
@@ -95,15 +94,15 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     installDaemon = true;
   } else {
     installDaemon = await prompter.confirm({
-      message: "Install Gateway service (recommended)",
+      message: t('wizard.gateway.service.installPrompt'),
       initialValue: true,
     });
   }
 
   if (process.platform === "linux" && !systemdAvailable && installDaemon) {
     await prompter.note(
-      "Systemd user services are unavailable; skipping service install. Use your container supervisor or `docker compose up -d`.",
-      "Gateway service",
+      t('wizard.systemd.unavailableSkip'),
+      t('wizard.gateway.service.progress.label'),
     );
     installDaemon = false;
   }
@@ -113,33 +112,33 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       flow === "quickstart"
         ? DEFAULT_GATEWAY_DAEMON_RUNTIME
         : await prompter.select({
-            message: "Gateway service runtime",
+            message: t('wizard.gateway.runtime.prompt'),
             options: GATEWAY_DAEMON_RUNTIME_OPTIONS,
             initialValue: opts.daemonRuntime ?? DEFAULT_GATEWAY_DAEMON_RUNTIME,
           });
     if (flow === "quickstart") {
       await prompter.note(
         t('wizard.quickstart.nodeRuntime'),
-        "Gateway service runtime",
+        t('wizard.gateway.runtime.title'),
       );
     }
     const service = resolveGatewayService();
     const loaded = await service.isLoaded({ env: process.env });
     if (loaded) {
       const action = await prompter.select({
-        message: "Gateway service already installed",
+        message: t('wizard.gateway.service.alreadyInstalled'),
         options: [
-          { value: "restart", label: "Restart" },
-          { value: "reinstall", label: "Reinstall" },
-          { value: "skip", label: "Skip" },
+          { value: "restart", label: t('wizard.gateway.service.restart') },
+          { value: "reinstall", label: t('wizard.gateway.service.reinstall') },
+          { value: "skip", label: t('wizard.gateway.service.option.skip') },
         ],
       });
       if (action === "restart") {
         await withWizardProgress(
-          "Gateway service",
-          { doneMessage: "Gateway service restarted." },
+          t('wizard.gateway.service.progress.label'),
+          { doneMessage: t('wizard.gateway.service.progress.restarted') },
           async (progress) => {
-            progress.update("Restarting Gateway service…");
+            progress.update(t('wizard.gateway.service.progress.restarting'));
             await service.restart({
               env: process.env,
               stdout: process.stdout,
@@ -148,10 +147,10 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         );
       } else if (action === "reinstall") {
         await withWizardProgress(
-          "Gateway service",
-          { doneMessage: "Gateway service uninstalled." },
+          t('wizard.gateway.service.progress.label'),
+          { doneMessage: t('wizard.gateway.service.progress.uninstalled') },
           async (progress) => {
-            progress.update("Uninstalling Gateway service…");
+            progress.update(t('wizard.gateway.service.progress.uninstalling'));
             await service.uninstall({ env: process.env, stdout: process.stdout });
           },
         );
@@ -159,10 +158,10 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     }
 
     if (!loaded || (loaded && !(await service.isLoaded({ env: process.env })))) {
-      const progress = prompter.progress("Gateway service");
+      const progress = prompter.progress(t('wizard.gateway.service.progress.label'));
       let installError: string | null = null;
       try {
-        progress.update("Preparing Gateway service…");
+        progress.update(t('wizard.gateway.service.progress.preparing'));
         const { programArguments, workingDirectory, environment } = await buildGatewayInstallPlan({
           env: process.env,
           port: settings.port,
@@ -172,7 +171,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
           config: nextConfig,
         });
 
-        progress.update("Installing Gateway service…");
+        progress.update(t('wizard.gateway.service.progress.installing'));
         await service.install({
           env: process.env,
           stdout: process.stdout,
@@ -184,12 +183,12 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         installError = err instanceof Error ? err.message : String(err);
       } finally {
         progress.stop(
-          installError ? "Gateway service install failed." : "Gateway service installed.",
+          installError ? t('wizard.gateway.service.progress.failed') : t('wizard.gateway.service.progress.installed'),
         );
       }
       if (installError) {
-        await prompter.note(`Gateway service install failed: ${installError}`, "Gateway");
-        await prompter.note(gatewayInstallErrorHint(), "Gateway");
+        await prompter.note(t('wizard.gateway.service.error.message', { error: installError }), t('wizard.gateway.service.error.title'));
+        await prompter.note(gatewayInstallErrorHint(), t('wizard.gateway.service.error.title'));
       }
     }
   }
@@ -213,11 +212,11 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       runtime.error(formatHealthCheckFailure(err));
       await prompter.note(
         [
-          "Docs:",
+          t('wizard.health.docs'),
           "https://docs.openclaw.ai/gateway/health",
           "https://docs.openclaw.ai/gateway/troubleshooting",
         ].join("\n"),
-        "Health check help",
+        t('wizard.health.help.title'),
       );
     }
   }
@@ -232,13 +231,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
   }
 
   await prompter.note(
-    [
-      "Add nodes for extra features:",
-      "- macOS app (system + notifications)",
-      "- iOS app (camera/canvas)",
-      "- Android app (camera/canvas)",
-    ].join("\n"),
-    "Optional apps",
+    t('wizard.apps.description'),
+    t('wizard.apps.title'),
   );
 
   const controlUiBasePath =
@@ -260,8 +254,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     password: settings.authMode === "password" ? nextConfig.gateway?.auth?.password : "",
   });
   const gatewayStatusLine = gatewayProbe.ok
-    ? "Gateway: reachable"
-    : `Gateway: not detected${gatewayProbe.detail ? ` (${gatewayProbe.detail})` : ""}`;
+    ? t('wizard.controlui.gatewayReachable')
+    : `${t('wizard.controlui.gatewayNotDetected')}${gatewayProbe.detail ? ` (${gatewayProbe.detail})` : ""}`;
   const bootstrapPath = path.join(
     resolveUserPath(options.workspaceDir),
     DEFAULT_BOOTSTRAP_FILENAME,
@@ -273,15 +267,15 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
   await prompter.note(
     [
-      `Web UI: ${links.httpUrl}`,
-      tokenParam ? `Web UI (with token): ${authedUrl}` : undefined,
-      `Gateway WS: ${links.wsUrl}`,
+      `${t('wizard.controlui.webui')}: ${links.httpUrl}`,
+      tokenParam ? `${t('wizard.controlui.webuiWithToken')}: ${authedUrl}` : undefined,
+      `${t('wizard.controlui.gatewayWs')}: ${links.wsUrl}`,
       gatewayStatusLine,
-      "Docs: https://docs.openclaw.ai/web/control-ui",
+      t('wizard.controlui.docs'),
     ]
       .filter(Boolean)
       .join("\n"),
-    "Control UI",
+    t('wizard.controlui.title'),
   );
 
   let controlUiOpened = false;
@@ -292,13 +286,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
   if (!opts.skipUi && gatewayProbe.ok) {
     if (hasBootstrap) {
       await prompter.note(
-        [
-          "This is the defining action that makes your agent you.",
-          "Please take your time.",
-          "The more you tell it, the better the experience will be.",
-          'We will send: "Wake up, my friend!"',
-        ].join("\n"),
-        "Start TUI (best option!)",
+        t('wizard.tui.description'),
+        t('wizard.tui.title'),
       );
     }
 
@@ -313,11 +302,11 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     );
 
     hatchChoice = await prompter.select({
-      message: "How do you want to hatch your bot?",
+      message: t('wizard.hatch.title'),
       options: [
-        { value: "tui", label: "Hatch in TUI (recommended)" },
-        { value: "web", label: "Open the Web UI" },
-        { value: "later", label: "Do this later" },
+        { value: "tui", label: t('wizard.hatch.option.tui') },
+        { value: "web", label: t('wizard.hatch.option.web') },
+        { value: "later", label: t('wizard.hatch.option.later') },
       ],
       initialValue: "tui",
     });
@@ -329,7 +318,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         password: settings.authMode === "password" ? nextConfig.gateway?.auth?.password : "",
         // Safety: onboarding TUI should not auto-deliver to lastProvider/lastTo.
         deliver: false,
-        message: hasBootstrap ? "Wake up, my friend!" : undefined,
+        message: hasBootstrap ? t('wizard.tui.message') : undefined,
       });
       if (settings.authMode === "token" && settings.gatewayToken) {
         seededInBackground = await openUrlInBackground(authedUrl);

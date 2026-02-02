@@ -135,7 +135,148 @@ openclaw security audit --fix
   'common.no': '否',
   'common.skip': '跳过',
   'common.skipForNow': '暂时跳过',
+  'common.done': '完成',
   'common.off': '关闭',
+  'common.continue': '继续',
+  'common.finished': '已完成',
+  'common.required': '必填',
+  'common.cancelled': '已取消',
+  'wizard.skills.skipHint': '继续而不安装依赖项',
+
+  // Skills - detailed
+  'wizard.skills.status.eligible': '符合条件',
+  'wizard.skills.status.missing': '缺少依赖',
+  'wizard.skills.status.blocked': '被白名单阻止',
+  'wizard.skills.status.title': '技能状态',
+  'wizard.skills.configurePrompt': '立即配置技能？（推荐）',
+  'wizard.skills.homebrew.title': '推荐使用 Homebrew',
+  'wizard.skills.homebrew.desc': '许多技能依赖通过 Homebrew 分发。\n没有 brew，您需要手动从源码构建或下载发行版。',
+  'wizard.skills.homebrew.showCommand': '显示 Homebrew 安装命令？',
+  'wizard.skills.homebrew.installTitle': 'Homebrew 安装',
+  'wizard.skills.homebrew.run': '运行：',
+  'wizard.skills.nodeManagerPrompt': '技能安装的首选节点管理器',
+  'wizard.skills.installPrompt': '安装缺少的技能依赖',
+  'wizard.skills.installing': '正在安装 {name}…',
+  'wizard.skills.installed': '已安装 {name}',
+  'wizard.skills.installFailed': '安装失败：{name}',
+  'wizard.skills.doctorTip': '提示：运行 `openclaw doctor` 检查技能 + 依赖项。',
+  'wizard.skills.docs': '文档：https://docs.openclaw.ai/skills',
+  'wizard.skills.envPrompt': '为 {skill} 设置 {env}？',
+  'wizard.skills.envInput': '输入 {env}',
+  'wizard.skills.defaultHint': '安装',
+
+  // Hooks - detailed
+  'wizard.hooks.title': '钩子',
+  'wizard.hooks.description': '钩子让您可以在发出代理命令时自动执行操作。',
+  'wizard.hooks.example': '示例：在发出 /new 时将会话上下文保存到内存。',
+  'wizard.hooks.docs': '了解更多：https://docs.openclaw.ai/hooks',
+  'wizard.hooks.none.title': '无可用钩子',
+  'wizard.hooks.none.desc': '未找到符合条件的钩子。您可以稍后在配置中配置钩子。',
+  'wizard.hooks.enablePrompt': '启用钩子？',
+  'wizard.hooks.configured.title': '钩子已配置',
+  'wizard.hooks.configured.manage': '您稍后可以使用以下命令管理钩子：',
+
+  // Systemd
+  'wizard.systemd.title': 'Systemd',
+  'wizard.systemd.unavailable': 'Systemd 用户服务不可用。跳过持久化检查和服务安装。',
+  'wizard.systemd.unavailableSkip': 'Systemd 用户服务不可用；跳过服务安装。使用您的容器管理器或 `docker compose up -d`。',
+  'wizard.systemd.lingerReason': 'Linux 安装默认使用 systemd 用户服务。没有持久化，systemd 会在注销/空闲时停止用户会话并终止网关。',
+
+  // Gateway Service
+  'wizard.gateway.service.installPrompt': '安装网关服务（推荐）',
+  'wizard.gateway.service.alreadyInstalled': '网关服务已安装',
+  'wizard.gateway.service.restart': '重启',
+  'wizard.gateway.service.reinstall': '重新安装',
+  'wizard.gateway.service.option.skip': '跳过',
+  'wizard.gateway.service.progress.label': '网关服务',
+  'wizard.gateway.service.progress.restarting': '正在重启网关服务…',
+  'wizard.gateway.service.progress.restarted': '网关服务已重启。',
+  'wizard.gateway.service.progress.uninstalling': '正在卸载网关服务…',
+  'wizard.gateway.service.progress.uninstalled': '网关服务已卸载。',
+  'wizard.gateway.service.progress.preparing': '正在准备网关服务…',
+  'wizard.gateway.service.progress.installing': '正在安装网关服务…',
+  'wizard.gateway.service.progress.failed': '网关服务安装失败。',
+  'wizard.gateway.service.progress.installed': '网关服务已安装。',
+  'wizard.gateway.service.error.title': '网关',
+  'wizard.gateway.service.error.message': '网关服务安装失败：{error}',
+
+  // Health Check
+  'wizard.health.docs': '文档：',
+  'wizard.health.help.title': '健康检查帮助',
+
+  // Apps
+  'wizard.apps.title': '可选应用',
+  'wizard.apps.description': '添加节点以获得额外功能：\n- macOS 应用（系统 + 通知）\n- iOS 应用（相机/画布）\n- Android 应用（相机/画布）',
+
+  // Control UI
+  'wizard.controlui.title': '控制界面',
+  'wizard.controlui.webui': 'Web 界面',
+  'wizard.controlui.webuiWithToken': 'Web 界面（带令牌）',
+  'wizard.controlui.gatewayWs': '网关 WS',
+  'wizard.controlui.gatewayReachable': '网关：可访问',
+  'wizard.controlui.gatewayNotDetected': '网关：未检测到',
+  'wizard.controlui.docs': '文档：https://docs.openclaw.ai/web/control-ui',
+
+  // TUI
+  'wizard.tui.title': '启动 TUI（最佳选择！）',
+  'wizard.tui.description': '这是让您的代理成为您的定义性操作。\n请慢慢来。\n您告诉它的越多，体验就会越好。\n我们将发送："醒醒，我的朋友！"',
+  'wizard.tui.message': '醒醒，我的朋友！',
+
+  // Token
+  'wizard.token.title': '令牌',
+  'wizard.token.description': '网关令牌：网关 + 控制界面的共享身份验证。',
+  'wizard.token.storage': '存储位置：~/.openclaw/openclaw.json (gateway.auth.token) 或 OPENCLAW_GATEWAY_TOKEN。',
+  'wizard.token.webuiStorage': 'Web 界面将此副本存储在浏览器的 localStorage 中 (openclaw.control.settings.v1)。',
+  'wizard.token.getLink': '随时获取带令牌的链接：',
+
+  // Hatch
+  'wizard.hatch.title': '您想如何启动您的机器人？',
+  'wizard.hatch.option.tui': '在 TUI 中启动（推荐）',
+  'wizard.hatch.option.web': '打开 Web 界面',
+  'wizard.hatch.option.later': '稍后执行',
+
+  // Dashboard
+  'wizard.dashboard.title': '仪表板就绪',
+  'wizard.dashboard.link': '仪表板链接（带令牌）：{url}',
+  'wizard.dashboard.opened': '已在您的浏览器中打开。保留该标签页以控制 OpenClaw。',
+  'wizard.dashboard.copyPaste': '在您的浏览器中复制/粘贴此 URL 以控制 OpenClaw。',
+
+  // Later
+  'wizard.later.title': '稍后',
+  'wizard.later.description': '当您准备好时：{command}',
+  'wizard.skipUi': '跳过控制界面/TUI 提示。',
+
+  // Workspace Backup
+  'wizard.workspaceBackup.title': '工作区备份',
+  'wizard.workspaceBackup.description': '备份您的代理工作区。\n文档：https://docs.openclaw.ai/concepts/agent-workspace',
+
+  // Security
+  'wizard.security.final.title': '安全',
+  'wizard.security.final.desc': '在您的计算机上运行代理存在风险 — 加固您的设置：https://docs.openclaw.ai/security',
+
+  // Web Search
+  'wizard.websearch.title': '网页搜索（可选）',
+  'wizard.websearch.enabled': '网页搜索已启用，因此您的代理可以在需要时在线查找信息。',
+  'wizard.websearch.apiKeyConfig': 'API 密钥：存储在配置中 (tools.web.search.apiKey)。',
+  'wizard.websearch.apiKeyEnv': 'API 密钥：通过 BRAVE_API_KEY 环境变量提供（网关环境）。',
+  'wizard.websearch.disabled': '如果您希望您的代理能够搜索网页，您需要一个 API 密钥。\n\nOpenClaw 使用 Brave Search 作为 `web_search` 工具。没有 Brave Search API 密钥，网页搜索将无法工作。\n\n交互式设置：\n- 运行：openclaw configure --section web\n- 启用 web_search 并粘贴您的 Brave Search API 密钥\n\n替代方案：在网关环境中设置 BRAVE_API_KEY（无需更改配置）。\n文档：https://docs.openclaw.ai/tools/web',
+
+  // What Now
+  'wizard.whatnow.title': '接下来',
+  'wizard.whatnow.description': '接下来：https://openclaw.ai/showcase ("大家都在构建什么")。',
+
+  // Completion
+  'wizard.completion.outro.dashboard': '入门完成。仪表板已在您的浏览器中打开；保留该标签页以控制 OpenClaw。',
+  'wizard.completion.outro.seeded': '入门完成。Web 界面已在后台初始化；随时使用上面的链接打开它。',
+  'wizard.completion.outro.link': '入门完成。使用上面的令牌化仪表板链接来控制 OpenClaw。',
+
+  // Shell Completion
+  'wizard.completion.prompt': '安装 shell 补全脚本？',
+
+  // Onboarding
+  'wizard.onboarding.invalidFlow': '无效的 --flow（使用 quickstart、manual 或 advanced）。',
+  'wizard.channels.skip': '跳过频道设置。',
+  'wizard.skills.skip': '跳过技能设置。',
 };
 
 export default wizardMessages;

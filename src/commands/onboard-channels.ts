@@ -641,7 +641,7 @@ export async function setupChannels(
           {
             value: doneValue,
             label: "Finished",
-            hint: selection.length > 0 ? "Done" : "Skip for now",
+            hint: selection.length > 0 ? t('common.done') : t('common.skipForNow'),
           },
         ],
         initialValue,

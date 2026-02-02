@@ -6,6 +6,7 @@ import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { defaultRuntime } from "../runtime.js";
 import { note } from "../terminal/note.js";
+import { t } from "../i18n/index.js";
 import { resolveUserPath } from "../utils.js";
 import { createClackPrompter } from "../wizard/clack-prompter.js";
 import { WizardCancelledError } from "../wizard/prompts.js";
@@ -57,7 +58,7 @@ async function promptConfigureSection(
         {
           value: "__continue",
           label: "Continue",
-          hint: hasSelection ? "Done" : "Skip for now",
+          hint: hasSelection ? t('common.done') : t('common.skipForNow'),
         },
       ],
       initialValue: CONFIGURE_SECTION_OPTIONS[0]?.value,
