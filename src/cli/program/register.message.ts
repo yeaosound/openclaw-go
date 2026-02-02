@@ -2,6 +2,7 @@ import type { Command } from "commander";
 import { formatDocsLink } from "../../terminal/links.js";
 import { theme } from "../../terminal/theme.js";
 import { formatHelpExamples } from "../help-format.js";
+import { t } from "../../i18n/index.js";
 import type { ProgramContext } from "./context.js";
 import { createMessageCliHelpers } from "./message/helpers.js";
 import { registerMessageDiscordAdminCommands } from "./message/register.discord-admin.js";
@@ -24,7 +25,7 @@ import { registerMessageBroadcastCommand } from "./message/register.broadcast.js
 export function registerMessageCommands(program: Command, ctx: ProgramContext) {
   const message = program
     .command("message")
-    .description("Send messages and channel actions")
+    .description(t("cli.message.description"))
     .addHelpText(
       "after",
       () =>

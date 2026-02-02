@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import type { Command } from "commander";
 
 import { STATE_DIR } from "../config/paths.js";
+import { t } from "../i18n/index.js";
 import { danger, info } from "../globals.js";
 import { copyToClipboard } from "../infra/clipboard.js";
 import { defaultRuntime } from "../runtime.js";
@@ -59,11 +60,11 @@ export function registerBrowserExtensionCommands(
   browser: Command,
   parentOpts: (cmd: Command) => { json?: boolean },
 ) {
-  const ext = browser.command("extension").description("Chrome extension helpers");
+  const ext = browser.command("extension").description(t('cli.browser.extension.description'));
 
   ext
     .command("install")
-    .description("Install the Chrome extension to a stable local path")
+    .description(t('cli.browser.extension-install.description'))
     .action(async (_opts, cmd) => {
       const parent = parentOpts(cmd);
       let installed: { path: string };
@@ -98,7 +99,7 @@ export function registerBrowserExtensionCommands(
 
   ext
     .command("path")
-    .description("Print the path to the installed Chrome extension (load unpacked)")
+    .description(t('cli.browser.extension-path.description'))
     .action(async (_opts, cmd) => {
       const parent = parentOpts(cmd);
       const dir = installedExtensionRootDir();

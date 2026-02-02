@@ -1,6 +1,7 @@
 import type { OpenClawConfig } from "../config/config.js";
 import { resolveGatewayPort } from "../config/config.js";
 import { findTailscaleBinary } from "../infra/tailscale.js";
+import { t } from "../i18n/index.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { note } from "../terminal/note.js";
 import { buildGatewayAuthConfig } from "./configure.gateway-auth.js";
@@ -19,7 +20,7 @@ export async function promptGatewayConfig(
 }> {
   const portRaw = guardCancel(
     await text({
-      message: "Gateway port",
+      message: t('wizard.gateway.port'),
       initialValue: String(resolveGatewayPort(cfg)),
       validate: (value) => (Number.isFinite(Number(value)) ? undefined : "Invalid port"),
     }),
@@ -29,31 +30,31 @@ export async function promptGatewayConfig(
 
   let bind = guardCancel(
     await select({
-      message: "Gateway bind mode",
+      message: t('wizard.gateway.bind'),
       options: [
         {
           value: "loopback",
-          label: "Loopback (Local only)",
+          label: t('wizard.gateway.bind.loopback'),
           hint: "Bind to 127.0.0.1 - secure, local-only access",
         },
         {
           value: "tailnet",
-          label: "Tailnet (Tailscale IP)",
+          label: t('wizard.gateway.bind.tailnet'),
           hint: "Bind to your Tailscale IP only (100.x.x.x)",
         },
         {
           value: "auto",
-          label: "Auto (Loopback → LAN)",
+          label: t('wizard.gateway.bind.auto'),
           hint: "Prefer loopback; fall back to all interfaces if unavailable",
         },
         {
           value: "lan",
-          label: "LAN (All interfaces)",
+          label: t('wizard.gateway.bind.lan'),
           hint: "Bind to 0.0.0.0 - accessible from anywhere on your network",
         },
         {
           value: "custom",
-          label: "Custom IP",
+          label: t('wizard.gateway.bind.custom'),
           hint: "Specify a specific IP address, with 0.0.0.0 fallback if unavailable",
         },
       ],
@@ -94,10 +95,10 @@ export async function promptGatewayConfig(
 
   let authMode = guardCancel(
     await select({
-      message: "Gateway auth",
+      message: t('wizard.gateway.auth'),
       options: [
-        { value: "token", label: "Token", hint: "Recommended default" },
-        { value: "password", label: "Password" },
+        { value: "token", label: t('wizard.gateway.auth.token'), hint: "Recommended default" },
+        { value: "password", label: t('wizard.gateway.auth.password') },
       ],
       initialValue: "token",
     }),
@@ -106,17 +107,17 @@ export async function promptGatewayConfig(
 
   const tailscaleMode = guardCancel(
     await select({
-      message: "Tailscale exposure",
+      message: t('wizard.gateway.tailscale'),
       options: [
-        { value: "off", label: "Off", hint: "No Tailscale exposure" },
+        { value: "off", label: t('common.off'), hint: t('wizard.gateway.tailscale.noExposure') },
         {
           value: "serve",
-          label: "Serve",
+          label: t('wizard.gateway.tailscale.serve'),
           hint: "Private HTTPS for your tailnet (devices on Tailscale)",
         },
         {
           value: "funnel",
-          label: "Funnel",
+          label: t('wizard.gateway.tailscale.funnel'),
           hint: "Public HTTPS via Tailscale Funnel (internet)",
         },
       ],

@@ -8,6 +8,7 @@ import {
   type ExecApprovalsAgent,
   type ExecApprovalsFile,
 } from "../infra/exec-approvals.js";
+import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { isRich, theme } from "../terminal/theme.js";
@@ -241,7 +242,7 @@ export function registerExecApprovalsCli(program: Command) {
   const approvals = program
     .command("approvals")
     .alias("exec-approvals")
-    .description("Manage exec approvals (gateway or node host)")
+    .description(t("cli.approvals.description"))
     .addHelpText(
       "after",
       () =>
@@ -250,7 +251,7 @@ export function registerExecApprovalsCli(program: Command) {
 
   const getCmd = approvals
     .command("get")
-    .description("Fetch exec approvals snapshot")
+    .description(t("cli.approvals.get.description"))
     .option("--node <node>", "Target node id/name/IP")
     .option("--gateway", "Force gateway approvals", false)
     .action(async (opts: ExecApprovalsCliOpts) => {
@@ -277,7 +278,7 @@ export function registerExecApprovalsCli(program: Command) {
 
   const setCmd = approvals
     .command("set")
-    .description("Replace exec approvals with a JSON file")
+    .description(t("cli.approvals.set.description"))
     .option("--node <node>", "Target node id/name/IP")
     .option("--gateway", "Force gateway approvals", false)
     .option("--file <path>", "Path to JSON file to upload")
@@ -333,7 +334,7 @@ export function registerExecApprovalsCli(program: Command) {
 
   const allowlist = approvals
     .command("allowlist")
-    .description("Edit the per-agent allowlist")
+    .description(t("cli.approvals.allowlist.description"))
     .addHelpText(
       "after",
       () =>
@@ -354,7 +355,7 @@ export function registerExecApprovalsCli(program: Command) {
 
   const allowlistAdd = allowlist
     .command("add <pattern>")
-    .description("Add a glob pattern to an allowlist")
+    .description(t("cli.approvals.allowlist.add.description"))
     .option("--node <node>", "Target node id/name/IP")
     .option("--gateway", "Force gateway approvals", false)
     .option("--agent <id>", 'Agent id (defaults to "*")')
@@ -407,7 +408,7 @@ export function registerExecApprovalsCli(program: Command) {
 
   const allowlistRemove = allowlist
     .command("remove <pattern>")
-    .description("Remove a glob pattern from an allowlist")
+    .description(t("cli.approvals.allowlist.remove.description"))
     .option("--node <node>", "Target node id/name/IP")
     .option("--gateway", "Force gateway approvals", false)
     .option("--agent <id>", 'Agent id (defaults to "*")')

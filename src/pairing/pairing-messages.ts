@@ -1,4 +1,5 @@
 import { formatCliCommand } from "../cli/command-format.js";
+import { t } from "../i18n/index.js";
 import type { PairingChannel } from "./pairing-store.js";
 
 export function buildPairingReply(params: {
@@ -8,13 +9,13 @@ export function buildPairingReply(params: {
 }): string {
   const { channel, idLine, code } = params;
   return [
-    "OpenClaw: access not configured.",
+    t('pairing.request.title'),
     "",
-    idLine,
+    t('pairing.request.idLine', { id: idLine }),
     "",
-    `Pairing code: ${code}`,
+    t('pairing.request.code', { code }),
     "",
-    "Ask the bot owner to approve with:",
+    t('pairing.request.instruction'),
     formatCliCommand(`openclaw pairing approve ${channel} <code>`),
   ].join("\n");
 }

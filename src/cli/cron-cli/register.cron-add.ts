@@ -1,6 +1,7 @@
 import type { Command } from "commander";
 import type { CronJob } from "../../cron/types.js";
 import { danger } from "../../globals.js";
+import { t } from "../../i18n/index.js";
 import { defaultRuntime } from "../../runtime.js";
 import { sanitizeAgentId } from "../../routing/session-key.js";
 import type { GatewayRpcOpts } from "../gateway-rpc.js";
@@ -18,7 +19,7 @@ export function registerCronStatusCommand(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("status")
-      .description("Show cron scheduler status")
+      .description(t("cli.cron.status.description"))
       .option("--json", "Output JSON", false)
       .action(async (opts) => {
         try {
@@ -36,7 +37,7 @@ export function registerCronListCommand(cron: Command) {
   addGatewayClientOptions(
     cron
       .command("list")
-      .description("List cron jobs")
+      .description(t("cli.cron.list.description"))
       .option("--all", "Include disabled jobs", false)
       .option("--json", "Output JSON", false)
       .action(async (opts) => {
@@ -63,7 +64,7 @@ export function registerCronAddCommand(cron: Command) {
     cron
       .command("add")
       .alias("create")
-      .description("Add a cron job")
+      .description(t("cli.cron.add.description"))
       .requiredOption("--name <name>", "Job name")
       .option("--description <text>", "Optional description")
       .option("--disabled", "Create job disabled", false)

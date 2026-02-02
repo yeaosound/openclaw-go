@@ -1,4 +1,5 @@
 import type { Command } from "commander";
+import { t } from "../../i18n/index.js";
 import { defaultRuntime } from "../../runtime.js";
 import { formatAge, parsePairingList } from "./format.js";
 import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
@@ -10,7 +11,7 @@ export function registerNodesPairingCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("pending")
-      .description("List pending pairing requests")
+      .description(t("cli.nodes.pairing.pending.description"))
       .action(async (opts: NodesRpcOpts) => {
         await runNodesCommand("pending", async () => {
           const result = await callGatewayCli("node.pair.list", opts, {});
@@ -58,7 +59,7 @@ export function registerNodesPairingCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("approve")
-      .description("Approve a pending pairing request")
+      .description(t("cli.nodes.pairing.approve.description"))
       .argument("<requestId>", "Pending request id")
       .action(async (requestId: string, opts: NodesRpcOpts) => {
         await runNodesCommand("approve", async () => {
@@ -73,7 +74,7 @@ export function registerNodesPairingCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("reject")
-      .description("Reject a pending pairing request")
+      .description(t("cli.nodes.pairing.reject.description"))
       .argument("<requestId>", "Pending request id")
       .action(async (requestId: string, opts: NodesRpcOpts) => {
         await runNodesCommand("reject", async () => {
@@ -88,7 +89,7 @@ export function registerNodesPairingCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("rename")
-      .description("Rename a paired node (display name override)")
+      .description(t("cli.nodes.pairing.rename.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .requiredOption("--name <displayName>", "New display name")
       .action(async (opts: NodesRpcOpts) => {

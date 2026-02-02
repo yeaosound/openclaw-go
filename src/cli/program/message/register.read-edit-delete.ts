@@ -1,4 +1,5 @@
 import type { Command } from "commander";
+import { t } from "../../../i18n/index.js";
 import type { MessageCliHelpers } from "./helpers.js";
 
 export function registerMessageReadEditDeleteCommands(
@@ -8,7 +9,7 @@ export function registerMessageReadEditDeleteCommands(
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
-        message.command("read").description("Read recent messages"),
+        message.command("read").description(t("cli.message.read.description")),
       ),
     )
     .option("--limit <n>", "Result limit")
@@ -25,7 +26,7 @@ export function registerMessageReadEditDeleteCommands(
       helpers.withRequiredMessageTarget(
         message
           .command("edit")
-          .description("Edit a message")
+          .description(t("cli.message.edit.description"))
           .requiredOption("--message-id <id>", "Message id")
           .requiredOption("-m, --message <text>", "Message body"),
       ),
@@ -40,7 +41,7 @@ export function registerMessageReadEditDeleteCommands(
       helpers.withRequiredMessageTarget(
         message
           .command("delete")
-          .description("Delete a message")
+          .description(t("cli.message.delete.description"))
           .requiredOption("--message-id <id>", "Message id"),
       ),
     )

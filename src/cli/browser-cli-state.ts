@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 
+import { t } from "../i18n/index.js";
 import { danger } from "../globals.js";
 import { defaultRuntime } from "../runtime.js";
 import { parseBooleanValue } from "../utils/boolean.js";
@@ -25,11 +26,11 @@ export function registerBrowserStateCommands(
 ) {
   registerBrowserCookiesAndStorageCommands(browser, parentOpts);
 
-  const set = browser.command("set").description("Browser environment settings");
+  const set = browser.command("set").description(t('cli.browser.set.description'));
 
   set
     .command("viewport")
-    .description("Set viewport size (alias for resize)")
+    .description(t('cli.browser.viewport.description'))
     .argument("<width>", "Viewport width", (v: string) => Number(v))
     .argument("<height>", "Viewport height", (v: string) => Number(v))
     .option("--target-id <id>", "CDP target id (or unique prefix)")
@@ -67,7 +68,7 @@ export function registerBrowserStateCommands(
 
   set
     .command("offline")
-    .description("Toggle offline mode")
+    .description(t('cli.browser.offline.description'))
     .argument("<on|off>", "on/off")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (value: string, opts, cmd) => {
@@ -103,7 +104,7 @@ export function registerBrowserStateCommands(
 
   set
     .command("headers")
-    .description("Set extra HTTP headers (JSON object)")
+    .description(t('cli.browser.headers.description'))
     .requiredOption("--json <json>", "JSON object of headers")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
@@ -143,7 +144,7 @@ export function registerBrowserStateCommands(
 
   set
     .command("credentials")
-    .description("Set HTTP basic auth credentials")
+    .description(t('cli.browser.auth.description'))
     .option("--clear", "Clear credentials", false)
     .argument("[username]", "Username")
     .argument("[password]", "Password")
@@ -177,7 +178,7 @@ export function registerBrowserStateCommands(
 
   set
     .command("geo")
-    .description("Set geolocation (and grant permission)")
+    .description(t('cli.browser.geolocation.description'))
     .option("--clear", "Clear geolocation + permissions", false)
     .argument("[latitude]", "Latitude", (v: string) => Number(v))
     .argument("[longitude]", "Longitude", (v: string) => Number(v))
@@ -215,7 +216,7 @@ export function registerBrowserStateCommands(
 
   set
     .command("media")
-    .description("Emulate prefers-color-scheme")
+    .description(t('cli.browser.color-scheme.description'))
     .argument("<dark|light|none>", "dark/light/none")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (value: string, opts, cmd) => {
@@ -253,7 +254,7 @@ export function registerBrowserStateCommands(
 
   set
     .command("timezone")
-    .description("Override timezone (CDP)")
+    .description(t('cli.browser.timezone.description'))
     .argument("<timezoneId>", "Timezone ID (e.g. America/New_York)")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (timezoneId: string, opts, cmd) => {
@@ -283,7 +284,7 @@ export function registerBrowserStateCommands(
 
   set
     .command("locale")
-    .description("Override locale (CDP)")
+    .description(t('cli.browser.locale.description'))
     .argument("<locale>", "Locale (e.g. en-US)")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (locale: string, opts, cmd) => {
@@ -313,7 +314,7 @@ export function registerBrowserStateCommands(
 
   set
     .command("device")
-    .description('Apply a Playwright device descriptor (e.g. "iPhone 14")')
+    .description(t('cli.browser.device.description'))
     .argument("<name>", "Device name (Playwright devices)")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (name: string, opts, cmd) => {

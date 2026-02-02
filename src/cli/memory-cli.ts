@@ -9,6 +9,7 @@ import { resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { loadConfig } from "../config/config.js";
 import { resolveSessionTranscriptsDirForAgent } from "../config/sessions/paths.js";
 import { setVerbose } from "../globals.js";
+import { t } from "../i18n/index.js";
 import { withProgress, withProgressTotals } from "./progress.js";
 import { formatErrorMessage, withManager } from "./cli-utils.js";
 import { getMemorySearchManager, type MemorySearchManagerResult } from "../memory/index.js";
@@ -471,7 +472,7 @@ export async function runMemoryStatus(opts: MemoryCommandOptions) {
 export function registerMemoryCli(program: Command) {
   const memory = program
     .command("memory")
-    .description("Memory search tools")
+    .description(t("cli.memory.description"))
     .addHelpText(
       "after",
       () =>
@@ -480,7 +481,7 @@ export function registerMemoryCli(program: Command) {
 
   memory
     .command("status")
-    .description("Show memory search index status")
+    .description(t("cli.memory.status.description"))
     .option("--agent <id>", "Agent id (default: default agent)")
     .option("--json", "Print JSON")
     .option("--deep", "Probe embedding provider availability")
@@ -492,7 +493,7 @@ export function registerMemoryCli(program: Command) {
 
   memory
     .command("index")
-    .description("Reindex memory files")
+    .description(t("cli.memory.index.description"))
     .option("--agent <id>", "Agent id (default: default agent)")
     .option("--force", "Force full reindex", false)
     .option("--verbose", "Verbose logging", false)
@@ -619,7 +620,7 @@ export function registerMemoryCli(program: Command) {
 
   memory
     .command("search")
-    .description("Search memory files")
+    .description(t("cli.memory.search.description"))
     .argument("<query>", "Search query")
     .option("--agent <id>", "Agent id (default: default agent)")
     .option("--max-results <n>", "Max results", (value: string) => Number(value))

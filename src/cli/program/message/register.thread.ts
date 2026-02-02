@@ -1,15 +1,16 @@
 import type { Command } from "commander";
+import { t } from "../../../i18n/index.js";
 import type { MessageCliHelpers } from "./helpers.js";
 
 export function registerMessageThreadCommands(message: Command, helpers: MessageCliHelpers) {
-  const thread = message.command("thread").description("Thread actions");
+  const thread = message.command("thread").description(t("cli.message.thread.description"));
 
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
         thread
           .command("create")
-          .description("Create a thread")
+          .description(t("cli.message.thread.create.description"))
           .requiredOption("--thread-name <name>", "Thread name"),
       ),
     )
@@ -23,7 +24,7 @@ export function registerMessageThreadCommands(message: Command, helpers: Message
     .withMessageBase(
       thread
         .command("list")
-        .description("List threads")
+        .description(t("cli.message.thread.list.description"))
         .requiredOption("--guild-id <id>", "Guild id"),
     )
     .option("--channel-id <id>", "Channel id")
@@ -39,7 +40,7 @@ export function registerMessageThreadCommands(message: Command, helpers: Message
       helpers.withRequiredMessageTarget(
         thread
           .command("reply")
-          .description("Reply in a thread")
+          .description(t("cli.message.thread.reply.description"))
           .requiredOption("-m, --message <text>", "Message body"),
       ),
     )

@@ -2,6 +2,7 @@ import type { Command } from "commander";
 
 import type { SnapshotResult } from "../browser/client.js";
 import { loadConfig } from "../config/config.js";
+import { t } from "../i18n/index.js";
 import { danger } from "../globals.js";
 import { defaultRuntime } from "../runtime.js";
 import { shortenHomePath } from "../utils.js";
@@ -13,7 +14,7 @@ export function registerBrowserInspectCommands(
 ) {
   browser
     .command("screenshot")
-    .description("Capture a screenshot (MEDIA:<path>)")
+    .description(t('cli.browser.screenshot.description'))
     .argument("[targetId]", "CDP target id (or unique prefix)")
     .option("--full-page", "Capture full scrollable page", false)
     .option("--ref <ref>", "ARIA ref from ai snapshot")
@@ -52,7 +53,7 @@ export function registerBrowserInspectCommands(
 
   browser
     .command("snapshot")
-    .description("Capture a snapshot (default: ai; aria is the accessibility tree)")
+    .description(t('cli.browser.snapshot.description'))
     .option("--format <aria|ai>", "Snapshot format (default: ai)", "ai")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .option("--limit <n>", "Max nodes (default: 500/800)", (v: string) => Number(v))

@@ -1,11 +1,12 @@
 import type { Command } from "commander";
+import { t } from "../../../i18n/index.js";
 import type { MessageCliHelpers } from "./helpers.js";
 
 export function registerMessageDiscordAdminCommands(message: Command, helpers: MessageCliHelpers) {
-  const role = message.command("role").description("Role actions");
+  const role = message.command("role").description(t("cli.message.role.description"));
   helpers
     .withMessageBase(
-      role.command("info").description("List roles").requiredOption("--guild-id <id>", "Guild id"),
+      role.command("info").description(t("cli.message.role.info.description")).requiredOption("--guild-id <id>", "Guild id"),
     )
     .action(async (opts) => {
       await helpers.runMessageAction("role-info", opts);
@@ -15,7 +16,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
     .withMessageBase(
       role
         .command("add")
-        .description("Add role to a member")
+        .description(t("cli.message.role.add.description"))
         .requiredOption("--guild-id <id>", "Guild id")
         .requiredOption("--user-id <id>", "User id")
         .requiredOption("--role-id <id>", "Role id"),
@@ -28,7 +29,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
     .withMessageBase(
       role
         .command("remove")
-        .description("Remove role from a member")
+        .description(t("cli.message.role.remove.description"))
         .requiredOption("--guild-id <id>", "Guild id")
         .requiredOption("--user-id <id>", "User id")
         .requiredOption("--role-id <id>", "Role id"),
@@ -37,10 +38,10 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
       await helpers.runMessageAction("role-remove", opts);
     });
 
-  const channel = message.command("channel").description("Channel actions");
+  const channel = message.command("channel").description(t("cli.message.channel.description"));
   helpers
     .withMessageBase(
-      helpers.withRequiredMessageTarget(channel.command("info").description("Fetch channel info")),
+      helpers.withRequiredMessageTarget(channel.command("info").description(t("cli.message.channel.info.description"))),
     )
     .action(async (opts) => {
       await helpers.runMessageAction("channel-info", opts);
@@ -50,19 +51,19 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
     .withMessageBase(
       channel
         .command("list")
-        .description("List channels")
+        .description(t("cli.message.channel.list.description"))
         .requiredOption("--guild-id <id>", "Guild id"),
     )
     .action(async (opts) => {
       await helpers.runMessageAction("channel-list", opts);
     });
 
-  const member = message.command("member").description("Member actions");
+  const member = message.command("member").description(t("cli.message.member.description"));
   helpers
     .withMessageBase(
       member
         .command("info")
-        .description("Fetch member info")
+        .description(t("cli.message.member.info.description"))
         .requiredOption("--user-id <id>", "User id"),
     )
     .option("--guild-id <id>", "Guild id (Discord)")
@@ -70,12 +71,12 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
       await helpers.runMessageAction("member-info", opts);
     });
 
-  const voice = message.command("voice").description("Voice actions");
+  const voice = message.command("voice").description(t("cli.message.voice.description"));
   helpers
     .withMessageBase(
       voice
         .command("status")
-        .description("Fetch voice status")
+        .description(t("cli.message.voice.status.description"))
         .requiredOption("--guild-id <id>", "Guild id")
         .requiredOption("--user-id <id>", "User id"),
     )
@@ -83,12 +84,12 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
       await helpers.runMessageAction("voice-status", opts);
     });
 
-  const event = message.command("event").description("Event actions");
+  const event = message.command("event").description(t("cli.message.event.description"));
   helpers
     .withMessageBase(
       event
         .command("list")
-        .description("List scheduled events")
+        .description(t("cli.message.event.list.description"))
         .requiredOption("--guild-id <id>", "Guild id"),
     )
     .action(async (opts) => {
@@ -99,7 +100,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
     .withMessageBase(
       event
         .command("create")
-        .description("Create a scheduled event")
+        .description(t("cli.message.event.create.description"))
         .requiredOption("--guild-id <id>", "Guild id")
         .requiredOption("--event-name <name>", "Event name")
         .requiredOption("--start-time <iso>", "Event start time"),
@@ -117,7 +118,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
     .withMessageBase(
       message
         .command("timeout")
-        .description("Timeout a member")
+        .description(t("cli.message.timeout.description"))
         .requiredOption("--guild-id <id>", "Guild id")
         .requiredOption("--user-id <id>", "User id"),
     )
@@ -132,7 +133,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
     .withMessageBase(
       message
         .command("kick")
-        .description("Kick a member")
+        .description(t("cli.message.kick.description"))
         .requiredOption("--guild-id <id>", "Guild id")
         .requiredOption("--user-id <id>", "User id"),
     )
@@ -145,7 +146,7 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
     .withMessageBase(
       message
         .command("ban")
-        .description("Ban a member")
+        .description(t("cli.message.ban.description"))
         .requiredOption("--guild-id <id>", "Guild id")
         .requiredOption("--user-id <id>", "User id"),
     )

@@ -4,6 +4,7 @@ import { formatAgo } from "../format";
 import { formatSessionTokens } from "../presenter";
 import { pathForTab } from "../navigation";
 import type { GatewaySessionRow, SessionsListResult } from "../types";
+import { t } from "../../i18n/lit.js";
 
 export type SessionsProps = {
   loading: boolean;
@@ -36,7 +37,7 @@ export type SessionsProps = {
 const THINK_LEVELS = ["", "off", "minimal", "low", "medium", "high"] as const;
 const BINARY_THINK_LEVELS = ["", "off", "on"] as const;
 const VERBOSE_LEVELS = [
-  { value: "", label: "inherit" },
+  { value: "", label: t("views.sessions.levels.inherit") },
   { value: "off", label: "off (explicit)" },
   { value: "on", label: "on" },
 ] as const;
@@ -76,17 +77,17 @@ export function renderSessions(props: SessionsProps) {
     <section class="card">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Sessions</div>
-          <div class="card-sub">Active session keys and per-session overrides.</div>
+          <div class="card-title">${t("views.sessions.title")}</div>
+          <div class="card-sub">${t("views.sessions.subtitle")}</div>
         </div>
         <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-          ${props.loading ? "Loading…" : "Refresh"}
+          ${props.loading ? t("views.sessions.actions.loading") : t("views.sessions.actions.refresh")}
         </button>
       </div>
 
       <div class="filters" style="margin-top: 14px;">
         <label class="field">
-          <span>Active within (minutes)</span>
+          <span>${t("views.sessions.filters.activeWithin")}</span>
           <input
             .value=${props.activeMinutes}
             @input=${(e: Event) =>
@@ -99,7 +100,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field">
-          <span>Limit</span>
+          <span>${t("views.sessions.filters.limit")}</span>
           <input
             .value=${props.limit}
             @input=${(e: Event) =>
@@ -112,7 +113,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field checkbox">
-          <span>Include global</span>
+          <span>${t("views.sessions.filters.includeGlobal")}</span>
           <input
             type="checkbox"
             .checked=${props.includeGlobal}
@@ -126,7 +127,7 @@ export function renderSessions(props: SessionsProps) {
           />
         </label>
         <label class="field checkbox">
-          <span>Include unknown</span>
+          <span>${t("views.sessions.filters.includeUnknown")}</span>
           <input
             type="checkbox"
             .checked=${props.includeUnknown}
@@ -153,20 +154,20 @@ export function renderSessions(props: SessionsProps) {
 
       <div class="table" style="margin-top: 16px;">
         <div class="table-head">
-          <div>Key</div>
-          <div>Label</div>
-          <div>Kind</div>
-          <div>Updated</div>
-          <div>Tokens</div>
-          <div>Thinking</div>
-          <div>Verbose</div>
-          <div>Reasoning</div>
-          <div>Actions</div>
+          <div>${t("views.sessions.table.key")}</div>
+          <div>${t("views.sessions.table.label")}</div>
+          <div>${t("views.sessions.table.kind")}</div>
+          <div>${t("views.sessions.table.updated")}</div>
+          <div>${t("views.sessions.table.tokens")}</div>
+          <div>${t("views.sessions.table.thinking")}</div>
+          <div>${t("views.sessions.table.verbose")}</div>
+          <div>${t("views.sessions.table.reasoning")}</div>
+          <div>${t("views.sessions.table.actions")}</div>
         </div>
         ${
           rows.length === 0
             ? html`
-                <div class="muted">No sessions found.</div>
+                <div class="muted">${t("views.sessions.empty")}</div>
               `
             : rows.map((row) =>
                 renderRow(row, props.basePath, props.onPatch, props.onDelete, props.loading),
@@ -260,7 +261,7 @@ function renderRow(
       </div>
       <div>
         <button class="btn danger" ?disabled=${disabled} @click=${() => onDelete(row.key)}>
-          Delete
+          ${t("views.sessions.table.delete")}
         </button>
       </div>
     </div>

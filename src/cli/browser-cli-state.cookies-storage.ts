@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 
+import { t } from "../i18n/index.js";
 import { danger } from "../globals.js";
 import { defaultRuntime } from "../runtime.js";
 import { callBrowserRequest, type BrowserParentOpts } from "./browser-cli-shared.js";
@@ -8,7 +9,7 @@ export function registerBrowserCookiesAndStorageCommands(
   browser: Command,
   parentOpts: (cmd: Command) => BrowserParentOpts,
 ) {
-  const cookies = browser.command("cookies").description("Read/write cookies");
+  const cookies = browser.command("cookies").description(t('cli.browser.cookies.description'));
 
   cookies
     .option("--target-id <id>", "CDP target id (or unique prefix)")
@@ -41,7 +42,7 @@ export function registerBrowserCookiesAndStorageCommands(
 
   cookies
     .command("set")
-    .description("Set a cookie (requires --url or domain+path)")
+    .description(t('cli.browser.cookie-set.description'))
     .argument("<name>", "Cookie name")
     .argument("<value>", "Cookie value")
     .requiredOption("--url <url>", "Cookie URL scope (recommended)")
@@ -76,7 +77,7 @@ export function registerBrowserCookiesAndStorageCommands(
 
   cookies
     .command("clear")
-    .description("Clear all cookies")
+    .description(t('cli.browser.cookies-clear.description'))
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
       const parent = parentOpts(cmd);
@@ -105,7 +106,7 @@ export function registerBrowserCookiesAndStorageCommands(
       }
     });
 
-  const storage = browser.command("storage").description("Read/write localStorage/sessionStorage");
+  const storage = browser.command("storage").description(t('cli.browser.storage.description'));
 
   function registerStorageKind(kind: "local" | "session") {
     const cmd = storage.command(kind).description(`${kind}Storage commands`);
