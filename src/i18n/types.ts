@@ -36,7 +36,7 @@ export type LocaleLoader = (
 /**
  * Available locales in the system
  */
-export const AVAILABLE_LOCALES = ["en", "zh-CN"] as const;
+export const AVAILABLE_LOCALES = ["en", "zh-CN", "zh-HK", "zh-TW"] as const;
 
 /**
  * Type for available locale codes

@@ -23,10 +23,13 @@
  */
 
 import type { InterpolationParams, AvailableLocale } from "./types.js";
+import { DEFAULT_LOCALE, isAvailableLocale, type LocaleLoader } from "./types.js";
+
 // Import locale data
 import { en } from "./locales/en/index.js";
 import { zhCN } from "./locales/zh-CN/index.js";
-import { DEFAULT_LOCALE, isAvailableLocale, type LocaleLoader } from "./types.js";
+import { zhHK } from "./locales/zh-HK/index.js";
+import { zhTW } from "./locales/zh-TW/index.js";
 
 /**
  * Locale data storage
@@ -34,6 +37,8 @@ import { DEFAULT_LOCALE, isAvailableLocale, type LocaleLoader } from "./types.js
 const localeData: Record<AvailableLocale, Record<string, string>> = {
   en,
   "zh-CN": zhCN,
+  "zh-HK": zhHK,
+  "zh-TW": zhTW,
 };
 
 /**
