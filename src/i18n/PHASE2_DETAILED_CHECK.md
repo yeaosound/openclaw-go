@@ -10,16 +10,16 @@
 
 ### 1.1 文件列表 (8 个)
 
-| 文件 | Import 语句 | t() 调用数 | 状态 |
-|------|-------------|-----------|------|
-| `src/cli/plugins-cli.ts` | `import { t } from "../i18n/index.js"` | 8 | ✅ |
-| `src/cli/gateway-cli/register.ts` | `import { t } from "../../i18n/index.js"` | 13 | ✅ |
-| `src/cli/browser-cli.ts` | `import { t } from "../i18n/index.js"` | 1 | ✅ |
-| `src/cli/browser-cli-manage.ts` | `import { t } from "../i18n/index.js"` | 15 | ✅ |
-| `src/cli/browser-cli-state.ts` | `import { t } from "../i18n/index.js"` | 10 | ✅ |
-| `src/cli/pairing-cli.ts` | `import { t } from "../i18n/index.js"` | 3 | ✅ |
-| `src/wizard/onboarding.ts` | `import { t } from "../i18n/index.js"` | 17 | ✅ |
-| `src/pairing/pairing-messages.ts` | `import { t } from "../i18n/index.js"` | 4 | ✅ |
+| 文件                              | Import 语句                               | t() 调用数 | 状态 |
+| --------------------------------- | ----------------------------------------- | ---------- | ---- |
+| `src/cli/plugins-cli.ts`          | `import { t } from "../i18n/index.js"`    | 8          | ✅   |
+| `src/cli/gateway-cli/register.ts` | `import { t } from "../../i18n/index.js"` | 13         | ✅   |
+| `src/cli/browser-cli.ts`          | `import { t } from "../i18n/index.js"`    | 1          | ✅   |
+| `src/cli/browser-cli-manage.ts`   | `import { t } from "../i18n/index.js"`    | 15         | ✅   |
+| `src/cli/browser-cli-state.ts`    | `import { t } from "../i18n/index.js"`    | 10         | ✅   |
+| `src/cli/pairing-cli.ts`          | `import { t } from "../i18n/index.js"`    | 3          | ✅   |
+| `src/wizard/onboarding.ts`        | `import { t } from "../i18n/index.js"`    | 17         | ✅   |
+| `src/pairing/pairing-messages.ts` | `import { t } from "../i18n/index.js"`    | 4          | ✅   |
 
 **已迁移 t() 调用总计: 71 次**
 
@@ -121,39 +121,44 @@
 
 ### 4.1 未迁移的 browser-cli 文件 (17 个描述)
 
-| 文件 | .description() 调用数 | 优先级 |
-|------|---------------------|--------|
-| `src/cli/browser-cli-inspect.ts` | 2 | 中 |
-| `src/cli/browser-cli-extension.ts` | 3 | 中 |
-| `src/cli/browser-cli-actions-observe.ts` | 3 | 中 |
-| `src/cli/browser-cli-state.cookies-storage.ts` | 4 | 中 |
-| `src/cli/browser-cli-debug.ts` | 5 | 中 |
+| 文件                                           | .description() 调用数 | 优先级 |
+| ---------------------------------------------- | --------------------- | ------ |
+| `src/cli/browser-cli-inspect.ts`               | 2                     | 中     |
+| `src/cli/browser-cli-extension.ts`             | 3                     | 中     |
+| `src/cli/browser-cli-actions-observe.ts`       | 3                     | 中     |
+| `src/cli/browser-cli-state.cookies-storage.ts` | 4                     | 中     |
+| `src/cli/browser-cli-debug.ts`                 | 5                     | 中     |
 
 **未迁移总计: 17 个描述**
 
 ### 4.2 未迁移的详细列表
 
 **browser-cli-inspect.ts:**
+
 - `.description("Capture a screenshot (MEDIA:<path>)")`
 - `.description("Capture a snapshot (default: ai; aria is the accessibility tree)")`
 
 **browser-cli-extension.ts:**
+
 - `.description("Chrome extension helpers")`
 - `.description("Install the Chrome extension to a stable local path")`
 - `.description("Print the path to the installed Chrome extension (load unpacked)")`
 
 **browser-cli-actions-observe.ts:**
+
 - `.description("Get recent console messages")`
 - `.description("Save page as PDF")`
 - `.description("Wait for a network response and return its body")`
 
 **browser-cli-state.cookies-storage.ts:**
+
 - `.description("Read/write cookies")`
 - `.description("Set a cookie (requires --url or domain+path)")`
 - `.description("Clear all cookies")`
 - `.description("Read/write localStorage/sessionStorage")`
 
 **browser-cli-debug.ts:**
+
 - `.description("Highlight an element by ref")`
 - `.description("Get recent page errors")`
 - `.description("Get recent network requests (best-effort)")`
@@ -166,18 +171,21 @@
 ## 5. 其他未迁移文件 (250+ 个描述)
 
 **高优先级 (建议尽快迁移):**
+
 - `src/cli/channels-cli.ts` - 9 个描述
 - `src/cli/config-cli.ts` - 4 个描述
 - `src/cli/memory-cli.ts` - 5 个描述
 - `src/cli/security-cli.ts` - 2 个描述
 
 **中优先级:**
+
 - `src/cli/models-cli.ts` - 28 个描述
 - `src/cli/cron-cli/*.ts` - 10 个描述
 - `src/cli/nodes-cli/*.ts` - 20+ 个描述
 - `src/cli/program/register.*.ts` - 20+ 个描述
 
 **低优先级:**
+
 - 其他 40+ 个 CLI 文件
 
 ---
@@ -193,7 +201,7 @@
 ### 6.2 分批处理 (长期)
 
 - **批次 1:** models-cli, cron-cli (1 小时)
-- **批次 2:** nodes-cli, program/register.* (2 小时)
+- **批次 2:** nodes-cli, program/register.\* (2 小时)
 - **批次 3:** 其他剩余文件 (3 小时)
 
 ---
@@ -227,16 +235,19 @@
 ## 8. 总结
 
 ### 已完成 (Phase 2 核心)
+
 ✅ **10 个文件已迁移**  
 ✅ **71 个 t() 调用**  
 ✅ **187 个翻译键可用**  
 ✅ **核心功能已汉化**
 
 ### 遗漏项
+
 ⚠️ **17 个 browser-cli 描述未迁移**  
 ⚠️ **250+ 个其他 CLI 描述未迁移**
 
 ### 质量评估
+
 - **代码质量:** 优秀 ✅
 - **翻译完整性:** 核心完成，扩展待续 ⚠️
 - **类型安全:** 良好 ✅
@@ -247,11 +258,13 @@
 ## 9. 下一步行动
 
 **选项 A: 立即修复遗漏 (推荐)**
+
 - 30 分钟完成 17 个 browser-cli 描述迁移
 - 1 小时完成核心 CLI 文件
 - 30 分钟验证测试
 
 **选项 B: 当前状态已可用**
+
 - 核心功能已汉化
 - 用户可使用中文 CLI
 - 后续分批完善

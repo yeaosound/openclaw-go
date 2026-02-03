@@ -1,11 +1,11 @@
-import { installSkill } from "../agents/skills-install.js";
-import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
-import { formatCliCommand } from "../cli/command-format.js";
 import type { OpenClawConfig } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
-import { detectBinary, resolveNodeManagerOptions } from "./onboard-helpers.js";
+import { installSkill } from "../agents/skills-install.js";
+import { buildWorkspaceSkillStatus } from "../agents/skills-status.js";
+import { formatCliCommand } from "../cli/command-format.js";
 import { t } from "../i18n/index.js";
+import { detectBinary, resolveNodeManagerOptions } from "./onboard-helpers.js";
 
 function summarizeInstallFailure(message: string): string | undefined {
   const cleaned = message.replace(/^Install failed(?:\s*\([^)]*\))?\s*:?\s*/i, "").trim();
@@ -24,7 +24,7 @@ function formatSkillHint(skill: {
   const installLabel = skill.install[0]?.label?.trim();
   const combined = desc && installLabel ? `${desc} — ${installLabel}` : desc || installLabel;
   if (!combined) {
-    return t('wizard.skills.defaultHint');
+    return t("wizard.skills.defaultHint");
   }
   const maxLen = 90;
   return combined.length > maxLen ? `${combined.slice(0, maxLen - 1)}…` : combined;
@@ -65,15 +65,15 @@ export async function setupSkills(
 
   await prompter.note(
     [
-      `${t('wizard.skills.status.eligible')}: ${eligible.length}`,
-      `${t('wizard.skills.status.missing')}: ${missing.length}`,
-      `${t('wizard.skills.status.blocked')}: ${blocked.length}`,
+      `${t("wizard.skills.status.eligible")}: ${eligible.length}`,
+      `${t("wizard.skills.status.missing")}: ${missing.length}`,
+      `${t("wizard.skills.status.blocked")}: ${blocked.length}`,
     ].join("\n"),
-    t('wizard.skills.status.title'),
+    t("wizard.skills.status.title"),
   );
 
   const shouldConfigure = await prompter.confirm({
-    message: t('wizard.skills.configurePrompt'),
+    message: t("wizard.skills.configurePrompt"),
     initialValue: true,
   });
   if (!shouldConfigure) {
@@ -81,27 +81,24 @@ export async function setupSkills(
   }
 
   if (needsBrewPrompt) {
-    await prompter.note(
-      t('wizard.skills.homebrew.desc'),
-      t('wizard.skills.homebrew.title'),
-    );
+    await prompter.note(t("wizard.skills.homebrew.desc"), t("wizard.skills.homebrew.title"));
     const showBrewInstall = await prompter.confirm({
-      message: t('wizard.skills.homebrew.showCommand'),
+      message: t("wizard.skills.homebrew.showCommand"),
       initialValue: true,
     });
     if (showBrewInstall) {
       await prompter.note(
         [
-          t('wizard.skills.homebrew.run'),
+          t("wizard.skills.homebrew.run"),
           '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"',
         ].join("\n"),
-        t('wizard.skills.homebrew.installTitle'),
+        t("wizard.skills.homebrew.installTitle"),
       );
     }
   }
 
   const nodeManager = (await prompter.select({
-    message: t('wizard.skills.nodeManagerPrompt'),
+    message: t("wizard.skills.nodeManagerPrompt"),
     options: resolveNodeManagerOptions(),
   })) as "npm" | "pnpm" | "bun";
 
@@ -121,12 +118,12 @@ export async function setupSkills(
   );
   if (installable.length > 0) {
     const toInstall = await prompter.multiselect({
-      message: t('wizard.skills.installPrompt'),
+      message: t("wizard.skills.installPrompt"),
       options: [
         {
           value: "__skip__",
-          label: t('common.skipForNow'),
-          hint: t('wizard.skills.skipHint'),
+          label: t("common.skipForNow"),
+          hint: t("wizard.skills.skipHint"),
         },
         ...installable.map((skill) => ({
           value: skill.name,
@@ -146,7 +143,7 @@ export async function setupSkills(
       if (!installId) {
         continue;
       }
-      const spin = prompter.progress(t('wizard.skills.installing', { name }));
+      const spin = prompter.progress(t("wizard.skills.installing", { name }));
       const result = await installSkill({
         workspaceDir,
         skillName: target.name,
@@ -154,20 +151,20 @@ export async function setupSkills(
         config: next,
       });
       if (result.ok) {
-        spin.stop(t('wizard.skills.installed', { name }));
+        spin.stop(t("wizard.skills.installed", { name }));
       } else {
         const code = result.code == null ? "" : ` (exit ${result.code})`;
         const detail = summarizeInstallFailure(result.message);
-        spin.stop(t('wizard.skills.installFailed', { name }) + `${code}${detail ? ` — ${detail}` : ""}`);
+        spin.stop(
+          t("wizard.skills.installFailed", { name }) + `${code}${detail ? ` — ${detail}` : ""}`,
+        );
         if (result.stderr) {
           runtime.log(result.stderr.trim());
         } else if (result.stdout) {
           runtime.log(result.stdout.trim());
         }
-        runtime.log(
-          t('wizard.skills.doctorTip'),
-        );
-        runtime.log(t('wizard.skills.docs'));
+        runtime.log(t("wizard.skills.doctorTip"));
+        runtime.log(t("wizard.skills.docs"));
       }
     }
   }
@@ -177,7 +174,7 @@ export async function setupSkills(
       continue;
     }
     const wantsKey = await prompter.confirm({
-      message: t('wizard.skills.envPrompt', { skill: skill.name, env: skill.primaryEnv }),
+      message: t("wizard.skills.envPrompt", { skill: skill.name, env: skill.primaryEnv }),
       initialValue: false,
     });
     if (!wantsKey) {
@@ -185,8 +182,8 @@ export async function setupSkills(
     }
     const apiKey = String(
       await prompter.text({
-        message: t('wizard.skills.envInput', { env: skill.primaryEnv }),
-        validate: (value) => (value?.trim() ? undefined : t('common.required')),
+        message: t("wizard.skills.envInput", { env: skill.primaryEnv }),
+        validate: (value) => (value?.trim() ? undefined : t("common.required")),
       }),
     );
     next = upsertSkillEntry(next, skill.skillKey, { apiKey: apiKey.trim() });

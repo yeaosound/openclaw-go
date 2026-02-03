@@ -1,7 +1,10 @@
 import type { Command } from "commander";
-import { t } from "../../i18n/index.js";
+import type { NodesRpcOpts } from "./types.js";
 import { randomIdempotencyKey } from "../../gateway/call.js";
+import { t } from "../../i18n/index.js";
 import { defaultRuntime } from "../../runtime.js";
+import { renderTable } from "../../terminal/table.js";
+import { shortenHomePath } from "../../utils.js";
 import {
   type CameraFacing,
   cameraTempPath,
@@ -12,9 +15,6 @@ import {
 import { parseDurationMs } from "../parse-duration.js";
 import { getNodesTheme, runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
-import type { NodesRpcOpts } from "./types.js";
-import { renderTable } from "../../terminal/table.js";
-import { shortenHomePath } from "../../utils.js";
 
 const parseFacing = (value: string): CameraFacing => {
   const v = String(value ?? "")

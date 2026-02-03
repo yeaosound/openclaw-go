@@ -9,16 +9,19 @@
 ## 1. 项目概述
 
 ### 1.1 背景
+
 - CLI onboarding 翻译已完成 (95%)
 - WebUI 仍有大量硬编码英文文本
 - WebUI 与 CLI 是不同场景，需要独立 i18n 方案
 
 ### 1.2 目标
+
 - 实现 WebUI 完整中文本地化
 - 支持中英文实时切换
 - 记住用户语言偏好
 
 ### 1.3 范围
+
 - **包含**: `ui/src/ui/views/` 下 34 个视图文件
 - **预估文本量**: 300-500 个翻译键
 - **预估工作量**: 17-25 小时
@@ -29,12 +32,12 @@
 
 ### 2.1 技术栈
 
-| 组件 | 库 | 版本 | 用途 |
-|------|-----|------|------|
-| i18n 引擎 | `i18next` | ^24.x | 核心翻译功能 |
-| 语言检测 | `i18next-browser-languagedetector` | latest | 自动检测浏览器语言 |
-| 持久化 | `i18next-localstorage-backend` | latest | 记住用户选择 |
-| Lit 集成 | 自研指令 | - | lit 模板指令封装 |
+| 组件      | 库                                 | 版本   | 用途               |
+| --------- | ---------------------------------- | ------ | ------------------ |
+| i18n 引擎 | `i18next`                          | ^24.x  | 核心翻译功能       |
+| 语言检测  | `i18next-browser-languagedetector` | latest | 自动检测浏览器语言 |
+| 持久化    | `i18next-localstorage-backend`     | latest | 记住用户选择       |
+| Lit 集成  | 自研指令                           | -      | lit 模板指令封装   |
 
 ### 2.2 目录结构
 
@@ -68,6 +71,7 @@ ui/
 ### 3.1 阶段 A: 基础设施 (3-4小时)
 
 #### A1. 安装依赖
+
 ```bash
 cd /root/openclaw-cn/ui
 npm install i18next i18next-browser-languagedetector
@@ -78,24 +82,22 @@ npm install i18next i18next-browser-languagedetector
 **文件**: `ui/src/i18n/config.ts`
 
 ```typescript
-import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18next from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
 export const i18n = i18next.createInstance();
 
 export async function initI18n() {
-  await i18n
-    .use(LanguageDetector)
-    .init({
-      fallbackLng: 'en',
-      supportedLngs: ['en', 'zh-CN'],
-      defaultNS: 'common',
-      detection: {
-        order: ['localStorage', 'navigator'],
-        caches: ['localStorage'],
-      },
-      resources: {}
-    });
+  await i18n.use(LanguageDetector).init({
+    fallbackLng: "en",
+    supportedLngs: ["en", "zh-CN"],
+    defaultNS: "common",
+    detection: {
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"],
+    },
+    resources: {},
+  });
 }
 
 export function changeLanguage(lng: string) {
@@ -112,26 +114,26 @@ export function getCurrentLanguage(): string {
 **文件**: `ui/src/i18n/lit.ts`
 
 ```typescript
-import { directive, AsyncDirective } from 'lit/async-directive.js';
-import { i18n } from './config.js';
+import { directive, AsyncDirective } from "lit/async-directive.js";
+import { i18n } from "./config.js";
 
 class TranslateDirective extends AsyncDirective {
-  private key: string = '';
+  private key: string = "";
   private options?: Record<string, string>;
 
   render(key: string, options?: Record<string, string>) {
     if (key !== this.key || JSON.stringify(options) !== JSON.stringify(this.options)) {
       this.key = key;
       this.options = options;
-      
+
       // 初始值
       const value = i18n.t(key, options);
-      
+
       // 监听语言变化
-      i18n.on('languageChanged', () => {
+      i18n.on("languageChanged", () => {
         this.setValue(i18n.t(this.key, this.options));
       });
-      
+
       return value;
     }
     return i18n.t(key, options);
@@ -146,7 +148,7 @@ export const t = directive(TranslateDirective);
 **文件**: `ui/src/main.ts` (修改)
 
 ```typescript
-import { initI18n } from './i18n/config.js';
+import { initI18n } from "./i18n/config.js";
 
 // 在应用启动前初始化 i18n
 await initI18n();
@@ -453,13 +455,14 @@ grep -rh '">[^<]\{3,100\}<' ui/src/ui/views/ | \
 **文件**: `ui/src/ui/views/chat.ts` (部分)
 
 **修改前**:
+
 ```typescript
 render() {
   const placeholder = !props.session
     ? "Add a message or paste more images..."
     : "Message (↩ to send, Shift+↩ for line breaks, paste images)"
     : "Connect to the gateway to start chatting…";
-  
+
   return html`
     <input placeholder="${placeholder}" />
     <button>${isBusy ? "Queue" : "Send"}</button>
@@ -469,6 +472,7 @@ render() {
 ```
 
 **修改后**:
+
 ```typescript
 import { t } from '../i18n/lit.js';
 
@@ -478,7 +482,7 @@ render() {
     : props.connected
       ? t('chat.placeholder')
       : t('chat.placeholderDisconnected');
-  
+
   return html`
     <input placeholder="${placeholder}" />
     <button>${isBusy ? t('chat.queue') : t('chat.send')}</button>
@@ -492,11 +496,11 @@ render() {
 **文件**: `ui/src/ui/components/language-switcher.ts`
 
 ```typescript
-import { LitElement, html, css } from 'lit';
-import { customElement } from 'lit/decorators.js';
-import { changeLanguage, getCurrentLanguage } from '../i18n/config.js';
+import { LitElement, html, css } from "lit";
+import { customElement } from "lit/decorators.js";
+import { changeLanguage, getCurrentLanguage } from "../i18n/config.js";
 
-@customElement('language-switcher')
+@customElement("language-switcher")
 export class LanguageSwitcher extends LitElement {
   static styles = css`
     select {
@@ -510,11 +514,11 @@ export class LanguageSwitcher extends LitElement {
 
   render() {
     const currentLang = getCurrentLanguage();
-    
+
     return html`
       <select @change="${this._onChange}">
-        <option value="en" ?selected="${currentLang === 'en'}">English</option>
-        <option value="zh-CN" ?selected="${currentLang === 'zh-CN'}">简体中文</option>
+        <option value="en" ?selected="${currentLang === "en"}">English</option>
+        <option value="zh-CN" ?selected="${currentLang === "zh-CN"}">简体中文</option>
       </select>
     `;
   }
@@ -531,12 +535,14 @@ export class LanguageSwitcher extends LitElement {
 ### 3.4 阶段 D: 测试验证 (2-3小时)
 
 #### D1. 功能测试
+
 - [ ] 页面加载时自动检测语言
 - [ ] 语言切换实时生效
 - [ ] 刷新后记住语言选择
 - [ ] 所有视图文本正确翻译
 
 #### D2. 边界测试
+
 - [ ] 网络慢时加载不报错
 - [ ] 翻译键缺失时显示键名
 - [ ] 动态插值参数正确替换
@@ -547,13 +553,13 @@ export class LanguageSwitcher extends LitElement {
 
 ### 4.1 不复用 CLI 翻译键的理由
 
-| 对比项 | CLI | WebUI |
-|--------|-----|-------|
-| **运行环境** | Node.js | Browser |
+| 对比项       | CLI               | WebUI    |
+| ------------ | ----------------- | -------- |
+| **运行环境** | Node.js           | Browser  |
 | **用户场景** | 一次性 onboarding | 日常使用 |
-| **文本风格** | 命令行风格 | 界面友好 |
-| **技术栈** | 自定义 t() | i18next |
-| **结构** | 扁平化 | 模块化 |
+| **文本风格** | 命令行风格        | 界面友好 |
+| **技术栈**   | 自定义 t()        | i18next  |
+| **结构**     | 扁平化            | 模块化   |
 
 ### 4.2 保持一致性
 
@@ -597,12 +603,12 @@ ui/src/ui/views/*.ts             # 全部 34 个视图文件
 
 ## 6. 风险与应对
 
-| 风险 | 影响 | 应对策略 |
-|------|------|---------|
-| i18next 与 Lit 集成问题 | 高 | 先验证阶段A，确保指令工作正常 |
-| 翻译键数量过多 | 中 | 分阶段实施，核心视图优先 |
-| 性能问题 | 低 | i18next 有缓存机制，影响可忽略 |
-| 维护成本 | 中 | 建立命名规范，文档化 |
+| 风险                    | 影响 | 应对策略                       |
+| ----------------------- | ---- | ------------------------------ |
+| i18next 与 Lit 集成问题 | 高   | 先验证阶段A，确保指令工作正常  |
+| 翻译键数量过多          | 中   | 分阶段实施，核心视图优先       |
+| 性能问题                | 低   | i18next 有缓存机制，影响可忽略 |
+| 维护成本                | 中   | 建立命名规范，文档化           |
 
 ---
 
@@ -621,6 +627,7 @@ ui/src/ui/views/*.ts             # 全部 34 个视图文件
 ### 8.1 命名规范
 
 **翻译键命名**:
+
 ```
 [模块].[组件].[元素]
 例如:

@@ -18,6 +18,7 @@ src/config/
 ## KEY PATTERNS
 
 ### Zod Schema Definition
+
 ```typescript
 import { z } from "zod";
 
@@ -32,6 +33,7 @@ export type OpenClawConfig = z.infer<typeof OpenClawConfigSchema>;
 ```
 
 ### Schema with UI Hints
+
 ```typescript
 // schema.ts - generates JSON Schema with UI hints
 export function buildOpenClawJsonSchema(): JsonSchema {
@@ -45,16 +47,17 @@ export function buildOpenClawJsonSchema(): JsonSchema {
             type: "number",
             default: 18789,
             "ui:placeholder": "18789",
-            "ui:description": "Port for gateway WebSocket server"
-          }
-        }
-      }
-    }
+            "ui:description": "Port for gateway WebSocket server",
+          },
+        },
+      },
+    },
   };
 }
 ```
 
 ### Config Resolution
+
 ```typescript
 // Resolution order (last wins):
 // 1. Defaults
@@ -65,13 +68,13 @@ export function buildOpenClawJsonSchema(): JsonSchema {
 
 ## WHERE TO LOOK
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add config option | `src/config/zod-schema.ts` | Add to Zod schema |
-| Add UI hint | `src/config/schema.ts` | For wizard display |
-| Config types | `src/config/types*.ts` | TypeScript types |
-| Config I/O | `src/config/io.ts` | File operations |
-| Migrations | `src/config/legacy.migrations*.ts` | Legacy upgrades |
+| Task              | Location                           | Notes              |
+| ----------------- | ---------------------------------- | ------------------ |
+| Add config option | `src/config/zod-schema.ts`         | Add to Zod schema  |
+| Add UI hint       | `src/config/schema.ts`             | For wizard display |
+| Config types      | `src/config/types*.ts`             | TypeScript types   |
+| Config I/O        | `src/config/io.ts`                 | File operations    |
+| Migrations        | `src/config/legacy.migrations*.ts` | Legacy upgrades    |
 
 ## ANTI-PATTERNS
 

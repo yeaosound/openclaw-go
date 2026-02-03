@@ -25,7 +25,9 @@ src/channels/
 ## KEY PATTERNS
 
 ### ChannelPlugin Interface
+
 All channels implement this interface:
+
 ```typescript
 export type ChannelPlugin<ResolvedAccount> = {
   id: ChannelId;
@@ -42,6 +44,7 @@ export type ChannelPlugin<ResolvedAccount> = {
 ```
 
 ### Account Resolution Pattern
+
 ```typescript
 // Pattern: listAccountIds → resolveAccount → ResolvedAccount
 export function listXAccountIds(cfg: OpenClawConfig): string[]
@@ -49,13 +52,16 @@ export function resolveXAccount(params: {...}): ResolvedXAccount
 ```
 
 ### DM Policy System
+
 Standardized policies:
+
 - `pairing` (default) - Requires approval code
 - `allowlist` - Only allowlisted senders
 - `open` - Any sender allowed
 - `disabled` - All DMs blocked
 
 ### Message Context Building
+
 ```typescript
 // 1. Resolve routing
 const route = resolveAgentRoute({ cfg, channel, accountId, peer });
@@ -69,14 +75,14 @@ const allowed = isSenderAllowed({ allow: effectiveAllow, senderId });
 
 ## WHERE TO LOOK
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add channel plugin | `src/channels/plugins/types.plugin.ts` | Implement ChannelPlugin |
-| Onboarding adapter | `src/channels/plugins/onboarding/` | CLI wizard integration |
-| DM policies | `src/channels/plugins/pairing.ts` | Pairing code system |
-| Mention gating | `src/channels/mention-gating.ts` | Group mention requirements |
-| Allowlists | `src/channels/allowlists/` | ID normalization |
-| Channel registry | `src/channels/registry.ts` | Channel metadata |
+| Task               | Location                               | Notes                      |
+| ------------------ | -------------------------------------- | -------------------------- |
+| Add channel plugin | `src/channels/plugins/types.plugin.ts` | Implement ChannelPlugin    |
+| Onboarding adapter | `src/channels/plugins/onboarding/`     | CLI wizard integration     |
+| DM policies        | `src/channels/plugins/pairing.ts`      | Pairing code system        |
+| Mention gating     | `src/channels/mention-gating.ts`       | Group mention requirements |
+| Allowlists         | `src/channels/allowlists/`             | ID normalization           |
+| Channel registry   | `src/channels/registry.ts`             | Channel metadata           |
 
 ## ANTI-PATTERNS
 

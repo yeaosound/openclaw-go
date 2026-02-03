@@ -1,8 +1,8 @@
 import { html, nothing } from "lit";
 import type { ConfigUiHints } from "../types";
+import { t, translate } from "../../i18n/lit.js";
 import { analyzeConfigSchema, renderConfigForm, SECTION_META } from "./config-form";
 import { hintForPath, humanize, schemaType, type JsonSchema } from "./config-form.shared";
-import { t, translate } from "../../i18n/lit.js";
 
 export type ConfigProps = {
   raw: string;
@@ -439,8 +439,8 @@ export function renderConfig(props: ConfigProps) {
       <!-- Sidebar -->
       <aside class="config-sidebar">
         <div class="config-sidebar__header">
-          <div class="config-sidebar__title">${t('views.config.title')}</div>
-          <span class="pill pill--sm ${validity === "valid" ? "pill--ok" : validity === "invalid" ? "pill--danger" : ""}">${validity === "valid" ? translate('views.config.validity.valid') : validity === "invalid" ? translate('views.config.validity.invalid') : validity}</span>
+          <div class="config-sidebar__title">${t("views.config.title")}</div>
+          <span class="pill pill--sm ${validity === "valid" ? "pill--ok" : validity === "invalid" ? "pill--danger" : ""}">${validity === "valid" ? translate("views.config.validity.valid") : validity === "invalid" ? translate("views.config.validity.invalid") : validity}</span>
         </div>
 
         <!-- Search -->
@@ -452,7 +452,7 @@ export function renderConfig(props: ConfigProps) {
           <input
             type="text"
             class="config-search__input"
-            placeholder=${translate('views.config.searchPlaceholder')}
+            placeholder=${translate("views.config.searchPlaceholder")}
             .value=${props.searchQuery}
             @input=${(e: Event) => props.onSearchChange((e.target as HTMLInputElement).value)}
           />
@@ -475,7 +475,7 @@ export function renderConfig(props: ConfigProps) {
             @click=${() => props.onSectionChange(null)}
           >
             <span class="config-nav__icon">${sidebarIcons.all}</span>
-            <span class="config-nav__label">${t('views.config.nav.all')}</span>
+            <span class="config-nav__label">${t("views.config.nav.all")}</span>
           </button>
           ${allSections.map(
             (section) => html`
@@ -518,37 +518,37 @@ export function renderConfig(props: ConfigProps) {
             ${
               hasChanges
                 ? html`
-              <span class="config-changes-badge">${props.formMode === "raw" ? translate('views.config.changes.unsaved') : translate(diff.length === 1 ? 'views.config.changes.unsavedCount' : 'views.config.changes.unsavedCountPlural', { count: diff.length })}</span>
+              <span class="config-changes-badge">${props.formMode === "raw" ? translate("views.config.changes.unsaved") : translate(diff.length === 1 ? "views.config.changes.unsavedCount" : "views.config.changes.unsavedCountPlural", { count: diff.length })}</span>
             `
                 : html`
-                    <span class="config-status muted">${translate('views.config.changes.none')}</span>
+                    <span class="config-status muted">${translate("views.config.changes.none")}</span>
                   `
             }
           </div>
           <div class="config-actions__right">
             <button class="btn btn--sm" ?disabled=${props.loading} @click=${props.onReload}>
-              ${props.loading ? translate('views.config.actions.reload.loading') : translate('views.config.actions.reload.reload')}
+              ${props.loading ? translate("views.config.actions.reload.loading") : translate("views.config.actions.reload.reload")}
             </button>
             <button
               class="btn btn--sm primary"
               ?disabled=${!canSave}
               @click=${props.onSave}
             >
-              ${props.saving ? translate('views.config.actions.save.saving') : translate('views.config.actions.save.save')}
+              ${props.saving ? translate("views.config.actions.save.saving") : translate("views.config.actions.save.save")}
             </button>
             <button
               class="btn btn--sm"
               ?disabled=${!canApply}
               @click=${props.onApply}
             >
-              ${props.applying ? translate('views.config.actions.apply.applying') : translate('views.config.actions.apply.apply')}
+              ${props.applying ? translate("views.config.actions.apply.applying") : translate("views.config.actions.apply.apply")}
             </button>
             <button
               class="btn btn--sm"
               ?disabled=${!canUpdate}
               @click=${props.onUpdate}
             >
-              ${props.updating ? translate('views.config.actions.update.updating') : translate('views.config.actions.update.update')}
+              ${props.updating ? translate("views.config.actions.update.updating") : translate("views.config.actions.update.update")}
             </button>
           </div>
         </div>
@@ -559,18 +559,18 @@ export function renderConfig(props: ConfigProps) {
             ? html`
           <details class="config-diff">
             <summary class="config-diff__summary">
-              <span>${translate(diff.length === 1 ? 'views.config.changes.unsavedCount' : 'views.config.changes.unsavedCountPlural', { count: diff.length })}</span>
+              <span>${translate(diff.length === 1 ? "views.config.changes.unsavedCount" : "views.config.changes.unsavedCountPlural", { count: diff.length })}</span>
               <svg class="config-diff__chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </summary>
             <div class="config-diff__content">
               <div class="config-diff__item" style="font-weight: 600; border-bottom: 1px solid var(--border);">
-                <div class="config-diff__path">${translate('views.config.diff.path')}</div>
+                <div class="config-diff__path">${translate("views.config.diff.path")}</div>
                 <div class="config-diff__values">
-                  <span class="config-diff__from">${translate('views.config.diff.from')}</span>
+                  <span class="config-diff__from">${translate("views.config.diff.from")}</span>
                   <span class="config-diff__arrow"></span>
-                  <span class="config-diff__to">${translate('views.config.diff.to')}</span>
+                  <span class="config-diff__to">${translate("views.config.diff.to")}</span>
                 </div>
               </div>
               ${diff.map(
@@ -600,7 +600,7 @@ export function renderConfig(props: ConfigProps) {
                   <div class="config-section-hero__title">${activeSectionMeta.label}</div>
                   ${
                     activeSectionMeta.description
-                      ? html`                <div class="config-section-hero__desc"><span style="font-weight: 600;">${translate('views.config.sectionHero.desc')}:</span> ${activeSectionMeta.description}</div>`
+                      ? html`                <div class="config-section-hero__desc"><span style="font-weight: 600;">${translate("views.config.sectionHero.desc")}:</span> ${activeSectionMeta.description}</div>`
                       : nothing
                   }
                 </div>
@@ -617,7 +617,7 @@ export function renderConfig(props: ConfigProps) {
                   class="config-subnav__item ${effectiveSubsection === null ? "active" : ""}"
                   @click=${() => props.onSubsectionChange(ALL_SUBSECTION)}
                 >
-                  ${translate('views.config.nav.all')}
+                  ${translate("views.config.nav.all")}
                 </button>
                 ${subsections.map(
                   (entry) => html`
@@ -647,7 +647,7 @@ export function renderConfig(props: ConfigProps) {
                     ? html`
                         <div class="config-loading">
                           <div class="config-loading__spinner"></div>
-                          <span>${translate('views.config.form.loading')}</span>
+                          <span>${translate("views.config.form.loading")}</span>
                         </div>
                       `
                     : renderConfigForm({
@@ -674,7 +674,7 @@ export function renderConfig(props: ConfigProps) {
               `
               : html`
                 <label class="field config-raw-field">
-                  <span>${translate('views.config.form.raw')}</span>
+                  <span>${translate("views.config.form.raw")}</span>
                   <textarea
                     .value=${props.raw}
                     @input=${(e: Event) =>

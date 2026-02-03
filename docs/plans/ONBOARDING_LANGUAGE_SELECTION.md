@@ -12,11 +12,13 @@
 ### 1.1 现状问题
 
 **当前行为:**
+
 - 用户在 onboarding 流程中无法选择语言
 - 语言必须在运行 onboard 命令前通过环境变量或配置文件设置
 - 新用户首次使用时默认看到英文界面
 
 **用户痛点:**
+
 - 中文用户首次使用时不清楚如何切换到中文界面
 - 需要在 onboarding 之前就了解语言切换机制
 - 用户体验不够友好
@@ -24,6 +26,7 @@
 ### 1.2 改进目标
 
 **目标:**
+
 - ✅ 支持通过 `--lang` 参数指定语言
 - ✅ 交互式向导第一步提供语言选择
 - ✅ 语言选择后实时生效，后续步骤使用该语言
@@ -80,16 +83,16 @@ Onboarding 时:
 
 ### 3.1 修改文件清单
 
-| 文件 | 修改类型 | 说明 |
-|------|----------|------|
-| `src/commands/onboard-types.ts` | 修改 | 添加 `lang` 字段到 `OnboardOptions` |
-| `src/cli/program/register.onboard.ts` | 修改 | 添加 `--lang` 选项 |
-| `src/commands/onboard.ts` | 修改 | 处理语言参数和初始化 |
-| `src/wizard/onboarding.ts` | 修改 | 添加语言选择步骤 |
-| `src/i18n/config.ts` | 修改 | 添加系统语言检测功能 |
-| `src/i18n/locales/en/wizard.ts` | 修改 | 添加语言选择相关翻译 |
-| `src/i18n/locales/zh-CN/wizard.ts` | 修改 | 添加语言选择相关翻译 |
-| `src/i18n/index.test.ts` | 修改 | 添加语言选择测试 |
+| 文件                                  | 修改类型 | 说明                                |
+| ------------------------------------- | -------- | ----------------------------------- |
+| `src/commands/onboard-types.ts`       | 修改     | 添加 `lang` 字段到 `OnboardOptions` |
+| `src/cli/program/register.onboard.ts` | 修改     | 添加 `--lang` 选项                  |
+| `src/commands/onboard.ts`             | 修改     | 处理语言参数和初始化                |
+| `src/wizard/onboarding.ts`            | 修改     | 添加语言选择步骤                    |
+| `src/i18n/config.ts`                  | 修改     | 添加系统语言检测功能                |
+| `src/i18n/locales/en/wizard.ts`       | 修改     | 添加语言选择相关翻译                |
+| `src/i18n/locales/zh-CN/wizard.ts`    | 修改     | 添加语言选择相关翻译                |
+| `src/i18n/index.test.ts`              | 修改     | 添加语言选择测试                    |
 
 ---
 
@@ -102,7 +105,7 @@ Onboarding 时:
 ```typescript
 export type OnboardOptions = {
   // ... 现有字段 ...
-  
+
   /** Language locale for onboarding and CLI (e.g., 'en', 'zh-CN') */
   lang?: string;
 };
@@ -140,10 +143,10 @@ import { setLocale, getAvailableLocales } from "../i18n/index.js";
 
 export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv = defaultRuntime) {
   // ... 现有代码 ...
-  
+
   // 处理语言设置
   await handleLanguageSelection(opts, runtime);
-  
+
   // ... 后续流程 ...
 }
 
@@ -156,12 +159,14 @@ async function handleLanguageSelection(opts: OnboardOptions, runtime: RuntimeEnv
       runtime.log(`Language set to: ${opts.lang}`);
       return;
     } else {
-      runtime.error(`Unsupported locale: ${opts.lang}. Available: ${getAvailableLocales().join(", ")}`);
+      runtime.error(
+        `Unsupported locale: ${opts.lang}. Available: ${getAvailableLocales().join(", ")}`,
+      );
       runtime.exit(1);
       return;
     }
   }
-  
+
   // 2. 否则依赖现有的 i18n 初始化逻辑
   // initializeI18nSync() 已经在 build-program.ts 中调用
 }
@@ -174,10 +179,10 @@ async function handleLanguageSelection(opts: OnboardOptions, runtime: RuntimeEnv
 在 `runOnboardingWizard` 函数开头添加语言选择：
 
 ```typescript
-import { 
-  getAvailableLocalesWithNames, 
+import {
+  getAvailableLocalesWithNames,
   updateLanguageSetting,
-  getLanguageSettings 
+  getLanguageSettings,
 } from "../i18n/config.js";
 import { setLocale, getLocale } from "../i18n/index.js";
 
@@ -187,45 +192,45 @@ export async function runOnboardingWizard(
   prompter: WizardPrompter,
 ) {
   printWizardHeader(runtime);
-  
+
   // 添加语言选择步骤（仅在交互模式下）
   if (!opts.nonInteractive) {
     await promptLanguageSelection(opts, prompter, runtime);
   }
-  
-  await prompter.intro(t('wizard.intro.title'));
+
+  await prompter.intro(t("wizard.intro.title"));
   await requireRiskAcknowledgement({ opts, prompter });
-  
+
   // ... 后续流程 ...
 }
 
 async function promptLanguageSelection(
-  opts: OnboardOptions, 
+  opts: OnboardOptions,
   prompter: WizardPrompter,
-  runtime: RuntimeEnv
+  runtime: RuntimeEnv,
 ) {
   // 如果已经通过命令行参数指定，跳过
   if (opts.lang && opts.lang !== "auto") {
     return;
   }
-  
+
   const currentSettings = await getLanguageSettings();
   const locales = getAvailableLocalesWithNames();
-  
+
   const selectedLocale = await prompter.select({
-    message: t('wizard.language.select'),
-    options: locales.map(loc => ({
+    message: t("wizard.language.select"),
+    options: locales.map((loc) => ({
       value: loc.code,
       label: `${loc.nativeName} (${loc.name})`,
-      hint: loc.code === currentSettings.locale ? t('wizard.language.current') : undefined,
+      hint: loc.code === currentSettings.locale ? t("wizard.language.current") : undefined,
     })),
     initialValue: currentSettings.locale,
   });
-  
+
   if (selectedLocale !== getLocale()) {
     setLocale(selectedLocale);
     await updateLanguageSetting(selectedLocale);
-    runtime.log(t('wizard.language.changed', { locale: selectedLocale }));
+    runtime.log(t("wizard.language.changed", { locale: selectedLocale }));
   }
 }
 ```
@@ -237,12 +242,12 @@ async function promptLanguageSelection(
 ```typescript
 export const wizardMessages = {
   // ... 现有翻译 ...
-  
+
   // 语言选择
-  'wizard.language.select': 'Select your preferred language',
-  'wizard.language.current': 'current',
-  'wizard.language.changed': 'Language changed to: {locale}',
-  
+  "wizard.language.select": "Select your preferred language",
+  "wizard.language.current": "current",
+  "wizard.language.changed": "Language changed to: {locale}",
+
   // ... 其他翻译 ...
 };
 ```
@@ -252,12 +257,12 @@ export const wizardMessages = {
 ```typescript
 export const wizardMessages = {
   // ... 现有翻译 ...
-  
+
   // 语言选择
-  'wizard.language.select': '请选择您的首选语言',
-  'wizard.language.current': '当前',
-  'wizard.language.changed': '语言已切换为: {locale}',
-  
+  "wizard.language.select": "请选择您的首选语言",
+  "wizard.language.current": "当前",
+  "wizard.language.changed": "语言已切换为: {locale}",
+
   // ... 其他翻译 ...
 };
 ```
@@ -273,23 +278,21 @@ export const wizardMessages = {
  */
 export function detectSystemLanguage(): AvailableLocale | undefined {
   try {
-    const systemLang = process.env.LANG || 
-                       process.env.LC_ALL || 
-                       process.env.LANGUAGE;
-    
+    const systemLang = process.env.LANG || process.env.LC_ALL || process.env.LANGUAGE;
+
     if (!systemLang) return undefined;
-    
+
     // Extract language code (e.g., "zh_CN.UTF-8" -> "zh-CN")
-    const langCode = systemLang.split('.')[0].replace('_', '-');
-    
+    const langCode = systemLang.split(".")[0].replace("_", "-");
+
     // Check for exact match
     if (isAvailableLocale(langCode)) {
       return langCode;
     }
-    
+
     // Check for language match (e.g., "zh" matches "zh-CN")
-    const baseLang = langCode.split('-')[0];
-    const match = AVAILABLE_LOCALES.find(loc => loc.startsWith(baseLang));
+    const baseLang = langCode.split("-")[0];
+    const match = AVAILABLE_LOCALES.find((loc) => loc.startsWith(baseLang));
     return match;
   } catch {
     return undefined;
@@ -318,7 +321,7 @@ export async function initializeI18n(): Promise<void> {
   } catch {
     // Config file may not exist, continue to defaults
   }
-  
+
   // 3. Try to detect system language (NEW)
   const systemLang = detectSystemLanguage();
   if (systemLang) {
@@ -337,14 +340,14 @@ export async function initializeI18n(): Promise<void> {
 
 ### 4.1 测试场景
 
-| 场景 | 输入 | 预期结果 |
-|------|------|----------|
-| 命令行参数指定 | `--lang zh-CN` | 使用中文，保存到配置 |
-| 命令行参数无效 | `--lang invalid` | 报错并退出 |
-| 交互式选择 | 用户选择 "简体中文" | 界面切换为中文 |
-| 非交互模式 | `--non-interactive` | 使用现有配置或默认 |
-| 系统语言检测 | `LANG=zh_CN.UTF-8` | 自动使用中文 |
-| 配置持久化 | 选择后完成 onboarding | 下次默认使用选择的语言 |
+| 场景           | 输入                  | 预期结果               |
+| -------------- | --------------------- | ---------------------- |
+| 命令行参数指定 | `--lang zh-CN`        | 使用中文，保存到配置   |
+| 命令行参数无效 | `--lang invalid`      | 报错并退出             |
+| 交互式选择     | 用户选择 "简体中文"   | 界面切换为中文         |
+| 非交互模式     | `--non-interactive`   | 使用现有配置或默认     |
+| 系统语言检测   | `LANG=zh_CN.UTF-8`    | 自动使用中文           |
+| 配置持久化     | 选择后完成 onboarding | 下次默认使用选择的语言 |
 
 ### 4.2 测试命令
 
@@ -408,11 +411,11 @@ openclaw onboard --non-interactive --accept-risk
 
 ### 6.2 风险与对策
 
-| 风险 | 概率 | 影响 | 对策 |
-|------|------|------|------|
-| 语言切换不生效 | 低 | 高 | 增加调试日志，充分测试 |
-| 向后兼容性问题 | 低 | 中 | 保持默认行为不变 |
-| 系统语言检测错误 | 中 | 低 | 添加异常处理，回退到默认 |
+| 风险             | 概率 | 影响 | 对策                     |
+| ---------------- | ---- | ---- | ------------------------ |
+| 语言切换不生效   | 低   | 高   | 增加调试日志，充分测试   |
+| 向后兼容性问题   | 低   | 中   | 保持默认行为不变         |
+| 系统语言检测错误 | 中   | 低   | 添加异常处理，回退到默认 |
 
 ---
 

@@ -1,5 +1,4 @@
 import type { Command } from "commander";
-import { formatCliChannelOptions } from "./channel-options.js";
 import {
   channelsAddCommand,
   channelsCapabilitiesCommand,
@@ -15,6 +14,7 @@ import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
 import { theme } from "../terminal/theme.js";
 import { runChannelLogin, runChannelLogout } from "./channel-auth.js";
+import { formatCliChannelOptions } from "./channel-options.js";
 import { runCommandWithRuntime } from "./cli-utils.js";
 import { hasExplicitOptions } from "./command-options.js";
 
@@ -71,7 +71,7 @@ export function registerChannelsCli(program: Command) {
   const channelNames = formatCliChannelOptions();
   const channels = program
     .command("channels")
-    .description(t('cli.channels.description'))
+    .description(t("cli.channels.description"))
     .addHelpText(
       "after",
       () =>
@@ -83,7 +83,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("list")
-    .description(t('cli.channels.list.description'))
+    .description(t("cli.channels.list.description"))
     .option("--no-usage", "Skip model provider usage/quota snapshots")
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
@@ -94,7 +94,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("status")
-    .description(t('cli.channels.status.description'))
+    .description(t("cli.channels.status.description"))
     .option("--probe", "Probe channel credentials", false)
     .option("--timeout <ms>", "Timeout in ms", "10000")
     .option("--json", "Output JSON", false)
@@ -106,7 +106,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("capabilities")
-    .description(t('cli.channels.capabilities.description'))
+    .description(t("cli.channels.capabilities.description"))
     .option("--channel <name>", `Channel (${formatCliChannelOptions(["all"])})`)
     .option("--account <id>", "Account id (only with --channel)")
     .option("--target <dest>", "Channel target for permission audit (Discord channel:<id>)")
@@ -120,7 +120,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("resolve")
-    .description(t('cli.channels.resolve.description'))
+    .description(t("cli.channels.resolve.description"))
     .argument("<entries...>", "Entries to resolve (names or ids)")
     .option("--channel <name>", `Channel (${channelNames})`)
     .option("--account <id>", "Account id (accountId)")
@@ -143,7 +143,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("logs")
-    .description(t('cli.channels.logs.description'))
+    .description(t("cli.channels.logs.description"))
     .option("--channel <name>", `Channel (${formatCliChannelOptions(["all"])})`, "all")
     .option("--lines <n>", "Number of lines (default: 200)", "200")
     .option("--json", "Output JSON", false)
@@ -155,7 +155,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("add")
-    .description(t('cli.channels.add.description'))
+    .description(t("cli.channels.add.description"))
     .option("--channel <name>", `Channel (${channelNames})`)
     .option("--account <id>", "Account id (default when omitted)")
     .option("--name <name>", "Display name for this account")
@@ -199,7 +199,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("remove")
-    .description(t('cli.channels.remove.description'))
+    .description(t("cli.channels.remove.description"))
     .option("--channel <name>", `Channel (${channelNames})`)
     .option("--account <id>", "Account id (default when omitted)")
     .option("--delete", "Delete config entries (no prompt)", false)
@@ -212,7 +212,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("login")
-    .description(t('cli.channels.link.description'))
+    .description(t("cli.channels.link.description"))
     .option("--channel <channel>", "Channel alias (default: whatsapp)")
     .option("--account <id>", "Account id (accountId)")
     .option("--verbose", "Verbose connection logs", false)
@@ -231,7 +231,7 @@ export function registerChannelsCli(program: Command) {
 
   channels
     .command("logout")
-    .description(t('cli.channels.logout.description'))
+    .description(t("cli.channels.logout.description"))
     .option("--channel <channel>", "Channel alias (default: whatsapp)")
     .option("--account <id>", "Account id (accountId)")
     .action(async (opts) => {

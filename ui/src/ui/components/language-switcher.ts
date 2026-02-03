@@ -1,5 +1,4 @@
 import { html } from "lit";
-
 import { changeLanguage, getCurrentLanguage } from "../../i18n/config.js";
 
 const LANGUAGES = [

@@ -24,7 +24,9 @@ src/gateway/
 ## KEY PATTERNS
 
 ### WebSocket Message Handler
+
 Central dispatch for gateway protocol messages:
+
 ```typescript
 // src/gateway/server/ws-connection/message-handler.ts
 export async function handleGatewayMessage(
@@ -44,6 +46,7 @@ export async function handleGatewayMessage(
 ```
 
 ### Protocol Schema Conventions
+
 ```typescript
 // Export both schema and inferred type
 export const ConnectParamsSchema = Type.Object({ ... });
@@ -54,6 +57,7 @@ export const NonEmptyString = Type.String({ minLength: 1 });
 ```
 
 ### Gateway Message Types
+
 - `connect` - Client connection handshake
 - `invoke` - Tool/method invocation
 - `subscribe` - Event subscription
@@ -62,13 +66,13 @@ export const NonEmptyString = Type.String({ minLength: 1 });
 
 ## WHERE TO LOOK
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add protocol message | `src/gateway/protocol/schema/` | Add to appropriate domain file |
-| Message dispatch | `src/gateway/server/ws-connection/message-handler.ts` | Handle new message types |
-| HTTP responses | `src/gateway/openresponses-http.ts` | OpenAI-compatible HTTP API |
-| Session utilities | `src/gateway/session-utils.ts` | Session key helpers |
-| Server implementation | `src/gateway/server.impl.ts` | Core server logic |
+| Task                  | Location                                              | Notes                          |
+| --------------------- | ----------------------------------------------------- | ------------------------------ |
+| Add protocol message  | `src/gateway/protocol/schema/`                        | Add to appropriate domain file |
+| Message dispatch      | `src/gateway/server/ws-connection/message-handler.ts` | Handle new message types       |
+| HTTP responses        | `src/gateway/openresponses-http.ts`                   | OpenAI-compatible HTTP API     |
+| Session utilities     | `src/gateway/session-utils.ts`                        | Session key helpers            |
+| Server implementation | `src/gateway/server.impl.ts`                          | Core server logic              |
 
 ## ANTI-PATTERNS
 

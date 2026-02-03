@@ -1,6 +1,6 @@
 import type { Command } from "commander";
-import { listPairingChannels, notifyPairingApproved } from "../channels/plugins/pairing.js";
 import { normalizeChannelId } from "../channels/plugins/index.js";
+import { listPairingChannels, notifyPairingApproved } from "../channels/plugins/pairing.js";
 import { loadConfig } from "../config/config.js";
 import { t } from "../i18n/index.js";
 import { resolvePairingIdLabel } from "../pairing/pairing-labels.js";
@@ -54,7 +54,7 @@ export function registerPairingCli(program: Command) {
   const channels = listPairingChannels();
   const pairing = program
     .command("pairing")
-    .description(t('cli.pairing.description'))
+    .description(t("cli.pairing.description"))
     .addHelpText(
       "after",
       () =>
@@ -63,7 +63,7 @@ export function registerPairingCli(program: Command) {
 
   pairing
     .command("list")
-    .description(t('cli.pairing.list.description'))
+    .description(t("cli.pairing.list.description"))
     .option("--channel <channel>", `Channel (${channels.join(", ")})`)
     .argument("[channel]", `Channel (${channels.join(", ")})`)
     .option("--json", "Print JSON", false)
@@ -110,7 +110,7 @@ export function registerPairingCli(program: Command) {
 
   pairing
     .command("approve")
-    .description(t('cli.pairing.approve.description'))
+    .description(t("cli.pairing.approve.description"))
     .option("--channel <channel>", `Channel (${channels.join(", ")})`)
     .argument("<codeOrChannel>", "Pairing code (or channel when using 2 args)")
     .argument("[code]", "Pairing code (when channel is passed as the 1st arg)")

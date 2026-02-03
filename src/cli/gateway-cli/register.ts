@@ -1,16 +1,16 @@
 import type { Command } from "commander";
+import type { CostUsageSummary } from "../../infra/session-cost-usage.js";
+import type { GatewayDiscoverOpts } from "./discover.js";
 import { gatewayStatusCommand } from "../../commands/gateway-status.js";
 import { formatHealthChannelLines, type HealthSummary } from "../../commands/health.js";
 import { loadConfig } from "../../config/config.js";
 import { t } from "../../i18n/index.js";
 import { discoverGatewayBeacons } from "../../infra/bonjour-discovery.js";
-import type { CostUsageSummary } from "../../infra/session-cost-usage.js";
 import { resolveWideAreaDiscoveryDomain } from "../../infra/widearea-dns.js";
 import { defaultRuntime } from "../../runtime.js";
 import { formatDocsLink } from "../../terminal/links.js";
 import { colorize, isRich, theme } from "../../terminal/theme.js";
 import { formatTokenCount, formatUsd } from "../../utils/usage-format.js";
-import { withProgress } from "../progress.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
 import {
   runDaemonInstall,
@@ -20,8 +20,8 @@ import {
   runDaemonStop,
   runDaemonUninstall,
 } from "../daemon-cli.js";
+import { withProgress } from "../progress.js";
 import { callGatewayCli, gatewayCallOpts } from "./call.js";
-import type { GatewayDiscoverOpts } from "./discover.js";
 import {
   dedupeBeacons,
   parseDiscoverTimeoutMs,
@@ -123,7 +123,7 @@ export function registerGatewayCli(program: Command) {
   const gateway = addGatewayRunCommand(
     program
       .command("gateway")
-      .description(t('cli.gateway.description'))
+      .description(t("cli.gateway.description"))
       .addHelpText(
         "after",
         () =>
@@ -131,13 +131,11 @@ export function registerGatewayCli(program: Command) {
       ),
   );
 
-  addGatewayRunCommand(
-    gateway.command("run").description(t('cli.gateway.run.description')),
-  );
+  addGatewayRunCommand(gateway.command("run").description(t("cli.gateway.run.description")));
 
   gateway
     .command("status")
-    .description(t('cli.gateway.status.description'))
+    .description(t("cli.gateway.status.description"))
     .option("--url <url>", "Gateway WebSocket URL (defaults to config/remote/local)")
     .option("--token <token>", "Gateway token (if required)")
     .option("--password <password>", "Gateway password (password auth)")
@@ -156,7 +154,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("install")
-    .description(t('cli.gateway.install.description'))
+    .description(t("cli.gateway.install.description"))
     .option("--port <port>", "Gateway port")
     .option("--runtime <runtime>", "Daemon runtime (node|bun). Default: node")
     .option("--token <token>", "Gateway token (token auth)")
@@ -168,7 +166,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("uninstall")
-    .description(t('cli.gateway.uninstall.description'))
+    .description(t("cli.gateway.uninstall.description"))
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runDaemonUninstall(opts);
@@ -176,7 +174,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("start")
-    .description(t('cli.gateway.start.description'))
+    .description(t("cli.gateway.start.description"))
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runDaemonStart(opts);
@@ -184,7 +182,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("stop")
-    .description(t('cli.gateway.stop.description'))
+    .description(t("cli.gateway.stop.description"))
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runDaemonStop(opts);
@@ -192,7 +190,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("restart")
-    .description(t('cli.gateway.restart.description'))
+    .description(t("cli.gateway.restart.description"))
     .option("--json", "Output JSON", false)
     .action(async (opts) => {
       await runDaemonRestart(opts);
@@ -201,7 +199,7 @@ export function registerGatewayCli(program: Command) {
   gatewayCallOpts(
     gateway
       .command("call")
-      .description(t('cli.gateway.call.description'))
+      .description(t("cli.gateway.call.description"))
       .argument("<method>", "Method name (health/status/system-presence/cron.*)")
       .option("--params <json>", "JSON object string for params", "{}")
       .action(async (method, opts) => {
@@ -224,7 +222,7 @@ export function registerGatewayCli(program: Command) {
   gatewayCallOpts(
     gateway
       .command("usage-cost")
-      .description(t('cli.gateway.usage.description'))
+      .description(t("cli.gateway.usage.description"))
       .option("--days <days>", "Number of days to include", "30")
       .action(async (opts) => {
         await runGatewayCommand(async () => {
@@ -246,7 +244,7 @@ export function registerGatewayCli(program: Command) {
   gatewayCallOpts(
     gateway
       .command("health")
-      .description(t('cli.gateway.health.description'))
+      .description(t("cli.gateway.health.description"))
       .action(async (opts) => {
         await runGatewayCommand(async () => {
           const result = await callGatewayCli("health", opts);
@@ -272,7 +270,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("probe")
-    .description(t('cli.gateway.deep.description'))
+    .description(t("cli.gateway.deep.description"))
     .option("--url <url>", "Explicit Gateway WebSocket URL (still probes localhost)")
     .option("--ssh <target>", "SSH target for remote gateway tunnel (user@host or user@host:port)")
     .option("--ssh-identity <path>", "SSH identity file path")
@@ -289,7 +287,7 @@ export function registerGatewayCli(program: Command) {
 
   gateway
     .command("discover")
-    .description(t('cli.gateway.discover.description'))
+    .description(t("cli.gateway.discover.description"))
     .option("--timeout <ms>", "Per-command timeout in ms", "2000")
     .option("--json", "Output JSON", false)
     .action(async (opts: GatewayDiscoverOpts) => {

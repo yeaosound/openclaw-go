@@ -9,6 +9,7 @@
 ## 任务概览
 
 ### 已完成
+
 - Skills 配置主要文本翻译
 - Hooks 配置主要文本翻译
 - Gateway Service 主要文本翻译
@@ -21,6 +22,7 @@
 - Completion 完成提示翻译
 
 ### 待完成
+
 - 验证错误消息翻译
 - 配置向导文本翻译
 - 频道设置文本翻译
@@ -36,7 +38,7 @@
 
 ### 待翻译项
 
-1. **行 128** - "Invalid config" 
+1. **行 128** - "Invalid config"
    - 建议键: `wizard.config.invalidTitle`
    - 译文: "配置无效"
 
@@ -297,22 +299,27 @@
 ## 实施建议
 
 ### 阶段 1: 高优先级 (1.5小时)
+
 1. `src/wizard/onboarding.ts` - 核心 onboarding 流程
 2. `src/wizard/onboarding.gateway-config.ts` - 网关配置
 
 ### 阶段 2: 中优先级 (1小时)
+
 3. `src/commands/onboard-channels.ts` - 频道设置
 
 ### 阶段 3: 低优先级 (1小时)
+
 4. `src/commands/onboard-remote.ts` - 远程网关
 5. 补充遗漏的提示和验证消息
 
 ### 翻译文件更新
+
 - 同步更新 `src/i18n/locales/zh-CN/wizard.ts`
 - 同步更新 `src/i18n/locales/en/wizard.ts`
 - 保持翻译键命名一致性
 
 ### 质量检查清单
+
 - [ ] TypeScript 编译无错误
 - [ ] 所有新增翻译键在两种语言文件中都有定义
 - [ ] 动态插值（如 {label}, {command}）正确使用

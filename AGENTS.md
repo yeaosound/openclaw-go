@@ -46,49 +46,55 @@ openclaw/
 
 ## WHERE TO LOOK
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add new channel | `extensions/` or `src/<channel>/` | Copy existing extension pattern |
-| Channel plugin API | `src/channels/plugins/types.plugin.ts` | ChannelPlugin interface |
-| Tool development | `src/agents/tools/` + `src/plugin-sdk/` | Tool factory patterns |
-| CLI commands | `src/commands/` | Commander-based |
-| Gateway protocol | `src/gateway/protocol/` | WebSocket message types |
-| Configuration | `src/config/` | Zod schemas, validation |
-| Session routing | `src/routing/` | Session keys, bindings |
-| Security audit | `src/security/` | Audit, allowlists |
-| Tests | Colocated `*.test.ts` | Vitest framework |
+| Task               | Location                                | Notes                           |
+| ------------------ | --------------------------------------- | ------------------------------- |
+| Add new channel    | `extensions/` or `src/<channel>/`       | Copy existing extension pattern |
+| Channel plugin API | `src/channels/plugins/types.plugin.ts`  | ChannelPlugin interface         |
+| Tool development   | `src/agents/tools/` + `src/plugin-sdk/` | Tool factory patterns           |
+| CLI commands       | `src/commands/`                         | Commander-based                 |
+| Gateway protocol   | `src/gateway/protocol/`                 | WebSocket message types         |
+| Configuration      | `src/config/`                           | Zod schemas, validation         |
+| Session routing    | `src/routing/`                          | Session keys, bindings          |
+| Security audit     | `src/security/`                         | Audit, allowlists               |
+| Tests              | Colocated `*.test.ts`                   | Vitest framework                |
 
 ## CONVENTIONS
 
 ### File Organization
+
 - **kebab-case** for all source files
 - Colocated tests: `*.test.ts` alongside source
 - E2E tests: `*.e2e.test.ts`
 - Barrel files: `index.ts` with `export * from "./file.js"`
 
 ### Import/Export
+
 - ESM only with `.js` extensions even for TypeScript
 - Named exports preferred
 - Type imports: `import type { X } from "./x.js"`
 
 ### TypeBox Schemas
+
 - **NEVER** use `Type.Union([Type.Object(...)])` - rejected by OpenAI/Vertex
 - Use `stringEnum()` helper for enums
 - Flatten action-based schemas with discriminator field
 - Always add descriptions for LLM tool definitions
 
 ### Error Handling
+
 - Custom Error classes extending Error
 - Type guards: `isXxxError(err): err is XxxError`
 - Pattern: `err instanceof Error ? err.message : String(err)`
 
 ### Naming
+
 - Classes: PascalCase
 - Types/Interfaces: PascalCase
 - Functions/Variables: camelCase
 - Constants: UPPER_SNAKE_CASE
 
 ### Tool Development
+
 - Tool factories receive context, return `AnyAgentTool[]`
 - Use `readStringParam()`, `readNumberParam()` helpers
 - Return results via `jsonResult()` or `imageResult()`
@@ -106,18 +112,23 @@ openclaw/
 ## UNIQUE STYLES
 
 ### Respawn Entry Pattern
+
 `src/entry.ts` respawns itself to inject `--disable-warning=ExperimentalWarning` before loading CLI
 
 ### Plugin SDK Resolution
+
 Extensions resolve `openclaw/plugin-sdk` via jiti alias at runtime, avoiding circular workspace deps
 
 ### Session Key Format
+
 `agent:{agentId}:{channel}:{accountId}:{peerKind}:{peerId}`
 
 ### Channel Plugin Architecture
+
 All channels implement `ChannelPlugin` interface with standardized adapters (config, setup, gateway, security, outbound)
 
 ### DM Policy System
+
 Standardized policies: `pairing` (default), `allowlist`, `open`, `disabled`
 
 ## COMMANDS
@@ -160,18 +171,18 @@ pnpm android:run           # Build and run Android
 
 ## KEY SUBSYSTEMS
 
-| Subsystem | Location | Description |
-|-----------|----------|-------------|
-| Agent Runtime | `src/agents/` | Pi integration, tool execution, policies |
-| Gateway | `src/gateway/` | WebSocket control plane, protocol |
-| Channels | `src/channels/` + extensions/ | Messaging channel plugins |
-| CLI | `src/cli/` + `src/commands/` | Command framework, wizards |
-| Config | `src/config/` | Zod schemas, validation |
-| Routing | `src/routing/` | Session keys, agent bindings |
-| Plugins | `src/plugins/` | Plugin registry, loading |
-| Security | `src/security/` | Audit, execution approvals |
-| Memory | `src/memory/` | Vector search, embeddings |
-| Extensions | `extensions/*` | 32 workspace packages |
+| Subsystem     | Location                      | Description                              |
+| ------------- | ----------------------------- | ---------------------------------------- |
+| Agent Runtime | `src/agents/`                 | Pi integration, tool execution, policies |
+| Gateway       | `src/gateway/`                | WebSocket control plane, protocol        |
+| Channels      | `src/channels/` + extensions/ | Messaging channel plugins                |
+| CLI           | `src/cli/` + `src/commands/`  | Command framework, wizards               |
+| Config        | `src/config/`                 | Zod schemas, validation                  |
+| Routing       | `src/routing/`                | Session keys, agent bindings             |
+| Plugins       | `src/plugins/`                | Plugin registry, loading                 |
+| Security      | `src/security/`               | Audit, execution approvals               |
+| Memory        | `src/memory/`                 | Vector search, embeddings                |
+| Extensions    | `extensions/*`                | 32 workspace packages                    |
 
 ## TESTING
 

@@ -1,6 +1,6 @@
 import type { Command } from "commander";
-import { t } from "../../../i18n/index.js";
 import type { MessageCliHelpers } from "./helpers.js";
+import { t } from "../../../i18n/index.js";
 
 export function registerMessageReactionsCommands(message: Command, helpers: MessageCliHelpers) {
   helpers

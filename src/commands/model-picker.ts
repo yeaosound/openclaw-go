@@ -1,3 +1,5 @@
+import type { OpenClawConfig } from "../config/config.js";
+import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.js";
 import { ensureAuthProfileStore, listProfilesForProvider } from "../agents/auth-profiles.js";
 import { DEFAULT_MODEL, DEFAULT_PROVIDER } from "../agents/defaults.js";
 import { getCustomProviderApiKey, resolveEnvApiKey } from "../agents/model-auth.js";
@@ -9,9 +11,7 @@ import {
   normalizeProviderId,
   resolveConfiguredModelRef,
 } from "../agents/model-selection.js";
-import type { OpenClawConfig } from "../config/config.js";
 import { t } from "../i18n/index.js";
-import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.js";
 import { formatTokenK } from "./models/shared.js";
 
 const KEEP_VALUE = "__keep__";
@@ -89,7 +89,7 @@ async function promptManualModel(params: {
   initialValue?: string;
 }): Promise<PromptDefaultModelResult> {
   const modelInput = await params.prompter.text({
-    message: params.allowBlank ? t('wizard.model.default.keep') : t('wizard.model.default.title'),
+    message: params.allowBlank ? t("wizard.model.default.keep") : t("wizard.model.default.title"),
     initialValue: params.initialValue,
     placeholder: "provider/model",
     validate: params.allowBlank ? undefined : (value) => (value?.trim() ? undefined : "Required"),
@@ -162,7 +162,7 @@ export async function promptDefaultModel(
     !hasPreferredProvider && providers.length > 1 && models.length > PROVIDER_FILTER_THRESHOLD;
   if (shouldPromptProvider) {
     const selection = await params.prompter.select({
-      message: t('wizard.model.filter.provider'),
+      message: t("wizard.model.filter.provider"),
       options: [
         { value: "*", label: "All providers" },
         ...providers.map((provider) => {
@@ -280,7 +280,7 @@ export async function promptDefaultModel(
   }
 
   const selection = await params.prompter.select({
-    message: params.message ?? t('wizard.model.default.title'),
+    message: params.message ?? t("wizard.model.default.title"),
     options,
     initialValue,
   });

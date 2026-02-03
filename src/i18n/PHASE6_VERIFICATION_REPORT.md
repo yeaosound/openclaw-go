@@ -32,15 +32,17 @@
 ### 2.1 Discord 频道文件 ✅
 
 #### native-command.ts
+
 **文件路径:** `src/discord/monitor/native-command.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../i18n/index.js";` (第57行) |
-| 翻译调用 | ✅ | 7处 `t('channel.discord...)` 调用 |
-| 具体键值 | ✅ | channelDisabled, notAllowed, dmsDisabled, notAuthorized, groupDMsDisabled |
+| 检查项    | 状态 | 详情                                                                      |
+| --------- | ---- | ------------------------------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../i18n/index.js";` (第57行)                       |
+| 翻译调用  | ✅   | 7处 `t('channel.discord...)` 调用                                         |
+| 具体键值  | ✅   | channelDisabled, notAllowed, dmsDisabled, notAuthorized, groupDMsDisabled |
 
 **验证的翻译调用:**
+
 ```typescript
 ✅ await respond(t('channel.discord.channelDisabled'));  // 第590行
 ✅ await respond(t('channel.discord.notAllowed'));       // 第594行
@@ -52,28 +54,31 @@
 ```
 
 #### system-events.ts
+
 **文件路径:** `src/discord/monitor/system-events.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../i18n/index.js";` (第3行) |
-| 翻译调用 | ✅ | 20处 `t('channel.discord.system...)` 调用 |
-| 参数插值 | ✅ | 所有调用使用 `{location}` 插值 |
+| 检查项    | 状态 | 详情                                               |
+| --------- | ---- | -------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../i18n/index.js";` (第3行) |
+| 翻译调用  | ✅   | 20处 `t('channel.discord.system...)` 调用          |
+| 参数插值  | ✅   | 所有调用使用 `{location}` 插值                     |
 
 ---
 
 ### 2.2 Slack 频道文件 ✅
 
 #### slash.ts
+
 **文件路径:** `src/slack/monitor/slash.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../i18n/index.js";` (第41行) |
-| 翻译调用 | ✅ | 12处 `t('channel.slack...)` 调用 |
-| 响应类型 | ✅ | 所有响应正确使用 translation key |
+| 检查项    | 状态 | 详情                                                |
+| --------- | ---- | --------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../i18n/index.js";` (第41行) |
+| 翻译调用  | ✅   | 12处 `t('channel.slack...)` 调用                    |
+| 响应类型  | ✅   | 所有响应正确使用 translation key                    |
 
 **验证的翻译调用:**
+
 ```typescript
 ✅ text: t('channel.slack.slash.messageRequired')   // 第170行
 ✅ text: t('channel.slack.notAllowed')              // 第197行
@@ -93,15 +98,17 @@
 ### 2.3 Telegram 频道文件 ✅
 
 #### bot-native-commands.ts
+
 **文件路径:** `src/telegram/bot-native-commands.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../i18n/index.js";` (第52行) |
-| 翻译调用 | ✅ | 8处 `t('channel.telegram...)` 调用 |
-| API调用 | ✅ | 所有 `sendMessage` 使用 translation key |
+| 检查项    | 状态 | 详情                                             |
+| --------- | ---- | ------------------------------------------------ |
+| i18n 导入 | ✅   | `import { t } from "../i18n/index.js";` (第52行) |
+| 翻译调用  | ✅   | 8处 `t('channel.telegram...)` 调用               |
+| API调用   | ✅   | 所有 `sendMessage` 使用 translation key          |
 
 **验证的翻译调用:**
+
 ```typescript
 ✅ t('channel.telegram.groupDisabled')          // 第143行
 ✅ t('channel.telegram.topicDisabled')          // 第150行
@@ -118,14 +125,16 @@
 ### 2.4 工具错误消息文件 ✅
 
 #### discord-actions-guild.ts
+
 **文件路径:** `src/agents/tools/discord-actions-guild.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../i18n/index.js";` (第31行) |
-| 翻译调用 | ✅ | 21处 `throw new Error(t(...))` 调用 |
+| 检查项    | 状态 | 详情                                                |
+| --------- | ---- | --------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../i18n/index.js";` (第31行) |
+| 翻译调用  | ✅   | 21处 `throw new Error(t(...))` 调用                 |
 
 **验证的翻译键:**
+
 - ✅ channel.tools.discord.memberInfoDisabled (第52行)
 - ✅ channel.tools.discord.roleInfoDisabled (第70行)
 - ✅ channel.tools.discord.reactionsDisabled (第81行)
@@ -138,14 +147,16 @@
 - ✅ channel.tools.discord.channelManagementDisabled (第278, 313, 352, 364, 394, 419, 444, 456, 492行)
 
 #### discord-actions-messaging.ts
+
 **文件路径:** `src/agents/tools/discord-actions-messaging.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../i18n/index.js";` (第32行) |
-| 翻译调用 | ✅ | 14处 `throw new Error(t(...))` 调用 |
+| 检查项    | 状态 | 详情                                                |
+| --------- | ---- | --------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../i18n/index.js";` (第32行) |
+| 翻译调用  | ✅   | 14处 `throw new Error(t(...))` 调用                 |
 
 **验证的翻译键:**
+
 - ✅ channel.tools.discord.reactionsDisabled
 - ✅ channel.tools.discord.stickersDisabled
 - ✅ channel.tools.discord.pollsDisabled
@@ -159,25 +170,29 @@
 - ✅ channel.tools.discord.searchDisabled
 
 #### discord-actions-moderation.ts
+
 **文件路径:** `src/agents/tools/discord-actions-moderation.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../i18n/index.js";` (第5行) |
-| 翻译调用 | ✅ | 3处 `throw new Error(t(...))` 调用 |
+| 检查项    | 状态 | 详情                                               |
+| --------- | ---- | -------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../i18n/index.js";` (第5行) |
+| 翻译调用  | ✅   | 3处 `throw new Error(t(...))` 调用                 |
 
 **验证的翻译键:**
+
 - ✅ channel.tools.discord.moderationDisabled (第15, 51, 69行)
 
 #### slack-actions.ts
+
 **文件路径:** `src/agents/tools/slack-actions.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../i18n/index.js";` (第23行) |
-| 翻译调用 | ✅ | 5处 `throw new Error(t(...))` 调用 |
+| 检查项    | 状态 | 详情                                                |
+| --------- | ---- | --------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../i18n/index.js";` (第23行) |
+| 翻译调用  | ✅   | 5处 `throw new Error(t(...))` 调用                  |
 
 **验证的翻译键:**
+
 - ✅ channel.tools.slack.reactionsDisabled (第131行)
 - ✅ channel.tools.slack.messagesDisabled (第168行)
 - ✅ channel.tools.slack.pinsDisabled (第255行)
@@ -185,14 +200,16 @@
 - ✅ channel.tools.slack.emojiListDisabled (第308行)
 
 #### whatsapp-actions.ts
+
 **文件路径:** `src/agents/tools/whatsapp-actions.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../i18n/index.js";` (第6行) |
-| 翻译调用 | ✅ | 1处 `throw new Error(t(...))` 调用 |
+| 检查项    | 状态 | 详情                                               |
+| --------- | ---- | -------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../i18n/index.js";` (第6行) |
+| 翻译调用  | ✅   | 1处 `throw new Error(t(...))` 调用                 |
 
 **验证的翻译键:**
+
 - ✅ channel.tools.whatsapp.reactionsDisabled (第16行)
 
 ---
@@ -200,14 +217,16 @@
 ### 2.5 Signal 频道文件 ✅
 
 #### signal.ts
+
 **文件路径:** `src/channels/plugins/actions/signal.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| i18n 导入 | ✅ | `import { t } from "../../../i18n/index.js";` (第2行) |
-| 翻译调用 | ✅ | 2处 `t(...)` 调用 |
+| 检查项    | 状态 | 详情                                                  |
+| --------- | ---- | ----------------------------------------------------- |
+| i18n 导入 | ✅   | `import { t } from "../../../i18n/index.js";` (第2行) |
+| 翻译调用  | ✅   | 2处 `t(...)` 调用                                     |
 
 **验证的翻译调用:**
+
 ```typescript
 ✅ t('channel.signal.reactionsDisabled', { level: reactionLevelInfo.level })  // 第79行
 ✅ t('channel.signal.reactionsDisabledViaActions')                            // 第87行
@@ -221,14 +240,15 @@
 
 **文件路径:** `src/i18n/locales/zh-CN/channels.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| 文件存在 | ✅ | 存在 |
-| 总行数 | ✅ | 118行 |
-| 翻译键数量 | ✅ | 96条翻译键 |
-| 分类组织 | ✅ | 按频道分类，注释清晰 |
+| 检查项     | 状态 | 详情                 |
+| ---------- | ---- | -------------------- |
+| 文件存在   | ✅   | 存在                 |
+| 总行数     | ✅   | 118行                |
+| 翻译键数量 | ✅   | 96条翻译键           |
+| 分类组织   | ✅   | 按频道分类，注释清晰 |
 
 **翻译键分类统计:**
+
 - Discord 消息: 42条
 - Slack 消息: 12条
 - Telegram 消息: 10条
@@ -241,12 +261,12 @@
 
 **文件路径:** `src/i18n/locales/en/channels.ts`
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| 文件存在 | ✅ | 存在 |
-| 总行数 | ✅ | 118行 |
-| 与 zh-CN 同步 | ✅ | 键名和数量完全匹配 |
-| 英文源文本 | ✅ | 所有英文原文已保留 |
+| 检查项        | 状态 | 详情               |
+| ------------- | ---- | ------------------ |
+| 文件存在      | ✅   | 存在               |
+| 总行数        | ✅   | 118行              |
+| 与 zh-CN 同步 | ✅   | 键名和数量完全匹配 |
+| 英文源文本    | ✅   | 所有英文原文已保留 |
 
 ---
 
@@ -257,6 +277,7 @@
 通过脚本验证所有在代码中引用的翻译键都存在于语言文件中：
 
 **Discord 键 (29个):**
+
 ```
 ✅ channel.discord.notAllowed
 ✅ channel.discord.dmsDisabled
@@ -290,6 +311,7 @@
 ```
 
 **Slack 键 (11个):**
+
 ```
 ✅ channel.slack.notAllowed
 ✅ channel.slack.dmsDisabled
@@ -302,6 +324,7 @@
 ```
 
 **Telegram 键 (8个):**
+
 ```
 ✅ channel.telegram.groupDisabled
 ✅ channel.telegram.topicDisabled
@@ -312,12 +335,14 @@
 ```
 
 **Signal 键 (2个):**
+
 ```
 ✅ channel.signal.reactionsDisabled
 ✅ channel.signal.reactionsDisabledViaActions
 ```
 
 **工具键 (47个):**
+
 ```
 ✅ channel.tools.discord.moderationDisabled
 ✅ channel.tools.discord.memberInfoDisabled
@@ -349,6 +374,7 @@
 ```
 
 **通用键 (3个):**
+
 ```
 ✅ channel.notConfigured
 ✅ channel.disabled
@@ -362,6 +388,7 @@
 ### 5.1 导入语句格式 ✅
 
 所有文件使用一致的导入格式：
+
 ```typescript
 import { t } from "../../i18n/index.js";
 // 或
@@ -373,15 +400,16 @@ import { t } from "../../../i18n/index.js";
 ### 5.2 翻译调用格式 ✅
 
 所有翻译调用使用一致的格式：
+
 ```typescript
 // 简单调用
-await respond(t('channel.discord.notAllowed'));
+await respond(t("channel.discord.notAllowed"));
 
 // 带参数调用
-await respond(t('channel.discord.system.pinnedMessage', { location }));
+await respond(t("channel.discord.system.pinnedMessage", { location }));
 
 // 错误消息
-throw new Error(t('channel.tools.discord.reactionsDisabled'));
+throw new Error(t("channel.tools.discord.reactionsDisabled"));
 ```
 
 ### 5.3 向后兼容性 ✅
@@ -400,16 +428,19 @@ throw new Error(t('channel.tools.discord.reactionsDisabled'));
 以下内容根据设计决策保持英文：
 
 **日志消息 (logVerbose/logDebug/logError):**
+
 - 原因: 日志主要供技术人员调试使用
 - 示例: `logVerbose("discord exec approvals: disabled")`
 - 状态: 有意保持英文 ✅
 
 **配置迁移消息:**
+
 - 原因: 写入配置文件，保持英文确保一致性
 - 示例: `"[slack] Config writes disabled; skipping channel config migration."`
 - 状态: 有意保持英文 ✅
 
 **CLI 输出:**
+
 - 原因: 已在 Phase 2 中单独处理
 - 状态: 不在 Phase 6 范围内 ✅
 
@@ -483,4 +514,3 @@ $ wc -l src/i18n/locales/*/channels.ts
 **验证工具:** grep, wc, bash  
 **验证人员:** AI Assistant  
 **验证状态:** ✅ 全部通过
-

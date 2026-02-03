@@ -10,7 +10,15 @@ import {
   type ComponentData,
 } from "@buape/carbon";
 import { ApplicationCommandOptionType, ButtonStyle } from "discord-api-types/v10";
-
+import type {
+  ChatCommandDefinition,
+  CommandArgDefinition,
+  CommandArgValues,
+  CommandArgs,
+  NativeCommandSpec,
+} from "../../auto-reply/commands-registry.js";
+import type { ReplyPayload } from "../../auto-reply/types.js";
+import type { OpenClawConfig, loadConfig } from "../../config/config.js";
 import { resolveEffectiveMessagesConfig, resolveHumanDelayConfig } from "../../agents/identity.js";
 import { resolveChunkMode, resolveTextChunkLimit } from "../../auto-reply/chunk.js";
 import {
@@ -22,17 +30,10 @@ import {
   resolveCommandArgMenu,
   serializeCommandArgs,
 } from "../../auto-reply/commands-registry.js";
-import type {
-  ChatCommandDefinition,
-  CommandArgDefinition,
-  CommandArgValues,
-  CommandArgs,
-  NativeCommandSpec,
-} from "../../auto-reply/commands-registry.js";
-import { dispatchReplyWithDispatcher } from "../../auto-reply/reply/provider-dispatcher.js";
 import { finalizeInboundContext } from "../../auto-reply/reply/inbound-context.js";
-import type { ReplyPayload } from "../../auto-reply/types.js";
-import type { OpenClawConfig, loadConfig } from "../../config/config.js";
+import { dispatchReplyWithDispatcher } from "../../auto-reply/reply/provider-dispatcher.js";
+import { resolveCommandAuthorizedFromAuthorizers } from "../../channels/command-gating.js";
+import { t } from "../../i18n/index.js";
 import { buildPairingReply } from "../../pairing/pairing-messages.js";
 import {
   readChannelAllowFromStore,
@@ -41,7 +42,6 @@ import {
 import { resolveAgentRoute } from "../../routing/resolve-route.js";
 import { loadWebMedia } from "../../web/media.js";
 import { chunkDiscordTextWithMode } from "../chunk.js";
-import { resolveCommandAuthorizedFromAuthorizers } from "../../channels/command-gating.js";
 import {
   allowListMatches,
   isDiscordGroupAllowedByPolicy,
@@ -54,7 +54,6 @@ import {
 import { formatDiscordUserTag } from "./format.js";
 import { resolveDiscordChannelInfo } from "./message-utils.js";
 import { resolveDiscordThreadParentInfo } from "./threading.js";
-import { t } from "../../i18n/index.js";
 
 type DiscordConfig = NonNullable<OpenClawConfig["channels"]>["discord"];
 
@@ -587,11 +586,11 @@ async function dispatchDiscordCommandInteraction(params: {
       })
     : null;
   if (channelConfig?.enabled === false) {
-    await respond(t('channel.discord.channelDisabled'));
+    await respond(t("channel.discord.channelDisabled"));
     return;
   }
   if (interaction.guild && channelConfig?.allowed === false) {
-    await respond(t('channel.discord.notAllowed'));
+    await respond(t("channel.discord.notAllowed"));
     return;
   }
   if (useAccessGroups && interaction.guild) {
@@ -605,7 +604,7 @@ async function dispatchDiscordCommandInteraction(params: {
       channelAllowed,
     });
     if (!allowByPolicy) {
-      await respond(t('channel.discord.notAllowed'));
+      await respond(t("channel.discord.notAllowed"));
       return;
     }
   }
@@ -614,7 +613,7 @@ async function dispatchDiscordCommandInteraction(params: {
   let commandAuthorized = true;
   if (isDirectMessage) {
     if (!dmEnabled || dmPolicy === "disabled") {
-      await respond(t('channel.discord.dmsDisabled'));
+      await respond(t("channel.discord.dmsDisabled"));
       return;
     }
     if (dmPolicy !== "open") {
@@ -650,7 +649,7 @@ async function dispatchDiscordCommandInteraction(params: {
             );
           }
         } else {
-          await respond(t('channel.discord.notAuthorized'), { ephemeral: true });
+          await respond(t("channel.discord.notAuthorized"), { ephemeral: true });
         }
         return;
       }
@@ -680,12 +679,12 @@ async function dispatchDiscordCommandInteraction(params: {
       modeWhenAccessGroupsOff: "configured",
     });
     if (!commandAuthorized) {
-      await respond(t('channel.discord.notAuthorized'), { ephemeral: true });
+      await respond(t("channel.discord.notAuthorized"), { ephemeral: true });
       return;
     }
   }
   if (isGroupDm && discordConfig?.dm?.groupEnabled === false) {
-    await respond(t('channel.discord.groupDMsDisabled'));
+    await respond(t("channel.discord.groupDMsDisabled"));
     return;
   }
 

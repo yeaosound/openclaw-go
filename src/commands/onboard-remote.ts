@@ -1,10 +1,10 @@
 import type { OpenClawConfig } from "../config/config.js";
 import type { GatewayBonjourBeacon } from "../infra/bonjour-discovery.js";
+import type { WizardPrompter } from "../wizard/prompts.js";
+import { t } from "../i18n/index.js";
 import { discoverGatewayBeacons } from "../infra/bonjour-discovery.js";
 import { resolveWideAreaDiscoveryDomain } from "../infra/widearea-dns.js";
-import type { WizardPrompter } from "../wizard/prompts.js";
 import { detectBinary } from "./onboard-helpers.js";
-import { t } from "../i18n/index.js";
 
 const DEFAULT_GATEWAY_URL = "ws://127.0.0.1:18789";
 
@@ -38,18 +38,17 @@ export async function promptRemoteGatewayConfig(
   const hasBonjourTool = (await detectBinary("dns-sd")) || (await detectBinary("avahi-browse"));
   const wantsDiscover = hasBonjourTool
     ? await prompter.confirm({
-        message: t('wizard.remote.discoverPrompt'),
+        message: t("wizard.remote.discoverPrompt"),
         initialValue: true,
       })
     : false;
 
   if (!hasBonjourTool) {
     await prompter.note(
-      [
-        t('wizard.remote.bonjourRequired'),
-        "Docs: https://docs.openclaw.ai/gateway/discovery",
-      ].join("\n"),
-      t('wizard.remote.discoveryTitle'),
+      [t("wizard.remote.bonjourRequired"), "Docs: https://docs.openclaw.ai/gateway/discovery"].join(
+        "\n",
+      ),
+      t("wizard.remote.discoveryTitle"),
     );
   }
 
@@ -57,19 +56,23 @@ export async function promptRemoteGatewayConfig(
     const wideAreaDomain = resolveWideAreaDiscoveryDomain({
       configDomain: cfg.discovery?.wideArea?.domain,
     });
-    const spin = prompter.progress(t('wizard.remote.searching'));
+    const spin = prompter.progress(t("wizard.remote.searching"));
     const beacons = await discoverGatewayBeacons({ timeoutMs: 2000, wideAreaDomain });
-    spin.stop(beacons.length > 0 ? t('wizard.remote.found', { count: beacons.length }) : t('wizard.remote.noneFound'));
+    spin.stop(
+      beacons.length > 0
+        ? t("wizard.remote.found", { count: beacons.length })
+        : t("wizard.remote.noneFound"),
+    );
 
     if (beacons.length > 0) {
       const selection = await prompter.select({
-        message: t('wizard.remote.selectGateway'),
+        message: t("wizard.remote.selectGateway"),
         options: [
           ...beacons.map((beacon, index) => ({
             value: String(index),
             label: buildLabel(beacon),
           })),
-          { value: "manual", label: t('wizard.remote.manualUrl') },
+          { value: "manual", label: t("wizard.remote.manualUrl") },
         ],
       });
       if (selection !== "manual") {
@@ -84,29 +87,26 @@ export async function promptRemoteGatewayConfig(
     const port = selectedBeacon.gatewayPort ?? 18789;
     if (host) {
       const mode = await prompter.select({
-        message: t('wizard.remote.connectionMethod'),
+        message: t("wizard.remote.connectionMethod"),
         options: [
           {
             value: "direct",
-            label: `${t('wizard.remote.directWs')} (${host}:${port})`,
+            label: `${t("wizard.remote.directWs")} (${host}:${port})`,
           },
-          { value: "ssh", label: t('wizard.remote.sshTunnel') },
+          { value: "ssh", label: t("wizard.remote.sshTunnel") },
         ],
       });
       if (mode === "direct") {
         suggestedUrl = `ws://${host}:${port}`;
       } else {
         suggestedUrl = DEFAULT_GATEWAY_URL;
-        await prompter.note(
-          t('wizard.remote.sshNote'),
-          t('wizard.remote.sshTunnel'),
-        );
+        await prompter.note(t("wizard.remote.sshNote"), t("wizard.remote.sshTunnel"));
       }
     }
   }
 
   const urlInput = await prompter.text({
-    message: t('wizard.remote.wsUrlPrompt'),
+    message: t("wizard.remote.wsUrlPrompt"),
     initialValue: suggestedUrl,
     validate: (value) =>
       String(value).trim().startsWith("ws://") || String(value).trim().startsWith("wss://")
@@ -116,7 +116,7 @@ export async function promptRemoteGatewayConfig(
   const url = ensureWsUrl(String(urlInput));
 
   const authChoice = await prompter.select({
-    message: t('wizard.remote.authPrompt'),
+    message: t("wizard.remote.authPrompt"),
     options: [
       { value: "token", label: "Token (recommended)" },
       { value: "off", label: "No auth" },
@@ -127,9 +127,9 @@ export async function promptRemoteGatewayConfig(
   if (authChoice === "token") {
     token = String(
       await prompter.text({
-        message: t('wizard.remote.tokenPrompt'),
+        message: t("wizard.remote.tokenPrompt"),
         initialValue: token,
-        validate: (value) => (value?.trim() ? undefined : t('validation.required')),
+        validate: (value) => (value?.trim() ? undefined : t("validation.required")),
       }),
     ).trim();
   } else {

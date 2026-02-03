@@ -3,11 +3,11 @@ import { healthCommand } from "../../commands/health.js";
 import { sessionsCommand } from "../../commands/sessions.js";
 import { statusCommand } from "../../commands/status.js";
 import { setVerbose } from "../../globals.js";
+import { t } from "../../i18n/index.js";
 import { defaultRuntime } from "../../runtime.js";
 import { formatDocsLink } from "../../terminal/links.js";
 import { theme } from "../../terminal/theme.js";
 import { runCommandWithRuntime } from "../cli-utils.js";
-import { t } from "../../i18n/index.js";
 import { formatHelpExamples } from "../help-format.js";
 import { parsePositiveIntOrUndefined } from "./helpers.js";
 

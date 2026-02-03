@@ -20,7 +20,9 @@ src/commands/
 ## KEY PATTERNS
 
 ### Command Registration
+
 Commands register via registry in `src/cli/program/register.*.ts`:
+
 ```typescript
 export const agentCommand: CommandRegistration = {
   id: "agent",
@@ -32,16 +34,18 @@ export const agentCommand: CommandRegistration = {
       .action(async (options) => {
         // Implementation
       });
-  }
+  },
 };
 ```
 
 ### CLI Option Conventions
+
 - kebab-case: `--gateway-port`, `--non-interactive`
 - Boolean negation: `--no-install-daemon`
 - Enum docs: `quickstart|advanced|manual`
 
 ### Progress Display
+
 ```typescript
 import { withProgress } from "../cli/progress.js";
 
@@ -53,28 +57,29 @@ await withProgress(async (progress) => {
 ```
 
 ### Table Output
+
 ```typescript
 import { renderTable } from "../terminal/table.js";
 
 renderTable({
   columns: [
     { header: "Name", key: "name" },
-    { header: "Status", key: "status", align: "center" }
+    { header: "Status", key: "status", align: "center" },
   ],
-  rows: data
+  rows: data,
 });
 ```
 
 ## WHERE TO LOOK
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add command | `src/commands/` + `src/cli/program/register.*.ts` | Register in registry |
-| Onboarding flow | `src/commands/onboard*.ts` | Wizard implementation |
-| Status display | `src/commands/status*.ts` | System status |
-| Health checks | `src/commands/health.ts` | Gateway health |
-| Diagnostics | `src/commands/doctor*.ts` | Troubleshooting |
-| CLI utilities | `src/cli/` | Progress, tables, theming |
+| Task            | Location                                          | Notes                     |
+| --------------- | ------------------------------------------------- | ------------------------- |
+| Add command     | `src/commands/` + `src/cli/program/register.*.ts` | Register in registry      |
+| Onboarding flow | `src/commands/onboard*.ts`                        | Wizard implementation     |
+| Status display  | `src/commands/status*.ts`                         | System status             |
+| Health checks   | `src/commands/health.ts`                          | Gateway health            |
+| Diagnostics     | `src/commands/doctor*.ts`                         | Troubleshooting           |
+| CLI utilities   | `src/cli/`                                        | Progress, tables, theming |
 
 ## ANTI-PATTERNS
 

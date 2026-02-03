@@ -16,6 +16,7 @@ npm install i18next i18next-browser-languagedetector
 ```
 
 **已安装**:
+
 - `i18next@24.x` - 核心 i18n 库
 - `i18next-browser-languagedetector` - 浏览器语言自动检测
 
@@ -36,6 +37,7 @@ ui/src/i18n/
 ### 1.3 核心模块实现 ✅
 
 #### config.ts
+
 - ✅ i18next 实例创建
 - ✅ 语言检测配置 (localStorage + navigator)
 - ✅ 支持语言: en, zh-CN
@@ -43,12 +45,14 @@ ui/src/i18n/
 - ✅ 语言切换 API
 
 #### lit.ts
+
 - ✅ `t` 指令 - 用于 Lit 模板
 - ✅ 自动监听语言变化
 - ✅ 组件卸载时清理监听器
 - ✅ `translate` 辅助函数 - 用于非 Lit 场景
 
 #### index.ts
+
 - ✅ 统一导出所有 API
 
 ### 1.4 应用入口修改 ✅
@@ -72,10 +76,12 @@ bootstrap();
 ### 1.5 翻译文件创建 ✅
 
 **英文** (`locales/en/common.json`):
+
 - 20个基础翻译键
 - 包含: loading, save, cancel, enabled, connected 等
 
 **中文** (`locales/zh-CN/common.json`):
+
 - 20个对应中文翻译
 - 保持与英文键一致
 
@@ -97,13 +103,13 @@ vite v7.3.1 building client environment for production...
 
 ### 2.2 功能特性 ✅
 
-| 特性 | 状态 | 说明 |
-|------|------|------|
-| 自动语言检测 | ✅ | 从 localStorage 或浏览器语言检测 |
-| 语言持久化 | ✅ | 选择后保存在 localStorage |
-| 实时切换 | ✅ | 语言切换自动更新 UI |
-| 回退机制 | ✅ | 缺失翻译回退到英文 |
-| Lit 集成 | ✅ | 通过 `t` 指令在模板中使用 |
+| 特性         | 状态 | 说明                             |
+| ------------ | ---- | -------------------------------- |
+| 自动语言检测 | ✅   | 从 localStorage 或浏览器语言检测 |
+| 语言持久化   | ✅   | 选择后保存在 localStorage        |
+| 实时切换     | ✅   | 语言切换自动更新 UI              |
+| 回退机制     | ✅   | 缺失翻译回退到英文               |
+| Lit 集成     | ✅   | 通过 `t` 指令在模板中使用        |
 
 ---
 
@@ -112,14 +118,14 @@ vite v7.3.1 building client environment for production...
 ### 在 Lit 组件中使用
 
 ```typescript
-import { LitElement, html } from 'lit';
-import { t } from '../i18n/lit.js';
+import { LitElement, html } from "lit";
+import { t } from "../i18n/lit.js";
 
 export class MyView extends LitElement {
   render() {
     return html`
-      <h1>${t('common:loading')}</h1>
-      <button>${t('common:save')}</button>
+      <h1>${t("common:loading")}</h1>
+      <button>${t("common:save")}</button>
     `;
   }
 }
@@ -128,13 +134,13 @@ export class MyView extends LitElement {
 ### 语言切换
 
 ```typescript
-import { changeLanguage } from '../i18n/index.js';
+import { changeLanguage } from "../i18n/index.js";
 
 // 切换到中文
-await changeLanguage('zh-CN');
+await changeLanguage("zh-CN");
 
 // 切换到英文
-await changeLanguage('en');
+await changeLanguage("en");
 ```
 
 ---

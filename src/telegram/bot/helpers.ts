@@ -1,4 +1,3 @@
-import { formatLocationText, type NormalizedLocation } from "../../channels/location.js";
 import type { TelegramAccountConfig } from "../../config/types.telegram.js";
 import type {
   TelegramForwardChat,
@@ -10,6 +9,7 @@ import type {
   TelegramStreamMode,
   TelegramVenue,
 } from "./types.js";
+import { formatLocationText, type NormalizedLocation } from "../../channels/location.js";
 
 const TELEGRAM_GENERAL_TOPIC_ID = 1;
 

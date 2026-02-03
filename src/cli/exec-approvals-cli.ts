@@ -1,22 +1,21 @@
-import fs from "node:fs/promises";
-import JSON5 from "json5";
 import type { Command } from "commander";
-
+import JSON5 from "json5";
+import fs from "node:fs/promises";
+import type { NodesRpcOpts } from "./nodes-cli/types.js";
+import { t } from "../i18n/index.js";
 import {
   readExecApprovalsSnapshot,
   saveExecApprovals,
   type ExecApprovalsAgent,
   type ExecApprovalsFile,
 } from "../infra/exec-approvals.js";
-import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
-import { isRich, theme } from "../terminal/theme.js";
 import { renderTable } from "../terminal/table.js";
-import { callGatewayFromCli } from "./gateway-rpc.js";
+import { isRich, theme } from "../terminal/theme.js";
 import { describeUnknownError } from "./gateway-cli/shared.js";
+import { callGatewayFromCli } from "./gateway-rpc.js";
 import { nodesCallOpts, resolveNodeId } from "./nodes-cli/rpc.js";
-import type { NodesRpcOpts } from "./nodes-cli/types.js";
 
 type ExecApprovalsSnapshot = {
   path: string;

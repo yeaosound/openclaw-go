@@ -25,40 +25,44 @@ src/i18n/locales/zh-CN/wizard.ts    | 55 +++++++++++++++++++++++++++++++++++++++
 **新增翻译键**: 17个
 
 #### 频道操作选项 (4个)
-| 键名 | 中文译文 | 状态 |
-|------|----------|------|
-| `wizard.channels.action.modify` | 修改设置 | ✅ |
-| `wizard.channels.action.disable` | 禁用（保留配置） | ✅ |
-| `wizard.channels.action.delete` | 删除配置 | ✅ |
-| `wizard.channels.action.skip` | 跳过（保持原样） | ✅ |
+
+| 键名                             | 中文译文         | 状态 |
+| -------------------------------- | ---------------- | ---- |
+| `wizard.channels.action.modify`  | 修改设置         | ✅   |
+| `wizard.channels.action.disable` | 禁用（保留配置） | ✅   |
+| `wizard.channels.action.delete`  | 删除配置         | ✅   |
+| `wizard.channels.action.skip`    | 跳过（保持原样） | ✅   |
 
 #### 提示文本 (2个)
-| 键名 | 中文译文 | 状态 |
-|------|----------|------|
-| `wizard.channels.configuredPrompt` | 已配置。您想做什么？ | ✅ |
-| `wizard.channels.accountPrompt` | 账户 | ✅ |
+
+| 键名                               | 中文译文             | 状态 |
+| ---------------------------------- | -------------------- | ---- |
+| `wizard.channels.configuredPrompt` | 已配置。您想做什么？ | ✅   |
+| `wizard.channels.accountPrompt`    | 账户                 | ✅   |
 
 #### DM策略配置 (9个)
-| 键名 | 中文译文 | 状态 |
-|------|----------|------|
-| `wizard.channels.dmPolicy.confirm` | 立即配置 DM 访问策略？（默认：配对） | ✅ |
-| `wizard.channels.dmPolicy.note` | DM策略说明（多行） | ✅ |
-| `wizard.channels.dmPolicy.accessTitle` | DM 访问 | ✅ |
-| `wizard.channels.dmPolicy.selectTitle` | DM 策略 | ✅ |
-| `wizard.channels.dmPolicy.pairing` | 配对（推荐） | ✅ |
-| `wizard.channels.dmPolicy.allowlist` | 白名单（仅特定用户） | ✅ |
-| `wizard.channels.dmPolicy.open` | 开放（公共入站 DM） | ✅ |
-| `wizard.channels.dmPolicy.disabled` | 禁用（忽略 DM） | ✅ |
+
+| 键名                                   | 中文译文                             | 状态 |
+| -------------------------------------- | ------------------------------------ | ---- |
+| `wizard.channels.dmPolicy.confirm`     | 立即配置 DM 访问策略？（默认：配对） | ✅   |
+| `wizard.channels.dmPolicy.note`        | DM策略说明（多行）                   | ✅   |
+| `wizard.channels.dmPolicy.accessTitle` | DM 访问                              | ✅   |
+| `wizard.channels.dmPolicy.selectTitle` | DM 策略                              | ✅   |
+| `wizard.channels.dmPolicy.pairing`     | 配对（推荐）                         | ✅   |
+| `wizard.channels.dmPolicy.allowlist`   | 白名单（仅特定用户）                 | ✅   |
+| `wizard.channels.dmPolicy.open`        | 开放（公共入站 DM）                  | ✅   |
+| `wizard.channels.dmPolicy.disabled`    | 禁用（忽略 DM）                      | ✅   |
 
 #### 其他 (2个)
-| 键名 | 中文译文 | 状态 |
-|------|----------|------|
-| `wizard.channels.statusNoteTitle` | 频道状态 | ✅ |
-| `wizard.channels.setupConfirm` | 立即配置聊天频道？ | ✅ |
-| `wizard.channels.pluginNotAvailable` | 插件不可用。 | ✅ |
-| `wizard.channels.noOnboarding` | 尚不支持 onboarding。 | ✅ |
-| `wizard.channels.selectPrompt` | 选择一个频道 | ✅ |
-| `wizard.channels.selectedTitle` | 已选频道 | ✅ |
+
+| 键名                                 | 中文译文              | 状态 |
+| ------------------------------------ | --------------------- | ---- |
+| `wizard.channels.statusNoteTitle`    | 频道状态              | ✅   |
+| `wizard.channels.setupConfirm`       | 立即配置聊天频道？    | ✅   |
+| `wizard.channels.pluginNotAvailable` | 插件不可用。          | ✅   |
+| `wizard.channels.noOnboarding`       | 尚不支持 onboarding。 | ✅   |
+| `wizard.channels.selectPrompt`       | 选择一个频道          | ✅   |
+| `wizard.channels.selectedTitle`      | 已选频道              | ✅   |
 
 ### 2.2 英文翻译文件 (en/wizard.ts)
 
@@ -120,6 +124,7 @@ src/i18n/locales/zh-CN/wizard.ts    | 55 +++++++++++++++++++++++++++++++++++++++
 ### 4.1 DM策略说明 (动态插值)
 
 **修改前**:
+
 ```typescript
 await prompter.note(
   [
@@ -135,19 +140,21 @@ await prompter.note(
 ```
 
 **修改后**:
+
 ```typescript
 await prompter.note(
-  t('wizard.channels.dmPolicy.note', {
+  t("wizard.channels.dmPolicy.note", {
     approveCommand: formatCliCommand(`openclaw pairing approve ${policy.channel} <code>`),
     policyKey: policy.policyKey,
     allowFromKey: policy.allowFromKey,
     docsLink: formatDocsLink("/start/pairing", "start/pairing"),
   }),
-  `${policy.label} ${t('wizard.channels.dmPolicy.accessTitle')}`,
+  `${policy.label} ${t("wizard.channels.dmPolicy.accessTitle")}`,
 );
 ```
 
 **优势**:
+
 - 将6行硬编码文本整合为1个翻译键
 - 使用动态插值传递变量
 - 支持中英文切换
@@ -157,13 +164,17 @@ await prompter.note(
 ## 5. 翻译键同步性验证
 
 ### 5.1 存在于中英文文件的键
+
 ✅ 所有 17 个新增翻译键都在中英文文件中存在
 
 ### 5.2 源代码中使用的键
+
 ✅ 所有在源代码中使用的翻译键都存在于翻译文件中
 
 ### 5.3 动态插值检查
+
 ✅ 所有使用动态插值的翻译键都正确使用了参数对象
+
 - `wizard.channels.dmPolicy.note` - 使用 `{approveCommand}`, `{policyKey}`, `{allowFromKey}`, `{docsLink}`
 
 ---
@@ -171,18 +182,21 @@ await prompter.note(
 ## 6. 质量检查
 
 ### 6.1 代码质量
+
 - ✅ 无语法错误 (node --check 通过)
 - ✅ 无类型错误
 - ✅ 保持原有代码结构
 - ✅ 正确引入 `t()` 函数 (已在文件顶部导入)
 
 ### 6.2 翻译质量
+
 - ✅ 技术术语保持英文 (DM, pairing, allowlist 等)
 - ✅ 中文表达自然流畅
 - ✅ 英文回退文本准确
 - ✅ URL 和命令保持原文
 
 ### 6.3 命名规范
+
 - ✅ 频道操作使用 `wizard.channels.action.*` 前缀
 - ✅ DM策略使用 `wizard.channels.dmPolicy.*` 前缀
 - ✅ 符合现有命名约定
@@ -191,12 +205,14 @@ await prompter.note(
 
 ## 7. 覆盖率提升
 
-**onboard-channels.ts**: 
+**onboard-channels.ts**:
+
 - 修改前: ~40%
 - 修改后: ~85%
 - 提升: +45%
 
 **整体 onboarding 流程**:
+
 - Phase 1 后: ~90%
 - Phase 2 后: ~93%
 - 提升: +3%
@@ -225,14 +241,14 @@ await prompter.note(
 
 ### ✅ 全部检查项通过
 
-| 检查项 | 状态 | 备注 |
-|--------|------|------|
-| 翻译键完整性 | ✅ | 17个键都已添加 |
-| 翻译键同步性 | ✅ | 中英文文件一致 |
-| 源代码修改 | ✅ | 13处修改正确 |
-| 动态插值 | ✅ | 参数传递正确 |
-| 代码质量 | ✅ | 无语法/类型错误 |
-| 命名规范 | ✅ | 符合项目规范 |
+| 检查项       | 状态 | 备注            |
+| ------------ | ---- | --------------- |
+| 翻译键完整性 | ✅   | 17个键都已添加  |
+| 翻译键同步性 | ✅   | 中英文文件一致  |
+| 源代码修改   | ✅   | 13处修改正确    |
+| 动态插值     | ✅   | 参数传递正确    |
+| 代码质量     | ✅   | 无语法/类型错误 |
+| 命名规范     | ✅   | 符合项目规范    |
 
 ### 📊 完成统计
 

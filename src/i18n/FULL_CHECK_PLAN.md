@@ -11,6 +11,7 @@
 ### 1.1 总体目标
 
 确保 i18n 汉化项目的完整性和质量：
+
 - 所有用户可见文本已汉化
 - 中英文语言包同步
 - 类型安全（TypeScript 编译通过）
@@ -20,17 +21,17 @@
 
 ### 1.2 检查维度
 
-| 维度 | 检查项 | 工具/方法 |
-|------|--------|----------|
-| 静态检查 | TypeScript 编译 | tsc |
-| 静态检查 | 翻译键完整性 | validate-translations.ts |
-| 静态检查 | 语言包同步 | diff |
-| 静态检查 | 代码规范 | grep |
-| 动态检查 | 单元测试 | vitest |
-| 动态检查 | 运行时功能 | test-runtime.ts |
-| 动态检查 | 性能基准 | benchmark.ts |
-| 集成检查 | CLI 命令 | openclaw --help |
-| 集成检查 | 频道消息 | 模拟触发 |
+| 维度     | 检查项          | 工具/方法                |
+| -------- | --------------- | ------------------------ |
+| 静态检查 | TypeScript 编译 | tsc                      |
+| 静态检查 | 翻译键完整性    | validate-translations.ts |
+| 静态检查 | 语言包同步      | diff                     |
+| 静态检查 | 代码规范        | grep                     |
+| 动态检查 | 单元测试        | vitest                   |
+| 动态检查 | 运行时功能      | test-runtime.ts          |
+| 动态检查 | 性能基准        | benchmark.ts             |
+| 集成检查 | CLI 命令        | openclaw --help          |
+| 集成检查 | 频道消息        | 模拟触发                 |
 
 ---
 
@@ -41,30 +42,35 @@
 #### TypeScript 编译检查
 
 **命令:**
+
 ```bash
 npx tsc --noEmit --skipLibCheck
 ```
 
 **通过标准:**
+
 - [ ] 无编译错误
 - [ ] 无类型错误
 
 **检查范围:**
-- src/i18n/**/*.ts
-- src/cli/**/*.ts
-- src/discord/**/*.ts
-- src/slack/**/*.ts
-- src/telegram/**/*.ts
-- src/agents/tools/**/*.ts
+
+- src/i18n/\*_/_.ts
+- src/cli/\*_/_.ts
+- src/discord/\*_/_.ts
+- src/slack/\*_/_.ts
+- src/telegram/\*_/_.ts
+- src/agents/tools/\*_/_.ts
 
 #### 翻译键完整性检查
 
 **命令:**
+
 ```bash
 cd src/i18n && npx tsx scripts/validate-translations.ts
 ```
 
 **通过标准:**
+
 - [ ] EN 和 ZH-CN 键数相同
 - [ ] 所有代码中使用的翻译键存在于语言包
 - [ ] 键命名规范统一
@@ -72,12 +78,14 @@ cd src/i18n && npx tsx scripts/validate-translations.ts
 #### 语言包同步检查
 
 **命令:**
+
 ```bash
 cd src/i18n/locales
 diff <(grep "'" en/channels.ts | sort) <(grep "'" zh-CN/channels.ts | sort)
 ```
 
 **通过标准:**
+
 - [ ] EN 和 ZH-CN 键完全同步
 - [ ] 无独占键
 
@@ -86,15 +94,18 @@ diff <(grep "'" en/channels.ts | sort) <(grep "'" zh-CN/channels.ts | sort)
 #### 单元测试
 
 **命令:**
+
 ```bash
 npx vitest run src/i18n/index.test.ts
 ```
 
 **通过标准:**
+
 - [ ] 15/15 测试通过
 - [ ] 覆盖率 > 80%
 
 **测试覆盖:**
+
 - [ ] 基础翻译功能
 - [ ] 参数插值
 - [ ] 语言切换
@@ -107,11 +118,13 @@ npx vitest run src/i18n/index.test.ts
 #### 运行时功能测试
 
 **命令:**
+
 ```bash
 cd src/i18n && npx tsx scripts/test-runtime.ts
 ```
 
 **通过标准:**
+
 - [ ] 基础翻译正常工作
 - [ ] 语言切换正常
 - [ ] 参数插值正确
@@ -120,6 +133,7 @@ cd src/i18n && npx tsx scripts/test-runtime.ts
 #### 性能基准测试
 
 **命令:**
+
 ```bash
 cd src/i18n && npx tsx scripts/benchmark.ts
 ```
@@ -137,6 +151,7 @@ cd src/i18n && npx tsx scripts/benchmark.ts
 #### CLI 命令测试
 
 **命令:**
+
 ```bash
 # 测试 CLI 帮助
 OPENCLAW_LANG=zh-CN pnpm openclaw --help
@@ -147,6 +162,7 @@ OPENCLAW_LANG=zh-CN pnpm openclaw channels --help
 ```
 
 **检查内容:**
+
 - [ ] 帮助文本显示正确
 - [ ] 命令描述已翻译
 - [ ] 选项描述已翻译
@@ -212,13 +228,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: TypeScript Compile
         run: npx tsc --noEmit --skipLibCheck
-      
+
       - name: Unit Tests
         run: npx vitest run src/i18n/index.test.ts
-      
+
       - name: Translation Validation
         run: cd src/i18n && npx tsx scripts/validate-translations.ts
 ```
@@ -236,13 +252,13 @@ jobs:
 
 ### 通过标准汇总
 
-| 检查项 | 标准 |
-|--------|------|
-| TypeScript 编译 | 0 错误 |
-| 单元测试 | 15/15 通过 |
-| 翻译键完整性 | 425/425 同步 |
-| 运行时测试 | 7/7 通过 |
-| 性能基准 | 全部优秀 |
+| 检查项          | 标准         |
+| --------------- | ------------ |
+| TypeScript 编译 | 0 错误       |
+| 单元测试        | 15/15 通过   |
+| 翻译键完整性    | 425/425 同步 |
+| 运行时测试      | 7/7 通过     |
+| 性能基准        | 全部优秀     |
 
 ---
 

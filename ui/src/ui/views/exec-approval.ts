@@ -1,7 +1,6 @@
 import { html, nothing } from "lit";
-
-import { t, translate } from "../../i18n/lit.js";
 import type { AppViewState } from "../app-view-state";
+import { t, translate } from "../../i18n/lit.js";
 
 function formatRemaining(ms: number): string {
   const remaining = Math.max(0, ms);

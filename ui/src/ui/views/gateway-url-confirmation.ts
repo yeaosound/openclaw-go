@@ -1,7 +1,6 @@
 import { html, nothing } from "lit";
-
-import { t } from "../../i18n/lit.js";
 import type { AppViewState } from "../app-view-state";
+import { t } from "../../i18n/lit.js";
 
 export function renderGatewayUrlConfirmation(state: AppViewState) {
   const { pendingGatewayUrl } = state;

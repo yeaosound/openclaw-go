@@ -1,9 +1,8 @@
 import { html, nothing } from "lit";
-
-import { t } from "../../i18n/lit.js";
-import { formatAgo } from "../format";
 import type { IMessageStatus } from "../types";
 import type { ChannelsProps } from "./channels.types";
+import { t } from "../../i18n/lit.js";
+import { formatAgo } from "../format";
 import { renderChannelConfigSection } from "./channels.config";
 
 export function renderIMessageCard(params: {

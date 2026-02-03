@@ -32,6 +32,7 @@ src/agents/
 ## KEY PATTERNS
 
 ### Tool Factory Pattern
+
 ```typescript
 export function createOpenClawTools(options?: {...}): AnyAgentTool[] {
   const tools: AnyAgentTool[] = [
@@ -45,6 +46,7 @@ export function createOpenClawTools(options?: {...}): AnyAgentTool[] {
 ```
 
 ### Tool Structure
+
 ```typescript
 {
   label: "Display Name",
@@ -60,11 +62,13 @@ export function createOpenClawTools(options?: {...}): AnyAgentTool[] {
 ```
 
 ### Tool Policy System
+
 - Profiles: `minimal`, `coding`, `messaging`, `full`
 - Groups: `group:fs`, `group:runtime`, `group:sessions`, `group:ui`
 - Resolution: global → agent → group → sandbox → subagent
 
 ### TypeBox Schema Conventions
+
 - **NEVER** use `Type.Union([Type.Object(...)])` - rejected by OpenAI/Vertex
 - Use `stringEnum()` helper for enums: `action: stringEnum(["start", "stop"])`
 - Flatten action-based schemas with discriminator field
@@ -72,14 +76,14 @@ export function createOpenClawTools(options?: {...}): AnyAgentTool[] {
 
 ## WHERE TO LOOK
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add new tool | `src/agents/tools/` | Copy existing tool pattern |
+| Task                | Location                       | Notes                           |
+| ------------------- | ------------------------------ | ------------------------------- |
+| Add new tool        | `src/agents/tools/`            | Copy existing tool pattern      |
 | Tool schema helpers | `src/agents/schema/typebox.ts` | stringEnum, channelTargetSchema |
-| Tool utilities | `src/agents/tools/common.ts` | readStringParam, jsonResult |
-| Tool policies | `src/agents/tool-policy.ts` | Profile and group definitions |
-| Pi integration | `src/agents/pi-*.ts` | Pi agent runtime adapters |
-| Plugin tools | `src/plugins/tools.ts` | Plugin tool resolution |
+| Tool utilities      | `src/agents/tools/common.ts`   | readStringParam, jsonResult     |
+| Tool policies       | `src/agents/tool-policy.ts`    | Profile and group definitions   |
+| Pi integration      | `src/agents/pi-*.ts`           | Pi agent runtime adapters       |
+| Plugin tools        | `src/plugins/tools.ts`         | Plugin tool resolution          |
 
 ## ANTI-PATTERNS
 

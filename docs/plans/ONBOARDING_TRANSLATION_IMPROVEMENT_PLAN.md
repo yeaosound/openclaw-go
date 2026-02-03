@@ -52,6 +52,7 @@
 #### 任务 1.1: Gateway 配置标签汉化
 
 **目标文件:**
+
 - `src/wizard/onboarding.ts` (第 297-316 行)
 - `src/wizard/onboarding.gateway-config.ts`
 - `src/commands/configure.gateway.ts`
@@ -85,10 +86,10 @@ const quickstartLines = [
 
 // 修改后
 const quickstartLines = [
-  `${t('wizard.gateway.port')}: ${quickstartGateway.port}`,
-  `${t('wizard.gateway.bind')}: ${formatBind(quickstartGateway.bind)}`,
-  `${t('wizard.gateway.auth')}: ${formatAuth(quickstartGateway.authMode)}`,
-  t('wizard.quickstart.directToChannels'),
+  `${t("wizard.gateway.port")}: ${quickstartGateway.port}`,
+  `${t("wizard.gateway.bind")}: ${formatBind(quickstartGateway.bind)}`,
+  `${t("wizard.gateway.auth")}: ${formatAuth(quickstartGateway.authMode)}`,
+  t("wizard.quickstart.directToChannels"),
 ];
 ```
 
@@ -99,6 +100,7 @@ const quickstartLines = [
 #### 任务 1.2: 频道状态显示汉化
 
 **目标文件:**
+
 - `src/commands/onboard-channels.ts` (第 136-148, 175, 305 行)
 
 **需要添加的翻译键:**
@@ -118,14 +120,12 @@ const quickstartLines = [
 
 ```typescript
 // 修改前
-const statusLabel = configured 
-  ? "configured (plugin disabled)" 
-  : "not configured";
+const statusLabel = configured ? "configured (plugin disabled)" : "not configured";
 
 // 修改后
-const statusLabel = configured 
-  ? t('channels.status.configured') + ' (' + t('channels.status.pluginDisabled') + ')' 
-  : t('channels.status.notConfigured');
+const statusLabel = configured
+  ? t("channels.status.configured") + " (" + t("channels.status.pluginDisabled") + ")"
+  : t("channels.status.notConfigured");
 ```
 
 **工作量:** 3 小时
@@ -135,6 +135,7 @@ const statusLabel = configured
 #### 任务 1.3: 频道工作方式说明汉化
 
 **目标文件:**
+
 - `src/commands/onboard-channels.ts` (第 192-203 行)
 
 **需要添加的翻译键:**
@@ -163,11 +164,13 @@ await prompter.note(
 // 修改后
 await prompter.note(
   [
-    t('channels.how.dmSecurity'),
-    t('channels.how.approveWith') + ': ' + formatCliCommand("openclaw pairing approve <channel> <code>"),
+    t("channels.how.dmSecurity"),
+    t("channels.how.approveWith") +
+      ": " +
+      formatCliCommand("openclaw pairing approve <channel> <code>"),
     // ...
   ].join("\n"),
-  t('channels.how.title'),
+  t("channels.how.title"),
 );
 ```
 
@@ -180,6 +183,7 @@ await prompter.note(
 #### 任务 2.1: 模式选择和模型选择汉化
 
 **目标文件:**
+
 - `src/wizard/onboarding.ts` (第 339 行)
 - `src/commands/auth-choice-prompt.ts`
 - `src/commands/model-picker.ts`
@@ -202,6 +206,7 @@ await prompter.note(
 #### 任务 2.2: 向导标题汉化
 
 **目标文件:**
+
 - `src/wizard/onboarding.ts` (第 316 行)
 - `src/wizard/onboarding.finalize.ts`
 - `src/commands/onboard-channels.ts` (第 613 行)
@@ -242,24 +247,24 @@ await prompter.note(
 
 ### 4.1 语言包文件
 
-| 文件 | 新增翻译键数量 |
-|------|----------------|
-| `src/i18n/locales/zh-CN/wizard.ts` | 约 20 个 |
-| `src/i18n/locales/zh-CN/channels.ts` | 约 10 个 |
-| `src/i18n/locales/en/wizard.ts` | 约 20 个 |
-| `src/i18n/locales/en/channels.ts` | 约 10 个 |
+| 文件                                 | 新增翻译键数量 |
+| ------------------------------------ | -------------- |
+| `src/i18n/locales/zh-CN/wizard.ts`   | 约 20 个       |
+| `src/i18n/locales/zh-CN/channels.ts` | 约 10 个       |
+| `src/i18n/locales/en/wizard.ts`      | 约 20 个       |
+| `src/i18n/locales/en/channels.ts`    | 约 10 个       |
 
 ### 4.2 源代码文件
 
-| 文件 | 修改点数 | 优先级 |
-|------|----------|--------|
-| `src/wizard/onboarding.ts` | 12 处 | 🔴 高 |
-| `src/commands/onboard-channels.ts` | 10 处 | 🔴 高 |
-| `src/wizard/onboarding.gateway-config.ts` | 5 处 | 🟡 中 |
-| `src/commands/auth-choice-prompt.ts` | 2 处 | 🟡 中 |
-| `src/commands/model-picker.ts` | 3 处 | 🟡 中 |
-| `src/commands/configure.gateway.ts` | 5 处 | 🟡 中 |
-| `src/wizard/onboarding.finalize.ts` | 2 处 | 🟡 中 |
+| 文件                                      | 修改点数 | 优先级 |
+| ----------------------------------------- | -------- | ------ |
+| `src/wizard/onboarding.ts`                | 12 处    | 🔴 高  |
+| `src/commands/onboard-channels.ts`        | 10 处    | 🔴 高  |
+| `src/wizard/onboarding.gateway-config.ts` | 5 处     | 🟡 中  |
+| `src/commands/auth-choice-prompt.ts`      | 2 处     | 🟡 中  |
+| `src/commands/model-picker.ts`            | 3 处     | 🟡 中  |
+| `src/commands/configure.gateway.ts`       | 5 处     | 🟡 中  |
+| `src/wizard/onboarding.finalize.ts`       | 2 处     | 🟡 中  |
 
 ---
 
@@ -289,25 +294,25 @@ await prompter.note(
 
 ### 6.1 翻译标准
 
-| 标准 | 要求 |
-|------|------|
-| 准确性 | 准确传达原意，无歧义 |
-| 一致性 | 相同术语统一翻译 |
-| 简洁性 | 界面文本简洁明了 |
-| 语境适应 | 符合中文表达习惯 |
+| 标准     | 要求                 |
+| -------- | -------------------- |
+| 准确性   | 准确传达原意，无歧义 |
+| 一致性   | 相同术语统一翻译     |
+| 简洁性   | 界面文本简洁明了     |
+| 语境适应 | 符合中文表达习惯     |
 
 ### 6.2 关键术语对照
 
-| 英文 | 中文 | 说明 |
-|------|------|------|
-| Gateway | 网关 | 核心术语 |
-| Channel | 频道 | 消息渠道 |
-| Model | 模型 | AI 模型 |
-| Provider | 提供商 | 服务提供商 |
-| QuickStart | 快速开始 | 模式名称 |
-| Configured | 已配置 | 状态标签 |
-| Not Configured | 未配置 | 状态标签 |
-| Token | 令牌 | 认证令牌 |
+| 英文           | 中文     | 说明       |
+| -------------- | -------- | ---------- |
+| Gateway        | 网关     | 核心术语   |
+| Channel        | 频道     | 消息渠道   |
+| Model          | 模型     | AI 模型    |
+| Provider       | 提供商   | 服务提供商 |
+| QuickStart     | 快速开始 | 模式名称   |
+| Configured     | 已配置   | 状态标签   |
+| Not Configured | 未配置   | 状态标签   |
+| Token          | 令牌     | 认证令牌   |
 
 ---
 
@@ -316,12 +321,14 @@ await prompter.note(
 ### 7.1 测试场景
 
 1. **中文环境完整测试**
+
    ```bash
    export LANG=zh_CN.UTF-8
    openclaw onboard
    ```
 
 2. **英文环境回归测试**
+
    ```bash
    export LANG=en_US.UTF-8
    openclaw onboard
@@ -346,15 +353,15 @@ await prompter.note(
 
 ## 8. 时间安排
 
-| 阶段 | 任务 | 工时 | 累计 |
-|------|------|------|------|
-| 阶段 1 | Gateway 配置汉化 | 4h | 4h |
-| 阶段 1 | 频道状态汉化 | 3h | 7h |
-| 阶段 1 | 频道说明汉化 | 2h | 9h |
-| 阶段 2 | 模式和模型汉化 | 2h | 11h |
-| 阶段 2 | 向导标题汉化 | 1h | 12h |
-| 阶段 3 | 其他杂项 | 1h | 13h |
-| 测试 | 验证和修复 | 2h | **15h** |
+| 阶段   | 任务             | 工时 | 累计    |
+| ------ | ---------------- | ---- | ------- |
+| 阶段 1 | Gateway 配置汉化 | 4h   | 4h      |
+| 阶段 1 | 频道状态汉化     | 3h   | 7h      |
+| 阶段 1 | 频道说明汉化     | 2h   | 9h      |
+| 阶段 2 | 模式和模型汉化   | 2h   | 11h     |
+| 阶段 2 | 向导标题汉化     | 1h   | 12h     |
+| 阶段 3 | 其他杂项         | 1h   | 13h     |
+| 测试   | 验证和修复       | 2h   | **15h** |
 
 **总计工作量: 约 15 小时（2 个工作日）**
 
@@ -362,12 +369,12 @@ await prompter.note(
 
 ## 9. 风险与对策
 
-| 风险 | 可能性 | 影响 | 对策 |
-|------|--------|------|------|
-| 翻译不准确 | 中 | 中 | 请母语者审核 |
-| 文本溢出问题 | 低 | 中 | 测试时检查界面布局 |
-| 遗漏未发现的文本 | 中 | 低 | 完整走查所有路径 |
-| 影响现有功能 | 低 | 高 | 保持向后兼容 |
+| 风险             | 可能性 | 影响 | 对策               |
+| ---------------- | ------ | ---- | ------------------ |
+| 翻译不准确       | 中     | 中   | 请母语者审核       |
+| 文本溢出问题     | 低     | 中   | 测试时检查界面布局 |
+| 遗漏未发现的文本 | 中     | 低   | 完整走查所有路径   |
+| 影响现有功能     | 低     | 高   | 保持向后兼容       |
 
 ---
 
@@ -390,6 +397,7 @@ await prompter.note(
 ### 最小可行方案（MVP）
 
 如果资源有限，建议优先修复：
+
 1. ✅ Gateway 配置标签（9 处文本）
 2. ✅ 频道状态标签（6 处文本）
 
@@ -410,6 +418,7 @@ await prompter.note(
 ### 11.2 推荐方案
 
 **推荐采用"最小可行方案"**：
+
 - 优先修复 Gateway 配置和频道状态（解决 80% 问题）
 - 工作量：6 小时
 - 预期效果：显著提升中文用户体验

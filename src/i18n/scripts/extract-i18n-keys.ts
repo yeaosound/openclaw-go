@@ -11,12 +11,12 @@
  *   pnpm tsx scripts/extract-i18n-keys.ts --output=missing-keys.json
  */
 
-import { glob } from 'glob';
-import { readFile, writeFile } from 'fs/promises';
-import { join, relative } from 'path';
+import { readFile, writeFile } from "fs/promises";
+import { glob } from "glob";
+import { join, relative } from "path";
 
 interface ExtractedText {
-  type: 'description' | 'message' | 'label' | 'text' | 'note';
+  type: "description" | "message" | "label" | "text" | "note";
   text: string;
   file: string;
   line: number;
@@ -34,34 +34,34 @@ interface ExtractionReport {
 // Patterns to extract
 const PATTERNS = [
   {
-    type: 'description' as const,
+    type: "description" as const,
     regex: /\.description\(["'`]([^"'`]+)["'`]\)/g,
   },
   {
-    type: 'message' as const,
+    type: "message" as const,
     regex: /message:\s*["'`]([^"'`]+)["'`]/g,
   },
   {
-    type: 'label' as const,
+    type: "label" as const,
     regex: /label:\s*["'`]([^"'`]+)["'`]/g,
   },
   {
-    type: 'text' as const,
+    type: "text" as const,
     regex: /text:\s*["'`]([^"'`]+)["'`]/g,
   },
   {
-    type: 'note' as const,
+    type: "note" as const,
     regex: /\.note\(["'`]([^"'`]+)["'`]\)/g,
   },
 ];
 
 // Files to exclude
 const EXCLUDE_PATTERNS = [
-  '**/*.test.ts',
-  '**/*.spec.ts',
-  '**/node_modules/**',
-  '**/dist/**',
-  '**/i18n/**',
+  "**/*.test.ts",
+  "**/*.spec.ts",
+  "**/node_modules/**",
+  "**/dist/**",
+  "**/i18n/**",
 ];
 
 // Generate suggested key from text
@@ -69,49 +69,49 @@ function suggestKey(text: string, type: string, file: string): string {
   // Clean up text
   const clean = text
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, '')
+    .replace(/[^a-z0-9\s]/g, "")
     .trim()
     .substring(0, 50);
 
   // Determine prefix based on file path
-  let prefix = 'cli';
-  if (file.includes('wizard')) prefix = 'wizard';
-  if (file.includes('pairing')) prefix = 'pairing';
-  if (file.includes('channels')) prefix = 'channel';
-  if (file.includes('browser')) prefix = 'browser';
+  let prefix = "cli";
+  if (file.includes("wizard")) prefix = "wizard";
+  if (file.includes("pairing")) prefix = "pairing";
+  if (file.includes("channels")) prefix = "channel";
+  if (file.includes("browser")) prefix = "browser";
 
   // Generate key parts
   const words = clean.split(/\s+/).slice(0, 5);
-  const keyPart = words.join('-').replace(/--+/g, '-');
+  const keyPart = words.join("-").replace(/--+/g, "-");
 
   return `${prefix}.${type}.${keyPart}`;
 }
 
 async function extractKeys(): Promise<ExtractionReport> {
-  const files = await glob('src/**/*.ts', {
+  const files = await glob("src/**/*.ts", {
     ignore: EXCLUDE_PATTERNS,
   });
 
   const items: ExtractedText[] = [];
 
   for (const file of files) {
-    const content = await readFile(file, 'utf-8');
-    const lines = content.split('\n');
+    const content = await readFile(file, "utf-8");
+    const lines = content.split("\n");
 
     for (const { type, regex } of PATTERNS) {
       let match;
       // Reset regex for each file
-      const fileRegex = new RegExp(regex.source, 'g');
+      const fileRegex = new RegExp(regex.source, "g");
 
       while ((match = fileRegex.exec(content)) !== null) {
         // Find line number
         const textBeforeMatch = content.substring(0, match.index);
-        const line = textBeforeMatch.split('\n').length;
+        const line = textBeforeMatch.split("\n").length;
 
         const text = match[1];
 
         // Skip if already using t() function
-        const lineContent = lines[line - 1] || '';
+        const lineContent = lines[line - 1] || "";
         if (lineContent.includes("t('") || lineContent.includes('t("')) {
           continue;
         }
@@ -120,7 +120,7 @@ async function extractKeys(): Promise<ExtractionReport> {
         if (text.match(/^[\d.]+$/)) continue; // Numbers only
         if (text.match(/^https?:\/\//)) continue; // URLs
         if (text.match(/^\d+(ms|s|min|h)$/)) continue; // Time units
-        if (text.startsWith('CLI:')) continue; // Debug prefixes
+        if (text.startsWith("CLI:")) continue; // Debug prefixes
         if (text.length < 3) continue; // Too short
 
         items.push({
@@ -154,60 +154,59 @@ async function extractKeys(): Promise<ExtractionReport> {
 
 function generateMarkdownReport(report: ExtractionReport): string {
   const lines: string[] = [
-    '# i18n Key Extraction Report',
-    '',
+    "# i18n Key Extraction Report",
+    "",
     `Generated: ${report.generatedAt}`,
-    '',
-    '## Summary',
-    '',
+    "",
+    "## Summary",
+    "",
     `- **Total items:** ${report.total}`,
     `- **By type:**`,
-    ...Object.entries(report.byType).map(([type, count]) =>
-      `  - ${type}: ${count}`
+    ...Object.entries(report.byType).map(([type, count]) => `  - ${type}: ${count}`),
+    "",
+    "## Details",
+    "",
+    "| Type | Text | File | Line | Suggested Key |",
+    "|------|------|------|------|---------------|",
+    ...report.items.map(
+      (item) =>
+        `| ${item.type} | ${item.text.substring(0, 50)}${item.text.length > 50 ? "..." : ""} | ${item.file} | ${item.line} | \`${item.suggestedKey}\` |`,
     ),
-    '',
-    '## Details',
-    '',
-    '| Type | Text | File | Line | Suggested Key |',
-    '|------|------|------|------|---------------|',
-    ...report.items.map(item =>
-      `| ${item.type} | ${item.text.substring(0, 50)}${item.text.length > 50 ? '...' : ''} | ${item.file} | ${item.line} | \`${item.suggestedKey}\` |`
-    ),
-    '',
-    '## Action Items',
-    '',
-    '1. Review each extracted text',
-    '2. Add appropriate translation keys to `src/i18n/locales/en/*.ts`',
-    '3. Add Chinese translations to `src/i18n/locales/zh-CN/*.ts`',
+    "",
+    "## Action Items",
+    "",
+    "1. Review each extracted text",
+    "2. Add appropriate translation keys to `src/i18n/locales/en/*.ts`",
+    "3. Add Chinese translations to `src/i18n/locales/zh-CN/*.ts`",
     '4. Replace hardcoded text with `t("key")` calls',
-    '',
-    '## Example Migration',
-    '',
-    '### Before:',
-    '```typescript',
+    "",
+    "## Example Migration",
+    "",
+    "### Before:",
+    "```typescript",
     '.description("List discovered plugins")',
-    '```',
-    '',
-    '### After:',
-    '```typescript',
+    "```",
+    "",
+    "### After:",
+    "```typescript",
     'import { t } from "../i18n/index.js";',
-    '.description(t(\'cli.plugins.list.description\'))',
-    '```',
+    ".description(t('cli.plugins.list.description'))",
+    "```",
   ];
 
-  return lines.join('\n');
+  return lines.join("\n");
 }
 
 async function main() {
   const args = process.argv.slice(2);
-  const format = args.find(a => a.startsWith('--format='))?.split('=')[1] || 'markdown';
-  const output = args.find(a => a.startsWith('--output='))?.split('=')[1];
+  const format = args.find((a) => a.startsWith("--format="))?.split("=")[1] || "markdown";
+  const output = args.find((a) => a.startsWith("--output="))?.split("=")[1];
 
-  console.log('🔍 Extracting i18n keys from source files...');
+  console.log("🔍 Extracting i18n keys from source files...");
 
   const report = await extractKeys();
 
-  if (format === 'json') {
+  if (format === "json") {
     const json = JSON.stringify(report, null, 2);
     if (output) {
       await writeFile(output, json);
@@ -226,11 +225,11 @@ async function main() {
   }
 
   console.log(`\n📊 Found ${report.total} items to migrate`);
-  console.log('Run with --format=json for machine-readable output');
-  console.log('Run with --output=file.md to save to file');
+  console.log("Run with --format=json for machine-readable output");
+  console.log("Run with --output=file.md to save to file");
 }
 
-main().catch(err => {
-  console.error('❌ Error:', err);
+main().catch((err) => {
+  console.error("❌ Error:", err);
   process.exit(1);
 });

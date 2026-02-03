@@ -30,34 +30,40 @@
 #### 2.1.1 提取脚本 `src/i18n/scripts/extract-i18n-keys.ts`
 
 **功能:**
+
 - 自动扫描源代码中的硬编码文本
 - 识别 `.description()`, `message:`, `label:`, `text:` 等模式
 - 生成缺失翻译键的报告
 - 提供建议的翻译键名
 
 **输入:**
+
 - `src/**/*.ts` 文件
 
 **输出:**
+
 - Markdown 或 JSON 格式的报告
 - 包含文件名、行号、建议键名
 
 **示例输出:**
+
 ```markdown
-| Type | Text | File | Line | Suggested Key |
-|------|------|------|------|---------------|
-| description | List discovered plugins | src/cli/plugins-cli.ts | 112 | cli.plugins.list.description |
+| Type        | Text                    | File                   | Line | Suggested Key                |
+| ----------- | ----------------------- | ---------------------- | ---- | ---------------------------- |
+| description | List discovered plugins | src/cli/plugins-cli.ts | 112  | cli.plugins.list.description |
 ```
 
 #### 2.1.2 验证脚本 `src/i18n/scripts/validate.ts`
 
 **功能:**
+
 - 验证中英文翻译键是否完全匹配
 - 检查是否有重复的键
 - 检查是否有空值
 - 生成验证报告
 
 **检查项:**
+
 - [ ] 英文键数 == 中文键数
 - [ ] 所有英文键都有对应的中文键
 - [ ] 没有空字符串值
@@ -68,6 +74,7 @@
 #### 2.2.1 使用文档 `src/i18n/USAGE.md`
 
 **内容:**
+
 1. 快速开始
 2. 在代码中使用翻译
 3. 添加新的翻译键
@@ -77,6 +84,7 @@
 #### 2.2.2 示例文件 `src/i18n/examples/basic-usage.ts`
 
 **展示:**
+
 - 基础翻译用法
 - 插值用法
 - 切换语言
@@ -85,12 +93,14 @@
 ### 2.3 迁移更多关键文件 (可选)
 
 **高优先级:**
+
 - `src/cli/channels-cli.ts` - 9 个描述
 - `src/cli/config-cli.ts` - 4 个描述
 - `src/cli/memory-cli.ts` - 5 个描述
 - `src/cli/security-cli.ts` - 2 个描述
 
 **中优先级:**
+
 - `src/cli/models-cli.ts` - 28 个描述
 - `src/cli/cron-cli/*.ts` - 10 个描述
 - `src/cli/program/register.*.ts` - 20+ 个描述
@@ -100,27 +110,32 @@
 ## 3. 实施顺序
 
 ### 第1步: 创建验证脚本 (30分钟)
+
 - 实现 `validate.ts`
 - 验证当前翻译键的完整性
 - 修复发现的问题
 
 ### 第2步: 创建提取脚本 (45分钟)
+
 - 实现 `extract-i18n-keys.ts`
 - 运行脚本，生成报告
 - 验证脚本准确性
 
 ### 第3步: 完善文档 (30分钟)
+
 - 编写 `USAGE.md`
 - 创建示例文件
 - 添加 JSDoc 注释
 
 ### 第4步: 迁移关键文件 (60分钟)
+
 - 迁移 channels-cli.ts
 - 迁移 config-cli.ts
 - 迁移 memory-cli.ts
 - 迁移 security-cli.ts
 
 ### 第5步: 最终验证 (15分钟)
+
 - 运行所有脚本
 - 验证翻译完整性
 - 更新统计报告
@@ -180,14 +195,14 @@ pnpm tsx src/i18n/scripts/extract-i18n-keys.ts --format=json --output=missing.js
 
 ## 6. 时间安排
 
-| 任务 | 预计时间 | 优先级 |
-|------|----------|--------|
-| 创建验证脚本 | 30 分钟 | 高 |
-| 创建提取脚本 | 45 分钟 | 高 |
-| 完善文档 | 30 分钟 | 高 |
-| 迁移关键文件 | 60 分钟 | 中 |
-| 最终验证 | 15 分钟 | 高 |
-| **总计** | **2.5 小时** | - |
+| 任务         | 预计时间     | 优先级 |
+| ------------ | ------------ | ------ |
+| 创建验证脚本 | 30 分钟      | 高     |
+| 创建提取脚本 | 45 分钟      | 高     |
+| 完善文档     | 30 分钟      | 高     |
+| 迁移关键文件 | 60 分钟      | 中     |
+| 最终验证     | 15 分钟      | 高     |
+| **总计**     | **2.5 小时** | -      |
 
 ---
 

@@ -22,28 +22,28 @@ src/i18n/locales/zh-CN/wizard.ts  | 73 +++++++++++++++++++++++++++++-----
 
 ### 2.1 新增翻译键（15个）
 
-| # | 键名 | 中文译文 | 英文译文 | 状态 |
-|---|------|---------|---------|------|
-| 1 | `wizard.remote.discoverPrompt` | 在局域网上发现网关（Bonjour）？ | Discover gateway on LAN (Bonjour)? | ✅ |
-| 2 | `wizard.remote.bonjourRequired` | Bonjour 发现需要 dns-sd（macOS）或 avahi-browse（Linux）。 | Bonjour discovery requires dns-sd (macOS) or avahi-browse (Linux). | ✅ |
-| 3 | `wizard.remote.discoveryTitle` | 发现 | Discovery | ✅ |
-| 4 | `wizard.remote.searching` | 正在搜索网关… | Searching for gateways… | ✅ |
-| 5 | `wizard.remote.found` | 找到 {count} 个网关 | Found {count} gateway(s) | ✅ |
-| 6 | `wizard.remote.noneFound` | 未找到网关 | No gateways found | ✅ |
-| 7 | `wizard.remote.selectGateway` | 选择网关 | Select gateway | ✅ |
-| 8 | `wizard.remote.manualUrl` | 手动输入 URL | Enter URL manually | ✅ |
-| 9 | `wizard.remote.connectionMethod` | 连接方式 | Connection method | ✅ |
-| 10 | `wizard.remote.directWs` | 直接网关 WS | Direct gateway WS | ✅ |
-| 11 | `wizard.remote.sshTunnel` | SSH 隧道（回环） | SSH tunnel (loopback) | ✅ |
-| 12 | `wizard.remote.sshNote` | SSH 隧道说明（多行） | SSH tunnel instructions (multi-line) | ✅ |
-| 13 | `wizard.remote.wsUrlPrompt` | 网关 WebSocket URL | Gateway WebSocket URL | ✅ |
-| 14 | `wizard.remote.authPrompt` | 网关认证 | Gateway auth | ✅ |
-| 15 | `wizard.remote.tokenPrompt` | 网关令牌 | Gateway token | ✅ |
+| #   | 键名                             | 中文译文                                                   | 英文译文                                                           | 状态 |
+| --- | -------------------------------- | ---------------------------------------------------------- | ------------------------------------------------------------------ | ---- |
+| 1   | `wizard.remote.discoverPrompt`   | 在局域网上发现网关（Bonjour）？                            | Discover gateway on LAN (Bonjour)?                                 | ✅   |
+| 2   | `wizard.remote.bonjourRequired`  | Bonjour 发现需要 dns-sd（macOS）或 avahi-browse（Linux）。 | Bonjour discovery requires dns-sd (macOS) or avahi-browse (Linux). | ✅   |
+| 3   | `wizard.remote.discoveryTitle`   | 发现                                                       | Discovery                                                          | ✅   |
+| 4   | `wizard.remote.searching`        | 正在搜索网关…                                              | Searching for gateways…                                            | ✅   |
+| 5   | `wizard.remote.found`            | 找到 {count} 个网关                                        | Found {count} gateway(s)                                           | ✅   |
+| 6   | `wizard.remote.noneFound`        | 未找到网关                                                 | No gateways found                                                  | ✅   |
+| 7   | `wizard.remote.selectGateway`    | 选择网关                                                   | Select gateway                                                     | ✅   |
+| 8   | `wizard.remote.manualUrl`        | 手动输入 URL                                               | Enter URL manually                                                 | ✅   |
+| 9   | `wizard.remote.connectionMethod` | 连接方式                                                   | Connection method                                                  | ✅   |
+| 10  | `wizard.remote.directWs`         | 直接网关 WS                                                | Direct gateway WS                                                  | ✅   |
+| 11  | `wizard.remote.sshTunnel`        | SSH 隧道（回环）                                           | SSH tunnel (loopback)                                              | ✅   |
+| 12  | `wizard.remote.sshNote`          | SSH 隧道说明（多行）                                       | SSH tunnel instructions (multi-line)                               | ✅   |
+| 13  | `wizard.remote.wsUrlPrompt`      | 网关 WebSocket URL                                         | Gateway WebSocket URL                                              | ✅   |
+| 14  | `wizard.remote.authPrompt`       | 网关认证                                                   | Gateway auth                                                       | ✅   |
+| 15  | `wizard.remote.tokenPrompt`      | 网关令牌                                                   | Gateway token                                                      | ✅   |
 
 ### 2.2 复用翻译键（1个）
 
-| 键名 | 用途 | 来源 |
-|------|------|------|
+| 键名                  | 用途         | 来源           |
+| --------------------- | ------------ | -------------- |
 | `validation.required` | 验证错误提示 | Phase 1 已添加 |
 
 ---
@@ -62,12 +62,14 @@ src/i18n/locales/zh-CN/wizard.ts  | 73 +++++++++++++++++++++++++++++-----
 ### 3.2 逐处修改验证
 
 #### 位置 1: 导入 t 函数（行 7）
+
 ```typescript
 // 添加
 import { t } from "../i18n/index.js";
 ```
 
 #### 位置 2: Bonjour 发现确认（行 40）
+
 ```typescript
 // 修改前
 message: "Discover gateway on LAN (Bonjour)?",
@@ -77,6 +79,7 @@ message: t('wizard.remote.discoverPrompt'),
 ```
 
 #### 位置 3: Bonjour 工具缺失提示（行 46-52）
+
 ```typescript
 // 修改前
 await prompter.note(
@@ -89,26 +92,31 @@ await prompter.note(
 
 // 修改后 ✅
 await prompter.note(
-  [
-    t('wizard.remote.bonjourRequired'),
-    "Docs: https://docs.openclaw.ai/gateway/discovery",
-  ].join("\n"),
-  t('wizard.remote.discoveryTitle'),
+  [t("wizard.remote.bonjourRequired"), "Docs: https://docs.openclaw.ai/gateway/discovery"].join(
+    "\n",
+  ),
+  t("wizard.remote.discoveryTitle"),
 );
 ```
 
 #### 位置 4-5: 搜索进度提示（行 59-61）
+
 ```typescript
 // 修改前
 const spin = prompter.progress("Searching for gateways…");
 spin.stop(beacons.length > 0 ? `Found ${beacons.length} gateway(s)` : "No gateways found");
 
 // 修改后 ✅
-const spin = prompter.progress(t('wizard.remote.searching'));
-spin.stop(beacons.length > 0 ? t('wizard.remote.found', { count: beacons.length }) : t('wizard.remote.noneFound'));
+const spin = prompter.progress(t("wizard.remote.searching"));
+spin.stop(
+  beacons.length > 0
+    ? t("wizard.remote.found", { count: beacons.length })
+    : t("wizard.remote.noneFound"),
+);
 ```
 
 #### 位置 6-7: 网关选择（行 65-72）
+
 ```typescript
 // 修改前
 message: "Select gateway",
@@ -122,6 +130,7 @@ message: t('wizard.remote.selectGateway'),
 ```
 
 #### 位置 8-10: 连接方式选择（行 86-93）
+
 ```typescript
 // 修改前
 message: "Connection method",
@@ -139,6 +148,7 @@ label: t('wizard.remote.sshTunnel'),
 ```
 
 #### 位置 11: SSH 隧道说明（行 99-108）
+
 ```typescript
 // 修改前
 await prompter.note(
@@ -151,13 +161,11 @@ await prompter.note(
 );
 
 // 修改后 ✅
-await prompter.note(
-  t('wizard.remote.sshNote'),
-  t('wizard.remote.sshTunnel'),
-);
+await prompter.note(t("wizard.remote.sshNote"), t("wizard.remote.sshTunnel"));
 ```
 
 #### 位置 12: URL 输入提示（行 114）
+
 ```typescript
 // 修改前
 message: "Gateway WebSocket URL",
@@ -167,6 +175,7 @@ message: t('wizard.remote.wsUrlPrompt'),
 ```
 
 #### 位置 13: 认证选择（行 124）
+
 ```typescript
 // 修改前
 message: "Gateway auth",
@@ -176,6 +185,7 @@ message: t('wizard.remote.authPrompt'),
 ```
 
 #### 位置 14-15: Token 输入（行 135-137）
+
 ```typescript
 // 修改前
 message: "Gateway token",
@@ -193,6 +203,7 @@ validate: (value) => (value?.trim() ? undefined : t('validation.required')),
 ### 4.1 翻译键同步性验证
 
 **自动化验证结果**:
+
 ```
 wizard.remote.discoverPrompt: ✅
 wizard.remote.bonjourRequired: ✅
@@ -215,11 +226,17 @@ wizard.remote.tokenPrompt: ✅
 ### 4.2 动态插值验证
 
 **使用位置**: 行 61
+
 ```typescript
-spin.stop(beacons.length > 0 ? t('wizard.remote.found', { count: beacons.length }) : t('wizard.remote.noneFound'));
+spin.stop(
+  beacons.length > 0
+    ? t("wizard.remote.found", { count: beacons.length })
+    : t("wizard.remote.noneFound"),
+);
 ```
 
 **翻译文件中的占位符**:
+
 - 中文: `'wizard.remote.found': '找到 {count} 个网关'`
 - 英文: `'wizard.remote.found': 'Found {count} gateway(s)'`
 
@@ -237,11 +254,13 @@ spin.stop(beacons.length > 0 ? t('wizard.remote.found', { count: beacons.length 
 ## 5. 覆盖率提升
 
 **onboard-remote.ts**:
+
 - 修改前: ~30%
 - 修改后: ~85%
 - 提升: **+55%**
 
 **整体 onboarding 流程**:
+
 - Phase 1 后: ~90%
 - Phase 2 后: ~93%
 - Phase 3 后: ~95%
@@ -264,14 +283,14 @@ spin.stop(beacons.length > 0 ? t('wizard.remote.found', { count: beacons.length 
 
 ### ✅ 全部检查项通过
 
-| 检查项 | 状态 | 备注 |
-|--------|------|------|
-| 翻译键完整性 | ✅ | 15个键已添加 |
-| 翻译键同步性 | ✅ | 100% 同步 |
-| 源代码修改 | ✅ | 10处修改正确 |
-| 动态插值 | ✅ | 参数传递正确 |
-| 代码质量 | ✅ | 语法检查通过 |
-| 命名规范 | ✅ | 符合项目规范 |
+| 检查项       | 状态 | 备注         |
+| ------------ | ---- | ------------ |
+| 翻译键完整性 | ✅   | 15个键已添加 |
+| 翻译键同步性 | ✅   | 100% 同步    |
+| 源代码修改   | ✅   | 10处修改正确 |
+| 动态插值     | ✅   | 参数传递正确 |
+| 代码质量     | ✅   | 语法检查通过 |
+| 命名规范     | ✅   | 符合项目规范 |
 
 ### 📊 完成统计
 
@@ -287,6 +306,7 @@ spin.stop(beacons.length > 0 ? t('wizard.remote.found', { count: beacons.length 
 **Phase 3 工作质量: 优秀 (A+)**
 
 所有阶段任务已完成：
+
 - ✅ Phase 1: onboarding.ts + gateway-config.ts
 - ✅ Phase 2: onboard-channels.ts
 - ✅ Phase 3: onboard-remote.ts

@@ -19,6 +19,7 @@
 **预计时间**: 30分钟
 
 **包含的提交类型**:
+
 - LFI防护 (Local File Inclusion)
 - 代码执行阻止
 - 路径遍历防护
@@ -27,6 +28,7 @@
 - WhatsApp accountId 清理
 
 **关键文件**:
+
 ```
 src/auto-reply/reply/get-reply-run.ts
 src/auto-reply/reply/stage-sandbox-media.ts
@@ -40,6 +42,7 @@ src/infra/validation.ts
 ```
 
 **执行命令**:
+
 ```bash
 # LFI防护
 git checkout origin/origin -- src/auto-reply/reply/get-reply-run.ts
@@ -59,6 +62,7 @@ git checkout origin/origin -- src/infra/validation.ts
 ```
 
 **验证**:
+
 - [ ] 构建通过
 - [ ] 安全相关测试通过
 - [ ] 提交并标注
@@ -73,6 +77,7 @@ git checkout origin/origin -- src/infra/validation.ts
 **预计时间**: 45分钟
 
 **包含功能**:
+
 - 网关时间戳注入
 - Discord PluralKit 身份解析
 - 路由线程继承
@@ -80,6 +85,7 @@ git checkout origin/origin -- src/infra/validation.ts
 - 嵌入向量归一化
 
 **关键文件**:
+
 ```
 src/gateway/chat.ts
 src/gateway/agent-handler.ts
@@ -92,6 +98,7 @@ src/memory/embeddings.ts
 ```
 
 **注意事项**:
+
 - 检查与i18n功能的兼容性
 - 时间戳注入可能影响消息格式化
 
@@ -105,6 +112,7 @@ src/memory/embeddings.ts
 **预计时间**: 60分钟
 
 **包含修复**:
+
 - Telegram流式传输修复
 - Windows进程spawn修复
 - 模型选择器崩溃修复
@@ -112,6 +120,7 @@ src/memory/embeddings.ts
 - 超时处理改进
 
 **关键文件**:
+
 ```
 src/channels/telegram/telegram.ts
 src/channels/telegram/streaming.ts
@@ -132,12 +141,14 @@ src/agents/session-manager.ts
 **预计时间**: 45分钟
 
 **包含修复**:
+
 - 工具执行签名对齐
 - 参数顺序修复
 - 遗留签名处理
 - 适配器规范化
 
 **关键文件**:
+
 ```
 src/agents/tools/adapter*.ts
 src/agents/tool-executor.ts
@@ -145,6 +156,7 @@ src/agents/tool-registry.ts
 ```
 
 **注意事项**:
+
 - 需要仔细检查工具执行流程
 - 测试关键工具功能
 
@@ -158,17 +170,20 @@ src/agents/tool-registry.ts
 **预计时间**: 30分钟
 
 **包含变更**:
+
 - 导入排序
 - 代码格式化
 - TypeScript类型改进
 
 **策略**:
 由于本地也有大量导入排序修改，建议：
+
 1. 直接使用上游版本
 2. 然后运行本地格式化工具
 3. 或者跳过此批次（可选）
 
 **执行**:
+
 ```bash
 # 批量检出所有工具文件
 git checkout origin/origin -- src/agents/tools/
@@ -186,12 +201,14 @@ git checkout origin/origin -- src/gateway/
 **预计时间**: 20分钟
 
 **包含变更**:
+
 - 文档更新
 - CI工作流改进
 - 测试配置
 - 变更日志
 
 **执行**:
+
 ```bash
 git checkout origin/origin -- docs/
 git checkout origin/origin -- .github/
@@ -225,11 +242,13 @@ git checkout origin/origin -- CHANGELOG.md
 ## 执行检查清单
 
 ### 每批次执行前:
+
 - [ ] 确认当前分支正确
 - [ ] 工作区干净
 - [ ] 已备份当前状态
 
 ### 每批次执行后:
+
 - [ ] pnpm install
 - [ ] pnpm build (通过)
 - [ ] 关键测试通过
@@ -238,6 +257,7 @@ git checkout origin/origin -- CHANGELOG.md
 - [ ] git commit提交
 
 ### 最终验证:
+
 - [ ] 完整构建通过
 - [ ] 完整测试套件通过
 - [ ] i18n功能正常
@@ -247,15 +267,15 @@ git checkout origin/origin -- CHANGELOG.md
 
 ## 时间估算
 
-| 批次 | 内容 | 预计时间 | 累计时间 |
-|------|------|----------|----------|
-| 1 | 安全修复 | 30分钟 | 30分钟 |
-| 2 | 功能特性 | 45分钟 | 1小时15分钟 |
-| 3 | Bug修复 | 60分钟 | 2小时15分钟 |
-| 4 | 工具适配器 | 45分钟 | 3小时 |
-| 5 | 代码风格 | 30分钟 | 3小时30分钟 |
-| 6 | 文档CI | 20分钟 | 3小时50分钟 |
-| - | 最终验证 | 30分钟 | 4小时20分钟 |
+| 批次 | 内容       | 预计时间 | 累计时间    |
+| ---- | ---------- | -------- | ----------- |
+| 1    | 安全修复   | 30分钟   | 30分钟      |
+| 2    | 功能特性   | 45分钟   | 1小时15分钟 |
+| 3    | Bug修复    | 60分钟   | 2小时15分钟 |
+| 4    | 工具适配器 | 45分钟   | 3小时       |
+| 5    | 代码风格   | 30分钟   | 3小时30分钟 |
+| 6    | 文档CI     | 20分钟   | 3小时50分钟 |
+| -    | 最终验证   | 30分钟   | 4小时20分钟 |
 
 **总计**: 约4.5小时
 
@@ -275,5 +295,5 @@ git checkout HEAD -- <file-path>
 
 ---
 
-*计划制定时间: 2026-02-03*
-*制定人: Sisyphus AI Agent*
+_计划制定时间: 2026-02-03_
+_制定人: Sisyphus AI Agent_

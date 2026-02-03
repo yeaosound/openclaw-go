@@ -1,5 +1,4 @@
 import { html, nothing } from "lit";
-
 import type { LogEntry, LogLevel } from "../types";
 import { t } from "../../i18n/lit.js";
 

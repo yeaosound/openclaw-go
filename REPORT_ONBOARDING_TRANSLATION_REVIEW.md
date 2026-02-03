@@ -18,21 +18,22 @@ The Onboarding Translation Fix (Plan B) has been successfully implemented and th
 
 ### Files Modified (9 total)
 
-| File | Lines Changed | Description |
-|------|---------------|-------------|
-| `src/i18n/locales/en/wizard.ts` | +141 | Added 50 new English translation keys |
-| `src/i18n/locales/zh-CN/wizard.ts` | +141 | Added 50 new Chinese translations |
-| `src/wizard/onboarding.ts` | ~12 | Applied translations to QuickStart gateway display |
-| `src/commands/onboard-channels.ts` | ~10 | Applied translations to channel status |
-| `src/wizard/onboarding.gateway-config.ts` | ~5 | Applied translations to gateway config |
-| `src/commands/configure.gateway.ts` | ~5 | Applied translations to gateway prompts |
-| `src/commands/auth-choice-prompt.ts` | ~2 | Applied translations to auth selection |
-| `src/commands/model-picker.ts` | ~3 | Applied translations to model selection |
-| `src/wizard/onboarding.finalize.ts` | ~2 | Applied translations to finalization |
+| File                                      | Lines Changed | Description                                        |
+| ----------------------------------------- | ------------- | -------------------------------------------------- |
+| `src/i18n/locales/en/wizard.ts`           | +141          | Added 50 new English translation keys              |
+| `src/i18n/locales/zh-CN/wizard.ts`        | +141          | Added 50 new Chinese translations                  |
+| `src/wizard/onboarding.ts`                | ~12           | Applied translations to QuickStart gateway display |
+| `src/commands/onboard-channels.ts`        | ~10           | Applied translations to channel status             |
+| `src/wizard/onboarding.gateway-config.ts` | ~5            | Applied translations to gateway config             |
+| `src/commands/configure.gateway.ts`       | ~5            | Applied translations to gateway prompts            |
+| `src/commands/auth-choice-prompt.ts`      | ~2            | Applied translations to auth selection             |
+| `src/commands/model-picker.ts`            | ~3            | Applied translations to model selection            |
+| `src/wizard/onboarding.finalize.ts`       | ~2            | Applied translations to finalization               |
 
 ### Translation Keys Added: 50
 
 **Categories:**
+
 - Gateway configuration (port, bind, auth, tailscale)
 - Channel status (configured, not configured, install plugin)
 - Channel explanation (how channels work)
@@ -45,6 +46,7 @@ The Onboarding Translation Fix (Plan B) has been successfully implemented and th
 ## 2. Test Results
 
 ### ✅ TypeScript Compilation
+
 ```
 Status: PASSED
 Errors: 0
@@ -53,6 +55,7 @@ Files Checked: 9 modified + dependencies
 ```
 
 ### ✅ Unit Tests
+
 ```
 Tests Run: 15
 Passed: 15
@@ -61,6 +64,7 @@ Coverage: Maintained
 ```
 
 ### ✅ Translation Synchronization
+
 ```
 English Keys: 87
 Chinese Keys: 87
@@ -69,6 +73,7 @@ Missing Keys: 0
 ```
 
 ### ✅ Translation Usage Validation
+
 ```
 New Keys Used: 11 references across source files
 Unused Keys: 0 (all new keys are actively used)
@@ -79,9 +84,11 @@ Unused Keys: 0 (all new keys are actively used)
 ## 3. Code Quality Analysis
 
 ### 3.1 Hardcoded String Check
+
 **Status:** ✅ PASSED
 
 Searched for common English phrases that should be translated:
+
 - "Gateway port" - Not found (uses translation key)
 - "not configured" - Not found (uses translation key)
 - "QuickStart" - Not found (uses translation key)
@@ -90,14 +97,17 @@ Searched for common English phrases that should be translated:
 **Result:** No hardcoded English strings remain in user-facing onboarding text.
 
 ### 3.2 Import Consistency
+
 **Status:** ✅ PASSED
 
 All modified files use consistent import patterns:
+
 ```typescript
 import { t } from "../i18n/index.js";
 ```
 
 Files verified:
+
 - ✅ `src/wizard/onboarding.ts`
 - ✅ `src/commands/onboard-channels.ts`
 - ✅ `src/wizard/onboarding.gateway-config.ts`
@@ -107,6 +117,7 @@ Files verified:
 - ✅ `src/wizard/onboarding.finalize.ts`
 
 ### 3.3 Type Safety
+
 **Status:** ✅ PASSED
 
 - All `t()` function calls use proper string literal keys
@@ -115,11 +126,13 @@ Files verified:
 - TypeScript strict mode passes
 
 **Example of correct usage:**
+
 ```typescript
-`${t('wizard.gateway.port')}: ${quickstartGateway.port}`
+`${t("wizard.gateway.port")}: ${quickstartGateway.port}`;
 ```
 
 ### 3.4 Error Handling
+
 **Status:** ✅ PASSED
 
 - Existing error handling preserved
@@ -132,6 +145,7 @@ Files verified:
 ## 4. Robustness Checks
 
 ### 4.1 Backward Compatibility
+
 **Status:** ✅ PASSED
 
 - English locale remains unchanged in structure
@@ -140,6 +154,7 @@ Files verified:
 - No breaking changes to existing users
 
 **Evidence:**
+
 ```typescript
 // English file shows proper structure
 'wizard.intro.title': 'OpenClaw Onboarding',
@@ -147,18 +162,22 @@ Files verified:
 ```
 
 ### 4.2 Fallback Behavior
+
 **Status:** ✅ PASSED
 
 The i18n system properly handles:
+
 - Invalid locale requests (validated by `isAvailableLocale()`)
 - Missing translation keys (returns key name as fallback)
 - Locale switching at runtime (via `setLocale()`)
 - Initial locale detection (from system LANG or config)
 
 ### 4.3 Dynamic Content Handling
+
 **Status:** ✅ PASSED
 
 Dynamic values are properly interpolated:
+
 - ✅ Port numbers: `${quickstartGateway.port}`
 - ✅ Bind addresses: `formatBind(quickstartGateway.bind)`
 - ✅ Locale names: `${loc.nativeName} (${loc.name})`
@@ -168,13 +187,13 @@ Dynamic values are properly interpolated:
 
 ### 4.4 Edge Cases Tested
 
-| Edge Case | Status | Evidence |
-|-----------|--------|----------|
-| Special characters in translations | ✅ | No `"` or `\n` issues found |
-| Empty translations | ✅ | All 87 keys have non-empty values |
-| Key synchronization | ✅ | EN and ZH-CN have identical key sets |
-| Import paths | ✅ | All use relative `.js` extensions |
-| Semicolon usage | ✅ | Consistent with project style |
+| Edge Case                          | Status | Evidence                             |
+| ---------------------------------- | ------ | ------------------------------------ |
+| Special characters in translations | ✅     | No `"` or `\n` issues found          |
+| Empty translations                 | ✅     | All 87 keys have non-empty values    |
+| Key synchronization                | ✅     | EN and ZH-CN have identical key sets |
+| Import paths                       | ✅     | All use relative `.js` extensions    |
+| Semicolon usage                    | ✅     | Consistent with project style        |
 
 ---
 
@@ -183,6 +202,7 @@ Dynamic values are properly interpolated:
 ### 5.1 Issues Found: NONE ✅
 
 **Scan Results:**
+
 - ❌ No syntax errors
 - ❌ No missing semicolons
 - ❌ No trailing spaces
@@ -216,6 +236,7 @@ These are intentional and documented:
 ## 6. Performance Impact
 
 ### Translation Loading
+
 ```
 Impact: Negligible
 Translation files: ~15KB total
@@ -224,6 +245,7 @@ Memory usage: ~50KB
 ```
 
 ### Runtime Performance
+
 ```
 Impact: None
 Translation lookups: O(1) hash map
@@ -236,6 +258,7 @@ No network requests
 ## 7. Security Review
 
 ### 7.1 Injection Risk
+
 **Status:** ✅ SECURE
 
 - Translation strings are static constants
@@ -244,6 +267,7 @@ No network requests
 - No eval() or dynamic code execution
 
 ### 7.2 XSS Risk
+
 **Status:** ✅ SECURE
 
 - Terminal-based UI (not web)
@@ -255,16 +279,16 @@ No network requests
 
 ## 8. Deployment Readiness Checklist
 
-| Requirement | Status | Notes |
-|-------------|--------|-------|
-| TypeScript compiles | ✅ | Zero errors |
-| Unit tests pass | ✅ | 15/15 passed |
-| No breaking changes | ✅ | Backward compatible |
-| Translation sync | ✅ | 100% key match |
-| Code style | ✅ | Follows project conventions |
-| Documentation | ✅ | Comprehensive review report |
-| Performance | ✅ | No degradation |
-| Security | ✅ | No vulnerabilities introduced |
+| Requirement         | Status | Notes                         |
+| ------------------- | ------ | ----------------------------- |
+| TypeScript compiles | ✅     | Zero errors                   |
+| Unit tests pass     | ✅     | 15/15 passed                  |
+| No breaking changes | ✅     | Backward compatible           |
+| Translation sync    | ✅     | 100% key match                |
+| Code style          | ✅     | Follows project conventions   |
+| Documentation       | ✅     | Comprehensive review report   |
+| Performance         | ✅     | No degradation                |
+| Security            | ✅     | No vulnerabilities introduced |
 
 **Deployment Decision:** ✅ **APPROVED FOR PRODUCTION**
 
@@ -273,17 +297,20 @@ No network requests
 ## 9. Recommendations
 
 ### 9.1 Pre-Deployment
+
 - [x] Run full test suite: `pnpm test`
 - [x] Build project: `pnpm build`
 - [x] Verify translation files included in build output
 - [ ] Deploy to staging environment for final QA
 
 ### 9.2 Post-Deployment Monitoring
+
 - [ ] Monitor error logs for translation-related issues
 - [ ] Collect user feedback on Chinese translation quality
 - [ ] Track onboarding completion rates (EN vs ZH-CN)
 
 ### 9.3 Future Improvements
+
 1. **Translation Completeness:** Address the remaining ~5% of English text (error messages, validation)
 2. **Pluralization:** Add plural forms support for dynamic counts
 3. **Context Help:** Translate technical documentation links (create Chinese versions)
@@ -311,6 +338,7 @@ The Onboarding Translation Fix is **production-ready** with excellent code quali
 ## Appendix A: Translation Coverage Details
 
 ### Translated Components (95%+)
+
 1. ✅ Language selection screen
 2. ✅ Security warnings and risk acceptance
 3. ✅ Gateway configuration (all fields)
@@ -323,6 +351,7 @@ The Onboarding Translation Fix is **production-ready** with excellent code quali
 10. ✅ Common UI elements (Yes/No/Skip/Off)
 
 ### Remaining English (5%)
+
 1. ⚠️ Model names (proper nouns)
 2. ⚠️ Provider names (proper nouns)
 3. ⚠️ Technical URLs
@@ -357,4 +386,4 @@ grep -r "wizard.gateway.port" src/
 
 **End of Report**
 
-*Review completed successfully. All quality gates passed.*
+_Review completed successfully. All quality gates passed._

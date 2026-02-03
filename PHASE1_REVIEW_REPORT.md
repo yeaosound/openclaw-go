@@ -13,6 +13,7 @@
 新增 **29个翻译键**:
 
 #### onboarding.ts 相关 (11个)
+
 - ✅ `wizard.config.invalidTitle` - "配置无效"
 - ✅ `wizard.config.issuesTitle` - "配置问题"
 - ✅ `wizard.config.invalidOutro` - "配置无效。运行 `{command}` 修复..."
@@ -25,6 +26,7 @@
 - ✅ `wizard.skills.title` - "技能"
 
 #### gateway-config.ts 相关 (18个)
+
 - ✅ `validation.invalidPort` - "无效端口"
 - ✅ `validation.ipRequired` - "自定义绑定模式需要 IP 地址"
 - ✅ `validation.invalidIpFormat` - "无效 IPv4 地址（例如：192.168.1.100）"
@@ -50,40 +52,40 @@
 
 ### 2.1 onboarding.ts 修改 (11处)
 
-| # | 行号 | 原文 | 修改后 | 状态 |
-|---|------|------|--------|------|
-| 1 | 128 | "Invalid config" | `t('wizard.config.invalidTitle')` | ✅ |
-| 2 | 136 | "Config issues" | `t('wizard.config.issuesTitle')` | ✅ |
-| 3 | 140 | "Config invalid. Run..." | `t('wizard.config.invalidOutro', {command})` | ✅ |
-| 4 | 146 | "Configure details later..." | `t('wizard.onboarding.quickstartHint', {command})` | ✅ |
-| 5 | 147 | "Configure port, network..." | `t('wizard.onboarding.manualHint')` | ✅ |
-| 6 | 155 | "Invalid --flow..." | `t('wizard.onboarding.invalidFlow')` | ✅ |
-| 7 | 352 | "No remote URL configured yet" | `t('wizard.setup.noRemoteUrl')` | ✅ |
-| 8 | 365 | "Remote gateway configured." | `t('wizard.setup.remoteConfigured')` | ✅ |
-| 9 | 374 | "Workspace directory" | `t('wizard.workspace.prompt')` | ✅ |
-| 10 | 448 | "Channels" (标题) | `t('wizard.channels.title')` | ✅ |
-| 11 | 472 | "Skills" (标题) | `t('wizard.skills.title')` | ✅ |
+| #   | 行号 | 原文                           | 修改后                                             | 状态 |
+| --- | ---- | ------------------------------ | -------------------------------------------------- | ---- |
+| 1   | 128  | "Invalid config"               | `t('wizard.config.invalidTitle')`                  | ✅   |
+| 2   | 136  | "Config issues"                | `t('wizard.config.issuesTitle')`                   | ✅   |
+| 3   | 140  | "Config invalid. Run..."       | `t('wizard.config.invalidOutro', {command})`       | ✅   |
+| 4   | 146  | "Configure details later..."   | `t('wizard.onboarding.quickstartHint', {command})` | ✅   |
+| 5   | 147  | "Configure port, network..."   | `t('wizard.onboarding.manualHint')`                | ✅   |
+| 6   | 155  | "Invalid --flow..."            | `t('wizard.onboarding.invalidFlow')`               | ✅   |
+| 7   | 352  | "No remote URL configured yet" | `t('wizard.setup.noRemoteUrl')`                    | ✅   |
+| 8   | 365  | "Remote gateway configured."   | `t('wizard.setup.remoteConfigured')`               | ✅   |
+| 9   | 374  | "Workspace directory"          | `t('wizard.workspace.prompt')`                     | ✅   |
+| 10  | 448  | "Channels" (标题)              | `t('wizard.channels.title')`                       | ✅   |
+| 11  | 472  | "Skills" (标题)                | `t('wizard.skills.title')`                         | ✅   |
 
 ### 2.2 gateway-config.ts 修改 (13处)
 
-| # | 行号 | 原文 | 修改后 | 状态 |
-|---|------|------|--------|------|
-| 1 | 43 | "Invalid port" | `t('validation.invalidPort')` | ✅ |
-| 2 | 68 | "Custom IP address" | `t('wizard.gateway.customIpPrompt')` | ✅ |
-| 3 | 73 | "IP address is required..." | `t('validation.ipRequired')` | ✅ |
-| 4 | 78 | "Invalid IPv4 address (e.g., ...)" | `t('validation.invalidIpFormat')` | ✅ |
-| 5 | 88 | "Invalid IPv4 address (each octet...)" | `t('validation.invalidIpRange')` | ✅ |
-| 6 | 104 | "Recommended default (local + remote)" | `t('wizard.gateway.auth.hint')` | ✅ |
-| 7 | 121 | "Private HTTPS for your tailnet..." | `t('wizard.gateway.tailscale.serveHint')` | ✅ |
-| 8 | 126 | "Public HTTPS via Tailscale Funnel..." | `t('wizard.gateway.tailscale.funnelHint')` | ✅ |
-| 9 | 137-143 | Tailscale 警告文本 | `t('wizard.tailscale.warning')` | ✅ |
-| 10 | 143 | "Tailscale Warning" | `t('wizard.tailscale.title')` | ✅ |
-| 11 | 148 | "Tailscale" | `t('wizard.tailscale.title')` | ✅ |
-| 12 | 158 | "Reset Tailscale serve/funnel on exit?" | `t('wizard.gateway.tailscale.resetPrompt')` | ✅ |
-| 13 | 178 | "Gateway token (blank to generate)" | `t('wizard.gateway.tokenPrompt')` | ✅ |
-| 14 | 179 | "Needed for multi-machine..." | `t('wizard.gateway.tokenPlaceholder')` | ✅ |
-| 15 | 191 | "Gateway password" | `t('wizard.gateway.passwordPrompt')` | ✅ |
-| 16 | 192 | "Required" | `t('validation.required')` | ✅ |
+| #   | 行号    | 原文                                    | 修改后                                      | 状态 |
+| --- | ------- | --------------------------------------- | ------------------------------------------- | ---- |
+| 1   | 43      | "Invalid port"                          | `t('validation.invalidPort')`               | ✅   |
+| 2   | 68      | "Custom IP address"                     | `t('wizard.gateway.customIpPrompt')`        | ✅   |
+| 3   | 73      | "IP address is required..."             | `t('validation.ipRequired')`                | ✅   |
+| 4   | 78      | "Invalid IPv4 address (e.g., ...)"      | `t('validation.invalidIpFormat')`           | ✅   |
+| 5   | 88      | "Invalid IPv4 address (each octet...)"  | `t('validation.invalidIpRange')`            | ✅   |
+| 6   | 104     | "Recommended default (local + remote)"  | `t('wizard.gateway.auth.hint')`             | ✅   |
+| 7   | 121     | "Private HTTPS for your tailnet..."     | `t('wizard.gateway.tailscale.serveHint')`   | ✅   |
+| 8   | 126     | "Public HTTPS via Tailscale Funnel..."  | `t('wizard.gateway.tailscale.funnelHint')`  | ✅   |
+| 9   | 137-143 | Tailscale 警告文本                      | `t('wizard.tailscale.warning')`             | ✅   |
+| 10  | 143     | "Tailscale Warning"                     | `t('wizard.tailscale.title')`               | ✅   |
+| 11  | 148     | "Tailscale"                             | `t('wizard.tailscale.title')`               | ✅   |
+| 12  | 158     | "Reset Tailscale serve/funnel on exit?" | `t('wizard.gateway.tailscale.resetPrompt')` | ✅   |
+| 13  | 178     | "Gateway token (blank to generate)"     | `t('wizard.gateway.tokenPrompt')`           | ✅   |
+| 14  | 179     | "Needed for multi-machine..."           | `t('wizard.gateway.tokenPlaceholder')`      | ✅   |
+| 15  | 191     | "Gateway password"                      | `t('wizard.gateway.passwordPrompt')`        | ✅   |
+| 16  | 192     | "Required"                              | `t('validation.required')`                  | ✅   |
 
 **总计修改**: 27处
 
@@ -92,17 +94,20 @@
 ## 3. 质量检查
 
 ### 3.1 翻译完整性
+
 - ✅ 所有新增翻译键在 zh-CN 和 en 文件中都有定义
 - ✅ 翻译键命名遵循现有命名规范
 - ✅ 动态插值（如 `{command}`）正确使用
 
 ### 3.2 代码质量
+
 - ✅ 无语法错误 (node --check 通过)
 - ✅ 无类型错误（使用 t() 函数）
 - ✅ 保持原有代码结构
 - ✅ 未引入破坏性变更
 
 ### 3.3 翻译准确性
+
 - ✅ 技术术语保持一致（Tailscale、Gateway 等保持英文）
 - ✅ 中文表达自然流畅
 - ✅ 英文回退文本准确
@@ -155,6 +160,7 @@
 ## 6. 结论
 
 Phase 1 任务 **圆满完成**：
+
 - ✅ 添加 29 个翻译键（中英文）
 - ✅ 修改 27 处源代码
 - ✅ 通过语法检查

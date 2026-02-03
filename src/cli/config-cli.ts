@@ -1,14 +1,13 @@
-import JSON5 from "json5";
 import type { Command } from "commander";
-
+import JSON5 from "json5";
 import { readConfigFileSnapshot, writeConfigFile } from "../config/config.js";
 import { danger, info } from "../globals.js";
 import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";
 import { formatDocsLink } from "../terminal/links.js";
-import { formatCliCommand } from "./command-format.js";
 import { theme } from "../terminal/theme.js";
 import { shortenHomePath } from "../utils.js";
+import { formatCliCommand } from "./command-format.js";
 
 type PathSegment = string;
 
@@ -220,7 +219,7 @@ async function loadValidConfig() {
 export function registerConfigCli(program: Command) {
   const cmd = program
     .command("config")
-    .description(t('cli.config.description'))
+    .description(t("cli.config.description"))
     .addHelpText(
       "after",
       () =>
@@ -259,7 +258,7 @@ export function registerConfigCli(program: Command) {
 
   cmd
     .command("get")
-    .description(t('cli.config.get.description'))
+    .description(t("cli.config.get.description"))
     .argument("<path>", "Config path (dot or bracket notation)")
     .option("--json", "Output JSON", false)
     .action(async (path: string, opts) => {
@@ -296,7 +295,7 @@ export function registerConfigCli(program: Command) {
 
   cmd
     .command("set")
-    .description(t('cli.config.set.description'))
+    .description(t("cli.config.set.description"))
     .argument("<path>", "Config path (dot or bracket notation)")
     .argument("<value>", "Value (JSON5 or raw string)")
     .option("--json", "Parse value as JSON5 (required)", false)
@@ -320,7 +319,7 @@ export function registerConfigCli(program: Command) {
 
   cmd
     .command("unset")
-    .description(t('cli.config.unset.description'))
+    .description(t("cli.config.unset.description"))
     .argument("<path>", "Config path (dot or bracket notation)")
     .action(async (path: string) => {
       try {

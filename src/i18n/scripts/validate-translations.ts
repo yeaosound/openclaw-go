@@ -8,12 +8,12 @@
  * 3. EN and ZH-CN locale files have the same keys
  */
 
-import { en } from '../locales/en/index.js';
-import { zhCN } from '../locales/zh-CN/index.js';
-import { glob } from 'glob';
-import { readFile } from 'fs/promises';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { readFile } from "fs/promises";
+import { glob } from "glob";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+import { en } from "../locales/en/index.js";
+import { zhCN } from "../locales/zh-CN/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -21,17 +21,17 @@ const __dirname = dirname(__filename);
 const T_KEY_PATTERN = /t\(['"`]([^'"`]+)['"`]/g;
 
 async function extractKeysFromCode() {
-  const srcDir = join(__dirname, '..');
-  const files = await glob('**/*.ts', {
+  const srcDir = join(__dirname, "..");
+  const files = await glob("**/*.ts", {
     cwd: srcDir,
-    ignore: ['**/*.test.ts', '**/node_modules/**', '**/dist/**'],
+    ignore: ["**/*.test.ts", "**/node_modules/**", "**/dist/**"],
   });
 
   const usedKeys = new Set<string>();
   const keyLocations: Record<string, string[]> = {};
 
   for (const file of files) {
-    const content = await readFile(join(srcDir, file), 'utf-8');
+    const content = await readFile(join(srcDir, file), "utf-8");
     let match;
 
     while ((match = T_KEY_PATTERN.exec(content)) !== null) {
@@ -64,7 +64,7 @@ function validateTranslations() {
   const missingInZh = enKeys.filter((key) => !zhKeySet.has(key));
   if (missingInZh.length > 0) {
     issues.push({
-      type: 'missing_in_zh',
+      type: "missing_in_zh",
       message: `Keys in EN but missing in ZH-CN: ${missingInZh.length}`,
       keys: missingInZh,
     });
@@ -74,7 +74,7 @@ function validateTranslations() {
   const missingInEn = zhKeys.filter((key) => !enKeySet.has(key));
   if (missingInEn.length > 0) {
     issues.push({
-      type: 'missing_in_en',
+      type: "missing_in_en",
       message: `Keys in ZH-CN but missing in EN: ${missingInEn.length}`,
       keys: missingInEn,
     });
@@ -91,15 +91,15 @@ function validateTranslations() {
 }
 
 async function main() {
-  console.log('🔍 Translation Keys Validation\n');
+  console.log("🔍 Translation Keys Validation\n");
 
   // Step 1: Extract keys from code
-  console.log('Step 1: Extracting keys from source code...');
+  console.log("Step 1: Extracting keys from source code...");
   const { usedKeys, keyLocations } = await extractKeysFromCode();
   console.log(`  Found ${usedKeys.size} unique translation keys in code\n`);
 
   // Step 2: Validate locale files
-  console.log('Step 2: Validating locale files...');
+  console.log("Step 2: Validating locale files...");
   const { issues, stats, enKeySet, zhKeySet } = validateTranslations();
 
   console.log(`  EN locale: ${stats.en} keys`);
@@ -107,7 +107,7 @@ async function main() {
   console.log(`  Common keys: ${stats.common}\n`);
 
   // Step 3: Check used keys exist in locales
-  console.log('Step 3: Checking used keys exist in locales...');
+  console.log("Step 3: Checking used keys exist in locales...");
   const missingInLocales: string[] = [];
 
   for (const key of usedKeys) {
@@ -118,16 +118,16 @@ async function main() {
 
   if (missingInLocales.length > 0) {
     issues.push({
-      type: 'missing_in_locales',
+      type: "missing_in_locales",
       message: `Keys used in code but missing in locales: ${missingInLocales.length}`,
       keys: missingInLocales,
     });
   } else {
-    console.log('  ✅ All used keys exist in locales\n');
+    console.log("  ✅ All used keys exist in locales\n");
   }
 
   // Step 4: Check for unused keys in locales
-  console.log('Step 4: Checking for unused keys in locales...');
+  console.log("Step 4: Checking for unused keys in locales...");
   const unusedKeys: string[] = [];
 
   for (const key of enKeySet) {
@@ -138,16 +138,16 @@ async function main() {
 
   if (unusedKeys.length > 0) {
     console.log(`  ⚠️  Found ${unusedKeys.length} unused keys in locales`);
-    console.log('     (This may be normal for dynamically constructed keys)\n');
+    console.log("     (This may be normal for dynamically constructed keys)\n");
   } else {
-    console.log('  ✅ All locale keys are used in code\n');
+    console.log("  ✅ All locale keys are used in code\n");
   }
 
   // Step 5: Report issues
-  console.log('Step 5: Summary\n');
+  console.log("Step 5: Summary\n");
 
   if (issues.length === 0) {
-    console.log('✅ All validation checks passed!\n');
+    console.log("✅ All validation checks passed!\n");
     process.exit(0);
   } else {
     console.log(`❌ Found ${issues.length} issue(s):\n`);
@@ -157,7 +157,7 @@ async function main() {
       if (issue.keys && issue.keys.length <= 10) {
         for (const key of issue.keys) {
           if (keyLocations[key]) {
-            console.log(`    - ${key} (used in: ${keyLocations[key].slice(0, 3).join(', ')})`);
+            console.log(`    - ${key} (used in: ${keyLocations[key].slice(0, 3).join(", ")})`);
           } else {
             console.log(`    - ${key}`);
           }
@@ -173,6 +173,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  console.error('Error:', err);
+  console.error("Error:", err);
   process.exit(1);
 });

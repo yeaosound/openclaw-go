@@ -9,28 +9,28 @@
 
 ### 1.1 CLI 命令文件 (10 个)
 
-| 文件 | .description() 调用数 | 状态 |
-|------|---------------------|------|
-| `src/cli/plugins-cli.ts` | 8 | ✅ |
-| `src/cli/gateway-cli/register.ts` | 13 | ✅ |
-| `src/cli/browser-cli.ts` | 1 | ✅ |
-| `src/cli/browser-cli-manage.ts` | 15 | ✅ |
-| `src/cli/browser-cli-state.ts` | 10 | ✅ |
-| `src/cli/pairing-cli.ts` | 3 | ✅ |
+| 文件                              | .description() 调用数 | 状态 |
+| --------------------------------- | --------------------- | ---- |
+| `src/cli/plugins-cli.ts`          | 8                     | ✅   |
+| `src/cli/gateway-cli/register.ts` | 13                    | ✅   |
+| `src/cli/browser-cli.ts`          | 1                     | ✅   |
+| `src/cli/browser-cli-manage.ts`   | 15                    | ✅   |
+| `src/cli/browser-cli-state.ts`    | 10                    | ✅   |
+| `src/cli/pairing-cli.ts`          | 3                     | ✅   |
 
 **CLI 总计: 50 个 .description() 调用已迁移**
 
 ### 1.2 向导文件
 
-| 文件 | 文本段数 | 状态 |
-|------|----------|------|
-| `src/wizard/onboarding.ts` | 12 | ✅ |
+| 文件                       | 文本段数 | 状态 |
+| -------------------------- | -------- | ---- |
+| `src/wizard/onboarding.ts` | 12       | ✅   |
 
 ### 1.3 配对消息
 
-| 文件 | 函数数 | 状态 |
-|------|--------|------|
-| `src/pairing/pairing-messages.ts` | 1 | ✅ |
+| 文件                              | 函数数 | 状态 |
+| --------------------------------- | ------ | ---- |
+| `src/pairing/pairing-messages.ts` | 1      | ✅   |
 
 ---
 
@@ -75,6 +75,7 @@
 ### 3.2 修改示例
 
 **CLI 命令描述:**
+
 ```typescript
 // 修改前:
 .description("Manage OpenClaw plugins/extensions")
@@ -85,24 +86,22 @@ import { t } from "../i18n/index.js";
 ```
 
 **向导文本:**
+
 ```typescript
 // 修改前:
 await prompter.note(
-  [
-    "Security warning — please read.",
-    "OpenClaw is a hobby project and still in beta...",
-  ].join("\n"),
+  ["Security warning — please read.", "OpenClaw is a hobby project and still in beta..."].join(
+    "\n",
+  ),
   "Security",
 );
 
 // 修改后:
-await prompter.note(
-  t('wizard.security.note'),
-  t('wizard.security.title'),
-);
+await prompter.note(t("wizard.security.note"), t("wizard.security.title"));
 ```
 
 **配对消息:**
+
 ```typescript
 // 修改前:
 return [
@@ -113,10 +112,10 @@ return [
 
 // 修改后:
 return [
-  t('pairing.request.title'),
-  t('pairing.request.idLine', { id: idLine }),
-  t('pairing.request.code', { code }),
-  t('pairing.request.instruction'),
+  t("pairing.request.title"),
+  t("pairing.request.idLine", { id: idLine }),
+  t("pairing.request.code", { code }),
+  t("pairing.request.instruction"),
 ].join("\n");
 ```
 
@@ -171,12 +170,14 @@ OPENCLAW_LANG=zh-CN openclaw onboard
 ### 6.1 立即执行
 
 1. **构建项目**
+
    ```bash
    pnpm install
    pnpm build
    ```
 
 2. **运行测试**
+
    ```bash
    pnpm test src/i18n/index.test.ts
    ```
@@ -206,6 +207,7 @@ OPENCLAW_LANG=zh-CN openclaw onboard
 - ✅ 代码结构符合项目规范
 
 **用户现在可以:**
+
 - 使用 `OPENCLAW_LANG=zh-CN` 查看中文 CLI 帮助
 - 在入门向导中看到中文提示
 - 在配对流程中收到中文消息

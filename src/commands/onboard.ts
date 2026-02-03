@@ -1,23 +1,17 @@
-import { readConfigFileSnapshot } from "../config/config.js";
-import { assertSupportedRuntime } from "../infra/runtime-guard.js";
-import {
-  updateLanguageSetting,
-  getAvailableLocalesWithNames,
-} from "../i18n/config.js";
-import { setLocale, getLocale, isAvailableLocale } from "../i18n/index.js";
 import type { RuntimeEnv } from "../runtime.js";
+import type { OnboardOptions } from "./onboard-types.js";
+import { formatCliCommand } from "../cli/command-format.js";
+import { readConfigFileSnapshot } from "../config/config.js";
+import { updateLanguageSetting, getAvailableLocalesWithNames } from "../i18n/config.js";
+import { setLocale, getLocale, isAvailableLocale } from "../i18n/index.js";
+import { assertSupportedRuntime } from "../infra/runtime-guard.js";
 import { defaultRuntime } from "../runtime.js";
 import { resolveUserPath } from "../utils.js";
 import { DEFAULT_WORKSPACE, handleReset } from "./onboard-helpers.js";
 import { runInteractiveOnboarding } from "./onboard-interactive.js";
 import { runNonInteractiveOnboarding } from "./onboard-non-interactive.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import type { OnboardOptions } from "./onboard-types.js";
 
-async function handleLanguageOption(
-  opts: OnboardOptions,
-  runtime: RuntimeEnv,
-): Promise<void> {
+async function handleLanguageOption(opts: OnboardOptions, runtime: RuntimeEnv): Promise<void> {
   // Skip if lang is not specified or set to auto
   if (!opts.lang || opts.lang === "auto") {
     return;
@@ -33,24 +27,18 @@ async function handleLanguageOption(
     const available = getAvailableLocalesWithNames()
       .map((l) => `${l.code} (${l.nativeName})`)
       .join(", ");
-    runtime.error(
-      `Invalid language "${opts.lang}". Available locales: ${available}`,
-    );
+    runtime.error(`Invalid language "${opts.lang}". Available locales: ${available}`);
     runtime.exit(1);
   }
 }
 
-export async function onboardCommand(
-  opts: OnboardOptions,
-  runtime: RuntimeEnv = defaultRuntime,
-) {
+export async function onboardCommand(opts: OnboardOptions, runtime: RuntimeEnv = defaultRuntime) {
   assertSupportedRuntime(runtime);
 
   // Handle language option early, before any UI is shown
   await handleLanguageOption(opts, runtime);
 
-  const authChoice =
-    opts.authChoice === "oauth" ? ("setup-token" as const) : opts.authChoice;
+  const authChoice = opts.authChoice === "oauth" ? ("setup-token" as const) : opts.authChoice;
   const normalizedAuthChoice =
     authChoice === "claude-cli"
       ? ("setup-token" as const)

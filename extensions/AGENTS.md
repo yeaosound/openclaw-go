@@ -26,21 +26,25 @@ extensions/
 ## KEY PATTERNS
 
 ### Extension package.json
+
 ```json
 {
   "name": "@openclaw/<name>",
   "openclaw": {
     "extensions": ["./index.ts"],
-    "channel": {        // For channel extensions
+    "channel": {
+      // For channel extensions
       "id": "matrix",
       "label": "Matrix",
       "docsPath": "/channels/matrix"
     }
   },
-  "dependencies": {     // Runtime deps
+  "dependencies": {
+    // Runtime deps
     "@microsoft/agents-hosting": "^2.x"
   },
-  "devDependencies": {  // Type resolution
+  "devDependencies": {
+    // Type resolution
     "openclaw": "workspace:*"
   },
   "peerDependencies": {
@@ -50,6 +54,7 @@ extensions/
 ```
 
 ### Channel Extension Entry
+
 ```typescript
 // index.ts
 import type { OpenClawPluginApi } from "openclaw/plugin-sdk";
@@ -61,30 +66,34 @@ const plugin = {
   register(api: OpenClawPluginApi) {
     api.registerChannel({ plugin: msteamsPlugin });
     // Optional: api.registerHttpHandler(handleWebhook);
-  }
+  },
 };
 export default plugin;
 ```
 
 ### Tool Extension Entry
+
 ```typescript
 // index.ts
 export default function register(api: OpenClawPluginApi) {
   api.registerTool(
     (ctx) => {
-      if (ctx.sandboxed) return null;  // Disable in sandboxes
+      if (ctx.sandboxed) return null; // Disable in sandboxes
       return createTool(api);
     },
-    { optional: true }  // Requires explicit allowlist
+    { optional: true }, // Requires explicit allowlist
   );
 }
 ```
 
 ### Runtime Access Pattern
+
 ```typescript
 // src/runtime.ts
 let runtime: PluginRuntime | null = null;
-export function setChannelRuntime(next: PluginRuntime) { runtime = next; }
+export function setChannelRuntime(next: PluginRuntime) {
+  runtime = next;
+}
 export function getChannelRuntime(): PluginRuntime {
   if (!runtime) throw new Error("Runtime not initialized");
   return runtime;
@@ -93,13 +102,13 @@ export function getChannelRuntime(): PluginRuntime {
 
 ## WHERE TO LOOK
 
-| Task | Location | Notes |
-|------|----------|-------|
-| Add channel extension | `extensions/<name>/` | Copy msteams/matrix pattern |
-| Add tool extension | `extensions/<name>/` | Copy lobster/llm-task pattern |
-| SDK imports | `openclaw/plugin-sdk` | All SDK exports |
-| Channel plugin interface | `src/channels/plugins/types.plugin.ts` | ChannelPlugin definition |
-| Extension examples | `extensions/matrix/`, `extensions/msteams/` | Full implementations |
+| Task                     | Location                                    | Notes                         |
+| ------------------------ | ------------------------------------------- | ----------------------------- |
+| Add channel extension    | `extensions/<name>/`                        | Copy msteams/matrix pattern   |
+| Add tool extension       | `extensions/<name>/`                        | Copy lobster/llm-task pattern |
+| SDK imports              | `openclaw/plugin-sdk`                       | All SDK exports               |
+| Channel plugin interface | `src/channels/plugins/types.plugin.ts`      | ChannelPlugin definition      |
+| Extension examples       | `extensions/matrix/`, `extensions/msteams/` | Full implementations          |
 
 ## ANTI-PATTERNS
 

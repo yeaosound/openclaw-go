@@ -1,13 +1,22 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-
+import type { OnboardOptions } from "../commands/onboard-types.js";
+import type { OpenClawConfig } from "../config/config.js";
+import type { RuntimeEnv } from "../runtime.js";
+import type { GatewayWizardSettings, WizardFlow } from "./onboarding.types.js";
+import type { WizardPrompter } from "./prompts.js";
 import { DEFAULT_BOOTSTRAP_FILENAME } from "../agents/workspace.js";
+import { formatCliCommand } from "../cli/command-format.js";
+import {
+  buildGatewayInstallPlan,
+  gatewayInstallErrorHint,
+} from "../commands/daemon-install-helpers.js";
 import {
   DEFAULT_GATEWAY_DAEMON_RUNTIME,
   GATEWAY_DAEMON_RUNTIME_OPTIONS,
 } from "../commands/daemon-runtime.js";
-import { healthCommand } from "../commands/health.js";
 import { formatHealthCheckFailure } from "../commands/health-format.js";
+import { healthCommand } from "../commands/health.js";
 import {
   detectBrowserOpenSupport,
   formatControlUiSshHint,
@@ -17,22 +26,12 @@ import {
   waitForGatewayReachable,
   resolveControlUiLinks,
 } from "../commands/onboard-helpers.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { t } from "../i18n/index.js";
-import type { OnboardOptions } from "../commands/onboard-types.js";
-import type { OpenClawConfig } from "../config/config.js";
 import { resolveGatewayService } from "../daemon/service.js";
 import { isSystemdUserServiceAvailable } from "../daemon/systemd.js";
+import { t } from "../i18n/index.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
-import type { RuntimeEnv } from "../runtime.js";
 import { runTui } from "../tui/tui.js";
 import { resolveUserPath } from "../utils.js";
-import {
-  buildGatewayInstallPlan,
-  gatewayInstallErrorHint,
-} from "../commands/daemon-install-helpers.js";
-import type { GatewayWizardSettings, WizardFlow } from "./onboarding.types.js";
-import type { WizardPrompter } from "./prompts.js";
 
 type FinalizeOnboardingOptions = {
   flow: WizardFlow;
@@ -64,10 +63,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
   const systemdAvailable =
     process.platform === "linux" ? await isSystemdUserServiceAvailable() : true;
   if (process.platform === "linux" && !systemdAvailable) {
-    await prompter.note(
-      t('wizard.systemd.unavailable'),
-      t('wizard.systemd.title'),
-    );
+    await prompter.note(t("wizard.systemd.unavailable"), t("wizard.systemd.title"));
   }
 
   if (process.platform === "linux" && systemdAvailable) {
@@ -78,7 +74,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         confirm: prompter.confirm,
         note: prompter.note,
       },
-      reason: t('wizard.systemd.lingerReason'),
+      reason: t("wizard.systemd.lingerReason"),
       requireConfirm: false,
     });
   }
@@ -94,15 +90,15 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     installDaemon = true;
   } else {
     installDaemon = await prompter.confirm({
-      message: t('wizard.gateway.service.installPrompt'),
+      message: t("wizard.gateway.service.installPrompt"),
       initialValue: true,
     });
   }
 
   if (process.platform === "linux" && !systemdAvailable && installDaemon) {
     await prompter.note(
-      t('wizard.systemd.unavailableSkip'),
-      t('wizard.gateway.service.progress.label'),
+      t("wizard.systemd.unavailableSkip"),
+      t("wizard.gateway.service.progress.label"),
     );
     installDaemon = false;
   }
@@ -112,33 +108,30 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       flow === "quickstart"
         ? DEFAULT_GATEWAY_DAEMON_RUNTIME
         : await prompter.select({
-            message: t('wizard.gateway.runtime.prompt'),
+            message: t("wizard.gateway.runtime.prompt"),
             options: GATEWAY_DAEMON_RUNTIME_OPTIONS,
             initialValue: opts.daemonRuntime ?? DEFAULT_GATEWAY_DAEMON_RUNTIME,
           });
     if (flow === "quickstart") {
-      await prompter.note(
-        t('wizard.quickstart.nodeRuntime'),
-        t('wizard.gateway.runtime.title'),
-      );
+      await prompter.note(t("wizard.quickstart.nodeRuntime"), t("wizard.gateway.runtime.title"));
     }
     const service = resolveGatewayService();
     const loaded = await service.isLoaded({ env: process.env });
     if (loaded) {
       const action = await prompter.select({
-        message: t('wizard.gateway.service.alreadyInstalled'),
+        message: t("wizard.gateway.service.alreadyInstalled"),
         options: [
-          { value: "restart", label: t('wizard.gateway.service.restart') },
-          { value: "reinstall", label: t('wizard.gateway.service.reinstall') },
-          { value: "skip", label: t('wizard.gateway.service.option.skip') },
+          { value: "restart", label: t("wizard.gateway.service.restart") },
+          { value: "reinstall", label: t("wizard.gateway.service.reinstall") },
+          { value: "skip", label: t("wizard.gateway.service.option.skip") },
         ],
       });
       if (action === "restart") {
         await withWizardProgress(
-          t('wizard.gateway.service.progress.label'),
-          { doneMessage: t('wizard.gateway.service.progress.restarted') },
+          t("wizard.gateway.service.progress.label"),
+          { doneMessage: t("wizard.gateway.service.progress.restarted") },
           async (progress) => {
-            progress.update(t('wizard.gateway.service.progress.restarting'));
+            progress.update(t("wizard.gateway.service.progress.restarting"));
             await service.restart({
               env: process.env,
               stdout: process.stdout,
@@ -147,10 +140,10 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         );
       } else if (action === "reinstall") {
         await withWizardProgress(
-          t('wizard.gateway.service.progress.label'),
-          { doneMessage: t('wizard.gateway.service.progress.uninstalled') },
+          t("wizard.gateway.service.progress.label"),
+          { doneMessage: t("wizard.gateway.service.progress.uninstalled") },
           async (progress) => {
-            progress.update(t('wizard.gateway.service.progress.uninstalling'));
+            progress.update(t("wizard.gateway.service.progress.uninstalling"));
             await service.uninstall({ env: process.env, stdout: process.stdout });
           },
         );
@@ -158,10 +151,10 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     }
 
     if (!loaded || (loaded && !(await service.isLoaded({ env: process.env })))) {
-      const progress = prompter.progress(t('wizard.gateway.service.progress.label'));
+      const progress = prompter.progress(t("wizard.gateway.service.progress.label"));
       let installError: string | null = null;
       try {
-        progress.update(t('wizard.gateway.service.progress.preparing'));
+        progress.update(t("wizard.gateway.service.progress.preparing"));
         const { programArguments, workingDirectory, environment } = await buildGatewayInstallPlan({
           env: process.env,
           port: settings.port,
@@ -171,7 +164,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
           config: nextConfig,
         });
 
-        progress.update(t('wizard.gateway.service.progress.installing'));
+        progress.update(t("wizard.gateway.service.progress.installing"));
         await service.install({
           env: process.env,
           stdout: process.stdout,
@@ -183,12 +176,17 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         installError = err instanceof Error ? err.message : String(err);
       } finally {
         progress.stop(
-          installError ? t('wizard.gateway.service.progress.failed') : t('wizard.gateway.service.progress.installed'),
+          installError
+            ? t("wizard.gateway.service.progress.failed")
+            : t("wizard.gateway.service.progress.installed"),
         );
       }
       if (installError) {
-        await prompter.note(t('wizard.gateway.service.error.message', { error: installError }), t('wizard.gateway.service.error.title'));
-        await prompter.note(gatewayInstallErrorHint(), t('wizard.gateway.service.error.title'));
+        await prompter.note(
+          t("wizard.gateway.service.error.message", { error: installError }),
+          t("wizard.gateway.service.error.title"),
+        );
+        await prompter.note(gatewayInstallErrorHint(), t("wizard.gateway.service.error.title"));
       }
     }
   }
@@ -212,11 +210,11 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       runtime.error(formatHealthCheckFailure(err));
       await prompter.note(
         [
-          t('wizard.health.docs'),
+          t("wizard.health.docs"),
           "https://docs.openclaw.ai/gateway/health",
           "https://docs.openclaw.ai/gateway/troubleshooting",
         ].join("\n"),
-        t('wizard.health.help.title'),
+        t("wizard.health.help.title"),
       );
     }
   }
@@ -230,10 +228,7 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     }
   }
 
-  await prompter.note(
-    t('wizard.apps.description'),
-    t('wizard.apps.title'),
-  );
+  await prompter.note(t("wizard.apps.description"), t("wizard.apps.title"));
 
   const controlUiBasePath =
     nextConfig.gateway?.controlUi?.basePath ?? baseConfig.gateway?.controlUi?.basePath;
@@ -254,8 +249,8 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
     password: settings.authMode === "password" ? nextConfig.gateway?.auth?.password : "",
   });
   const gatewayStatusLine = gatewayProbe.ok
-    ? t('wizard.controlui.gatewayReachable')
-    : `${t('wizard.controlui.gatewayNotDetected')}${gatewayProbe.detail ? ` (${gatewayProbe.detail})` : ""}`;
+    ? t("wizard.controlui.gatewayReachable")
+    : `${t("wizard.controlui.gatewayNotDetected")}${gatewayProbe.detail ? ` (${gatewayProbe.detail})` : ""}`;
   const bootstrapPath = path.join(
     resolveUserPath(options.workspaceDir),
     DEFAULT_BOOTSTRAP_FILENAME,
@@ -267,15 +262,15 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
   await prompter.note(
     [
-      `${t('wizard.controlui.webui')}: ${links.httpUrl}`,
-      tokenParam ? `${t('wizard.controlui.webuiWithToken')}: ${authedUrl}` : undefined,
-      `${t('wizard.controlui.gatewayWs')}: ${links.wsUrl}`,
+      `${t("wizard.controlui.webui")}: ${links.httpUrl}`,
+      tokenParam ? `${t("wizard.controlui.webuiWithToken")}: ${authedUrl}` : undefined,
+      `${t("wizard.controlui.gatewayWs")}: ${links.wsUrl}`,
       gatewayStatusLine,
-      t('wizard.controlui.docs'),
+      t("wizard.controlui.docs"),
     ]
       .filter(Boolean)
       .join("\n"),
-    t('wizard.controlui.title'),
+    t("wizard.controlui.title"),
   );
 
   let controlUiOpened = false;
@@ -285,28 +280,25 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
 
   if (!opts.skipUi && gatewayProbe.ok) {
     if (hasBootstrap) {
-      await prompter.note(
-        t('wizard.tui.description'),
-        t('wizard.tui.title'),
-      );
+      await prompter.note(t("wizard.tui.description"), t("wizard.tui.title"));
     }
 
     await prompter.note(
       [
-        t('wizard.token.description'),
-        t('wizard.token.storage'),
-        t('wizard.token.webuiStorage'),
-        `${t('wizard.token.getLink')}: ${formatCliCommand("openclaw dashboard --no-open")}`,
+        t("wizard.token.description"),
+        t("wizard.token.storage"),
+        t("wizard.token.webuiStorage"),
+        `${t("wizard.token.getLink")}: ${formatCliCommand("openclaw dashboard --no-open")}`,
       ].join("\n"),
-      t('wizard.token.title'),
+      t("wizard.token.title"),
     );
 
     hatchChoice = await prompter.select({
-      message: t('wizard.hatch.title'),
+      message: t("wizard.hatch.title"),
       options: [
-        { value: "tui", label: t('wizard.hatch.option.tui') },
-        { value: "web", label: t('wizard.hatch.option.web') },
-        { value: "later", label: t('wizard.hatch.option.later') },
+        { value: "tui", label: t("wizard.hatch.option.tui") },
+        { value: "web", label: t("wizard.hatch.option.web") },
+        { value: "later", label: t("wizard.hatch.option.later") },
       ],
       initialValue: "tui",
     });
@@ -318,15 +310,15 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
         password: settings.authMode === "password" ? nextConfig.gateway?.auth?.password : "",
         // Safety: onboarding TUI should not auto-deliver to lastProvider/lastTo.
         deliver: false,
-        message: hasBootstrap ? t('wizard.tui.message') : undefined,
+        message: hasBootstrap ? t("wizard.tui.message") : undefined,
       });
       if (settings.authMode === "token" && settings.gatewayToken) {
         seededInBackground = await openUrlInBackground(authedUrl);
       }
       if (seededInBackground) {
         await prompter.note(
-          `${t('wizard.webui.seeded')}: ${formatCliCommand("openclaw dashboard --no-open")}`,
-          t('wizard.controlui.title'),
+          `${t("wizard.webui.seeded")}: ${formatCliCommand("openclaw dashboard --no-open")}`,
+          t("wizard.controlui.title"),
         );
       }
     } else if (hatchChoice === "web") {
@@ -349,35 +341,29 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
       }
       await prompter.note(
         [
-          `${t('wizard.dashboard.link')}: ${authedUrl}`,
-          controlUiOpened
-            ? t('wizard.dashboard.opened')
-            : t('wizard.dashboard.copyPaste'),
+          `${t("wizard.dashboard.link")}: ${authedUrl}`,
+          controlUiOpened ? t("wizard.dashboard.opened") : t("wizard.dashboard.copyPaste"),
           controlUiOpenHint,
         ]
           .filter(Boolean)
           .join("\n"),
-        t('wizard.dashboard.title'),
+        t("wizard.dashboard.title"),
       );
     } else {
       await prompter.note(
-        t('wizard.later.description', { command: formatCliCommand("openclaw dashboard --no-open") }),
-        t('wizard.later.title'),
+        t("wizard.later.description", {
+          command: formatCliCommand("openclaw dashboard --no-open"),
+        }),
+        t("wizard.later.title"),
       );
     }
   } else if (opts.skipUi) {
-    await prompter.note(t('wizard.skipUi'), t('wizard.controlui.title'));
+    await prompter.note(t("wizard.skipUi"), t("wizard.controlui.title"));
   }
 
-  await prompter.note(
-    t('wizard.workspaceBackup.description'),
-    t('wizard.workspaceBackup.title'),
-  );
+  await prompter.note(t("wizard.workspaceBackup.description"), t("wizard.workspaceBackup.title"));
 
-  await prompter.note(
-    t('wizard.security.final.desc'),
-    t('wizard.security.final.title'),
-  );
+  await prompter.note(t("wizard.security.final.desc"), t("wizard.security.final.title"));
 
   const shouldOpenControlUi =
     !opts.skipUi &&
@@ -423,27 +409,22 @@ export async function finalizeOnboardingWizard(options: FinalizeOnboardingOption
   await prompter.note(
     hasWebSearchKey
       ? [
-          t('wizard.websearch.enabled'),
+          t("wizard.websearch.enabled"),
           "",
-          webSearchKey
-            ? t('wizard.websearch.apiKeyConfig')
-            : t('wizard.websearch.apiKeyEnv'),
+          webSearchKey ? t("wizard.websearch.apiKeyConfig") : t("wizard.websearch.apiKeyEnv"),
           "Docs: https://docs.openclaw.ai/tools/web",
         ].join("\n")
-      : t('wizard.websearch.disabled'),
-    t('wizard.websearch.title'),
+      : t("wizard.websearch.disabled"),
+    t("wizard.websearch.title"),
   );
 
-  await prompter.note(
-    t('wizard.whatnow.desc'),
-    t('wizard.whatnow.title'),
-  );
+  await prompter.note(t("wizard.whatnow.desc"), t("wizard.whatnow.title"));
 
   await prompter.outro(
     controlUiOpened
-      ? t('wizard.completion.dashboardOpened')
+      ? t("wizard.completion.dashboardOpened")
       : seededInBackground
-        ? t('wizard.completion.webUiSeeded')
-        : t('wizard.completion.useLink'),
+        ? t("wizard.completion.webUiSeeded")
+        : t("wizard.completion.useLink"),
   );
 }

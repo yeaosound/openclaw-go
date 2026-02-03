@@ -1,7 +1,7 @@
 import type { Command } from "commander";
-import { collectOption } from "../helpers.js";
-import { t } from "../../../i18n/index.js";
 import type { MessageCliHelpers } from "./helpers.js";
+import { t } from "../../../i18n/index.js";
+import { collectOption } from "../helpers.js";
 
 export function registerMessageEmojiCommands(message: Command, helpers: MessageCliHelpers) {
   const emoji = message.command("emoji").description(t("cli.message.emoji.description"));
@@ -33,7 +33,9 @@ export function registerMessageStickerCommands(message: Command, helpers: Messag
 
   helpers
     .withMessageBase(
-      helpers.withRequiredMessageTarget(sticker.command("send").description(t("cli.message.sticker.send.description"))),
+      helpers.withRequiredMessageTarget(
+        sticker.command("send").description(t("cli.message.sticker.send.description")),
+      ),
     )
     .requiredOption("--sticker-id <id>", "Sticker id (repeat)", collectOption)
     .option("-m, --message <text>", "Optional message body")

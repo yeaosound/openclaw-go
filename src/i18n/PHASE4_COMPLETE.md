@@ -9,14 +9,15 @@
 
 ### 1.1 新增迁移文件 (2个)
 
-| 文件 | 描述数 | 状态 |
-|------|--------|------|
-| `src/cli/channels-cli.ts` | 10 | ✅ |
-| `src/cli/config-cli.ts` | 4 | ✅ |
+| 文件                      | 描述数 | 状态 |
+| ------------------------- | ------ | ---- |
+| `src/cli/channels-cli.ts` | 10     | ✅   |
+| `src/cli/config-cli.ts`   | 4      | ✅   |
 
 ### 1.2 新增翻译键 (14个)
 
 **channels-cli (10个):**
+
 - cli.channels.description
 - cli.channels.list.description
 - cli.channels.status.description
@@ -29,6 +30,7 @@
 - cli.channels.logout.description
 
 **config-cli (4个):**
+
 - cli.config.description
 - cli.config.get.description
 - cli.config.set.description
@@ -54,6 +56,7 @@
 ### 2.3 剩余工作
 
 **已识别但未迁移:**
+
 - `src/cli/memory-cli.ts` - 4 个描述
 - `src/cli/system-cli.ts` - 7 个描述
 - `src/cli/security-cli.ts` - 2 个描述
@@ -77,6 +80,7 @@
 ### 3.2 用户价值
 
 用户现在可以看到汉化的命令:
+
 - `openclaw channels --help` - 完全汉化
 - `openclaw config --help` - 完全汉化
 
@@ -87,6 +91,7 @@
 ### 4.1 短期 (可选)
 
 完成剩余 3 个高优先级文件:
+
 - memory-cli.ts (4 个)
 - system-cli.ts (7 个)
 - security-cli.ts (2 个)
@@ -96,6 +101,7 @@
 ### 4.2 中期 (后续 Phase)
 
 批量迁移剩余文件:
+
 - 使用提取脚本自动生成报告
 - 按批次迁移 (每批 5-10 个文件)
 - 预计总时间: 3-4 小时
@@ -128,14 +134,15 @@ pnpm tsx src/i18n/scripts/validate.ts
 
 ### Phase 1-4 总体成果
 
-| 阶段 | 成果 | 状态 |
-|------|------|------|
-| **Phase 1** | i18n 基础设施 | ✅ 100% |
-| **Phase 2** | 核心文件迁移 (12个) | ✅ 100% |
-| **Phase 3** | 工具脚本 + 文档 | ✅ 100% |
+| 阶段        | 成果                | 状态        |
+| ----------- | ------------------- | ----------- |
+| **Phase 1** | i18n 基础设施       | ✅ 100%     |
+| **Phase 2** | 核心文件迁移 (12个) | ✅ 100%     |
+| **Phase 3** | 工具脚本 + 文档     | ✅ 100%     |
 | **Phase 4** | 扩展迁移 (+2个文件) | ✅ 核心完成 |
 
 **总计:**
+
 - 翻译键: 219 个
 - 已迁移文件: 14 个
 - 覆盖率: 核心 CLI ~85%

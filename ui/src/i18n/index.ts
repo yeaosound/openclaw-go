@@ -5,4 +5,4 @@ export {
   getCurrentLanguage,
   isLanguageSupported,
   onLanguageChanged,
-} from './config.js';
+} from "./config.js";

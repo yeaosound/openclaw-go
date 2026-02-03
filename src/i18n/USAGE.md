@@ -7,11 +7,9 @@ Complete guide for using the internationalization system in OpenClaw.
 ### Using Translations in CLI Commands
 
 ```typescript
-import { t } from '../i18n/index.js';
+import { t } from "../i18n/index.js";
 
-program
-  .command('plugins')
-  .description(t('cli.plugins.description'));
+program.command("plugins").description(t("cli.plugins.description"));
 ```
 
 ### Switching to Chinese
@@ -30,9 +28,9 @@ echo '{"lang": "zh-CN"}' > ~/.openclaw/openclaw.json
 ### Import the Translation Function
 
 ```typescript
-import { t } from './i18n/index.js';
+import { t } from "./i18n/index.js";
 
-const text = t('cli.plugins.description');
+const text = t("cli.plugins.description");
 // => "Manage OpenClaw plugins/extensions" (en)
 // => "管理 OpenClaw 插件/扩展" (zh-CN)
 ```
@@ -40,7 +38,7 @@ const text = t('cli.plugins.description');
 ### Available Locales
 
 ```typescript
-import { getAvailableLocales } from './i18n/index.js';
+import { getAvailableLocales } from "./i18n/index.js";
 
 const locales = getAvailableLocales();
 // => ['en', 'zh-CN']
@@ -50,22 +48,22 @@ const locales = getAvailableLocales();
 
 ```typescript
 // Basic interpolation
-const text = t('pairing.request.code', { code: '123456' });
+const text = t("pairing.request.code", { code: "123456" });
 // => "Pairing code: 123456"
 
 // Multiple parameters
-const text = t('wizard.config.invalid.hint', { 
-  command: 'openclaw doctor' 
+const text = t("wizard.config.invalid.hint", {
+  command: "openclaw doctor",
 });
 ```
 
 ## Switching Languages
 
 ```typescript
-import { setLocale, getLocale } from './i18n/index.js';
+import { setLocale, getLocale } from "./i18n/index.js";
 
 // Set to Chinese
-setLocale('zh-CN');
+setLocale("zh-CN");
 
 // Get current locale
 const current = getLocale();
@@ -81,7 +79,7 @@ Edit `src/i18n/locales/en/cli.ts`:
 
 ```typescript
 export const cliMessages = {
-  'cli.mycommand.description': 'Description of my command',
+  "cli.mycommand.description": "Description of my command",
 };
 ```
 
@@ -91,18 +89,16 @@ Edit `src/i18n/locales/zh-CN/cli.ts`:
 
 ```typescript
 export const cliMessages = {
-  'cli.mycommand.description': '我的命令的描述',
+  "cli.mycommand.description": "我的命令的描述",
 };
 ```
 
 ### Step 3: Use in Code
 
 ```typescript
-import { t } from '../i18n/index.js';
+import { t } from "../i18n/index.js";
 
-program
-  .command('mycommand')
-  .description(t('cli.mycommand.description'));
+program.command("mycommand").description(t("cli.mycommand.description"));
 ```
 
 ### Step 4: Validate
@@ -166,10 +162,11 @@ pnpm tsx src/i18n/scripts/extract-i18n-keys.ts --format=json
 If a key is not found, the key itself is returned:
 
 ```typescript
-t('non.existing.key'); // => "non.existing.key"
+t("non.existing.key"); // => "non.existing.key"
 ```
 
 Check:
+
 1. Key exists in both en and zh-CN
 2. No typos in key name
 3. Key is exported correctly
@@ -177,7 +174,7 @@ Check:
 ### Locale not available
 
 ```typescript
-setLocale('fr'); // Throws error
+setLocale("fr"); // Throws error
 ```
 
 Check `AVAILABLE_LOCALES` in `src/i18n/types.ts`.

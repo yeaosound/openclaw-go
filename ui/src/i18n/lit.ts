@@ -1,9 +1,9 @@
-import { directive, AsyncDirective } from 'lit/async-directive.js';
-import type { PartInfo } from 'lit/directive.js';
-import { i18n, onLanguageChanged } from './config.js';
+import type { PartInfo } from "lit/directive.js";
+import { directive, AsyncDirective } from "lit/async-directive.js";
+import { i18n, onLanguageChanged } from "./config.js";
 
 class TranslateDirective extends AsyncDirective {
-  private key: string = '';
+  private key: string = "";
   private options?: Record<string, string | number>;
   private unsubscribe?: () => void;
 
@@ -15,16 +15,16 @@ class TranslateDirective extends AsyncDirective {
     if (key !== this.key || JSON.stringify(options) !== JSON.stringify(this.options)) {
       this.key = key;
       this.options = options;
-      
+
       if (this.unsubscribe) {
         this.unsubscribe();
       }
-      
+
       this.unsubscribe = onLanguageChanged(() => {
         this.setValue(i18n.t(this.key, this.options));
       });
     }
-    
+
     return i18n.t(key, options);
   }
 

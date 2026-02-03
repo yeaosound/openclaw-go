@@ -9,45 +9,45 @@
 
 ### 1.1 核心模块文件 (5个)
 
-| 文件 | 行数 | 状态 | 说明 |
-|------|------|------|------|
-| `src/i18n/types.ts` | 60 | ✅ | 类型定义：InterpolationParams, AvailableLocale, DEFAULT_LOCALE, LANG_ENV_VAR |
-| `src/i18n/index.ts` | 195 | ✅ | 核心 API：t(), setLocale(), getLocale(), hasTranslation() 等 |
-| `src/i18n/config.ts` | 147 | ✅ | 配置管理：initializeI18n(), initializeI18nSync(), updateLanguageSetting() |
-| `src/i18n/index.test.ts` | 107 | ✅ | 单元测试：12 个测试用例覆盖核心功能 |
-| `src/i18n/index.exports.ts` | 4 | ✅ | Barrel 导出文件 |
+| 文件                        | 行数 | 状态 | 说明                                                                         |
+| --------------------------- | ---- | ---- | ---------------------------------------------------------------------------- |
+| `src/i18n/types.ts`         | 60   | ✅   | 类型定义：InterpolationParams, AvailableLocale, DEFAULT_LOCALE, LANG_ENV_VAR |
+| `src/i18n/index.ts`         | 195  | ✅   | 核心 API：t(), setLocale(), getLocale(), hasTranslation() 等                 |
+| `src/i18n/config.ts`        | 147  | ✅   | 配置管理：initializeI18n(), initializeI18nSync(), updateLanguageSetting()    |
+| `src/i18n/index.test.ts`    | 107  | ✅   | 单元测试：12 个测试用例覆盖核心功能                                          |
+| `src/i18n/index.exports.ts` | 4    | ✅   | Barrel 导出文件                                                              |
 
 ### 1.2 英文语言包 (6个模块文件 + 1个索引)
 
-| 文件 | 行数 | 键数 | 状态 |
-|------|------|------|------|
-| `src/i18n/locales/en/cli.ts` | 65 | 49 | ✅ CLI 命令描述 |
-| `src/i18n/locales/en/wizard.ts` | 85 | 39 | ✅ 向导流程文本 |
-| `src/i18n/locales/en/pairing.ts` | 27 | 15 | ✅ 配对消息 |
-| `src/i18n/locales/en/common.ts` | 47 | 37 | ✅ 通用文本 |
-| `src/i18n/locales/en/channels.ts` | 25 | 13 | ✅ 频道消息 |
-| `src/i18n/locales/en/errors.ts` | 33 | 19 | ✅ 错误消息 |
-| `src/i18n/locales/en/index.ts` | 20 | - | ✅ Barrel 导出 |
+| 文件                              | 行数 | 键数 | 状态            |
+| --------------------------------- | ---- | ---- | --------------- |
+| `src/i18n/locales/en/cli.ts`      | 65   | 49   | ✅ CLI 命令描述 |
+| `src/i18n/locales/en/wizard.ts`   | 85   | 39   | ✅ 向导流程文本 |
+| `src/i18n/locales/en/pairing.ts`  | 27   | 15   | ✅ 配对消息     |
+| `src/i18n/locales/en/common.ts`   | 47   | 37   | ✅ 通用文本     |
+| `src/i18n/locales/en/channels.ts` | 25   | 13   | ✅ 频道消息     |
+| `src/i18n/locales/en/errors.ts`   | 33   | 19   | ✅ 错误消息     |
+| `src/i18n/locales/en/index.ts`    | 20   | -    | ✅ Barrel 导出  |
 
 ### 1.3 中文语言包 (6个模块文件 + 1个索引)
 
-| 文件 | 行数 | 键数 | 状态 |
-|------|------|------|------|
-| `src/i18n/locales/zh-CN/cli.ts` | 65 | 49 | ✅ CLI 命令描述 |
-| `src/i18n/locales/zh-CN/wizard.ts` | 85 | 39 | ✅ 向导流程文本 |
-| `src/i18n/locales/zh-CN/pairing.ts` | 27 | 15 | ✅ 配对消息 |
-| `src/i18n/locales/zh-CN/common.ts` | 47 | 37 | ✅ 通用文本 |
-| `src/i18n/locales/zh-CN/channels.ts` | 25 | 13 | ✅ 频道消息 |
-| `src/i18n/locales/zh-CN/errors.ts` | 33 | 19 | ✅ 错误消息 |
-| `src/i18n/locales/zh-CN/index.ts` | 19 | - | ✅ Barrel 导出 |
+| 文件                                 | 行数 | 键数 | 状态            |
+| ------------------------------------ | ---- | ---- | --------------- |
+| `src/i18n/locales/zh-CN/cli.ts`      | 65   | 49   | ✅ CLI 命令描述 |
+| `src/i18n/locales/zh-CN/wizard.ts`   | 85   | 39   | ✅ 向导流程文本 |
+| `src/i18n/locales/zh-CN/pairing.ts`  | 27   | 15   | ✅ 配对消息     |
+| `src/i18n/locales/zh-CN/common.ts`   | 47   | 37   | ✅ 通用文本     |
+| `src/i18n/locales/zh-CN/channels.ts` | 25   | 13   | ✅ 频道消息     |
+| `src/i18n/locales/zh-CN/errors.ts`   | 33   | 19   | ✅ 错误消息     |
+| `src/i18n/locales/zh-CN/index.ts`    | 19   | -    | ✅ Barrel 导出  |
 
 ### 1.4 配置集成更新 (3个文件)
 
-| 文件 | 修改内容 | 状态 |
-|------|----------|------|
-| `src/config/types.openclaw.ts` | OpenClawConfig 添加 `lang?: string` | ✅ |
-| `src/config/zod-schema.ts` | OpenClawSchema 添加 `lang: z.string().optional()` | ✅ |
-| `src/cli/program/build-program.ts` | 添加 `initializeI18nSync()` 调用 | ✅ |
+| 文件                               | 修改内容                                          | 状态 |
+| ---------------------------------- | ------------------------------------------------- | ---- |
+| `src/config/types.openclaw.ts`     | OpenClawConfig 添加 `lang?: string`               | ✅   |
+| `src/config/zod-schema.ts`         | OpenClawSchema 添加 `lang: z.string().optional()` | ✅   |
+| `src/cli/program/build-program.ts` | 添加 `initializeI18nSync()` 调用                  | ✅   |
 
 ---
 
@@ -62,15 +62,15 @@
 
 ### 2.2 按模块统计
 
-| 模块 | 键数 | 英文状态 | 中文状态 |
-|------|------|----------|----------|
-| cli | 49 | ✅ | ✅ |
-| wizard | 39 | ✅ | ✅ |
-| pairing | 15 | ✅ | ✅ |
-| common | 37 | ✅ | ✅ |
-| channels | 13 | ✅ | ✅ |
-| errors | 19 | ✅ | ✅ |
-| **总计** | **172** | **✅** | **✅** |
+| 模块     | 键数    | 英文状态 | 中文状态 |
+| -------- | ------- | -------- | -------- |
+| cli      | 49      | ✅       | ✅       |
+| wizard   | 39      | ✅       | ✅       |
+| pairing  | 15      | ✅       | ✅       |
+| common   | 37      | ✅       | ✅       |
+| channels | 13      | ✅       | ✅       |
+| errors   | 19      | ✅       | ✅       |
+| **总计** | **172** | **✅**   | **✅**   |
 
 ---
 
@@ -78,35 +78,35 @@
 
 ### 3.1 核心翻译函数
 
-| 函数 | 签名 | 功能 | 状态 |
-|------|------|------|------|
-| `t()` | `(key: string, params?: InterpolationParams) => string` | 翻译并支持插值 | ✅ |
-| `setLocale()` | `(locale: string) => void` | 设置当前语言 | ✅ |
-| `getLocale()` | `() => AvailableLocale` | 获取当前语言 | ✅ |
-| `getAvailableLocales()` | `() => AvailableLocale[]` | 获取可用语言列表 | ✅ |
-| `hasTranslation()` | `(key: string) => boolean` | 检查键是否存在 | ✅ |
-| `getTranslationStats()` | `() => Record<string, number>` | 获取翻译统计 | ✅ |
+| 函数                    | 签名                                                    | 功能             | 状态 |
+| ----------------------- | ------------------------------------------------------- | ---------------- | ---- |
+| `t()`                   | `(key: string, params?: InterpolationParams) => string` | 翻译并支持插值   | ✅   |
+| `setLocale()`           | `(locale: string) => void`                              | 设置当前语言     | ✅   |
+| `getLocale()`           | `() => AvailableLocale`                                 | 获取当前语言     | ✅   |
+| `getAvailableLocales()` | `() => AvailableLocale[]`                               | 获取可用语言列表 | ✅   |
+| `hasTranslation()`      | `(key: string) => boolean`                              | 检查键是否存在   | ✅   |
+| `getTranslationStats()` | `() => Record<string, number>`                          | 获取翻译统计     | ✅   |
 
 ### 3.2 配置函数
 
-| 函数 | 签名 | 功能 | 状态 |
-|------|------|------|------|
-| `initializeI18n()` | `() => Promise<void>` | 异步初始化（读取配置文件） | ✅ |
-| `initializeI18nSync()` | `() => void` | 同步初始化（仅环境变量） | ✅ |
-| `getLanguageSettings()` | `() => Promise<{locale, source}>` | 获取语言设置及来源 | ✅ |
-| `updateLanguageSetting()` | `(locale: string) => Promise<void>` | 更新配置文件中的语言 | ✅ |
-| `getAvailableLocalesWithNames()` | `() => Array<{code, name, nativeName}>` | 获取带显示名称的语言列表 | ✅ |
+| 函数                             | 签名                                    | 功能                       | 状态 |
+| -------------------------------- | --------------------------------------- | -------------------------- | ---- |
+| `initializeI18n()`               | `() => Promise<void>`                   | 异步初始化（读取配置文件） | ✅   |
+| `initializeI18nSync()`           | `() => void`                            | 同步初始化（仅环境变量）   | ✅   |
+| `getLanguageSettings()`          | `() => Promise<{locale, source}>`       | 获取语言设置及来源         | ✅   |
+| `updateLanguageSetting()`        | `(locale: string) => Promise<void>`     | 更新配置文件中的语言       | ✅   |
+| `getAvailableLocalesWithNames()` | `() => Array<{code, name, nativeName}>` | 获取带显示名称的语言列表   | ✅   |
 
 ### 3.3 类型导出
 
-| 类型/常量 | 说明 | 状态 |
-|-----------|------|------|
-| `InterpolationParams` | 插值参数接口 | ✅ |
-| `AvailableLocale` | 可用语言类型：'en' \| 'zh-CN' | ✅ |
-| `DEFAULT_LOCALE` | 默认语言：'en' | ✅ |
-| `LANG_ENV_VAR` | 环境变量名：'OPENCLAW_LANG' | ✅ |
-| `AVAILABLE_LOCALES` | 可用语言数组 | ✅ |
-| `isAvailableLocale()` | 类型守卫函数 | ✅ |
+| 类型/常量             | 说明                          | 状态 |
+| --------------------- | ----------------------------- | ---- |
+| `InterpolationParams` | 插值参数接口                  | ✅   |
+| `AvailableLocale`     | 可用语言类型：'en' \| 'zh-CN' | ✅   |
+| `DEFAULT_LOCALE`      | 默认语言：'en'                | ✅   |
+| `LANG_ENV_VAR`        | 环境变量名：'OPENCLAW_LANG'   | ✅   |
+| `AVAILABLE_LOCALES`   | 可用语言数组                  | ✅   |
+| `isAvailableLocale()` | 类型守卫函数                  | ✅   |
 
 ---
 
@@ -124,9 +124,9 @@
 // src/config/types.openclaw.ts
 export type OpenClawConfig = {
   /** Interface language (e.g., 'en', 'zh-CN') */
-  lang?: string;  // ✅ 已添加
+  lang?: string; // ✅ 已添加
   // ...
-}
+};
 ```
 
 ### 4.3 Zod Schema 更新
@@ -134,9 +134,9 @@ export type OpenClawConfig = {
 ```typescript
 // src/config/zod-schema.ts
 export const OpenClawSchema = z.object({
-  lang: z.string().optional(),  // ✅ 已添加
+  lang: z.string().optional(), // ✅ 已添加
   // ...
-})
+});
 ```
 
 ### 4.4 CLI 集成
@@ -146,7 +146,7 @@ export const OpenClawSchema = z.object({
 import { initializeI18nSync } from "../../i18n/config.js";
 
 export function buildProgram() {
-  initializeI18nSync();  // ✅ 已集成
+  initializeI18nSync(); // ✅ 已集成
   // ...
 }
 ```
@@ -163,23 +163,23 @@ export function buildProgram() {
 
 ### 5.2 测试覆盖范围
 
-| 测试组 | 测试用例 | 状态 |
-|--------|----------|------|
-| `t() function` | 5 个测试 | ✅ |
-| - 返回现有键的翻译 | | ✅ |
-| - 返回键本身（不存在的键） | | ✅ |
-| - 处理插值 | | ✅ |
-| - 处理多个插值值 | | ✅ |
-| - 替换所有插值出现 | | ✅ |
-| `locale management` | 4 个测试 | ✅ |
-| - 获取默认语言 | | ✅ |
-| - 设置语言为 zh-CN | | ✅ |
-| - 无效语言抛出错误 | | ✅ |
-| - 设置后返回中文翻译 | | ✅ |
-| `available locales` | 1 个测试 | ✅ |
-| `hasTranslation()` | 2 个测试 | ✅ |
-| `isAvailableLocale()` | 2 个测试 | ✅ |
-| `fallback mechanism` | 1 个测试 | ✅ |
+| 测试组                     | 测试用例 | 状态 |
+| -------------------------- | -------- | ---- |
+| `t() function`             | 5 个测试 | ✅   |
+| - 返回现有键的翻译         |          | ✅   |
+| - 返回键本身（不存在的键） |          | ✅   |
+| - 处理插值                 |          | ✅   |
+| - 处理多个插值值           |          | ✅   |
+| - 替换所有插值出现         |          | ✅   |
+| `locale management`        | 4 个测试 | ✅   |
+| - 获取默认语言             |          | ✅   |
+| - 设置语言为 zh-CN         |          | ✅   |
+| - 无效语言抛出错误         |          | ✅   |
+| - 设置后返回中文翻译       |          | ✅   |
+| `available locales`        | 1 个测试 | ✅   |
+| `hasTranslation()`         | 2 个测试 | ✅   |
+| `isAvailableLocale()`      | 2 个测试 | ✅   |
+| `fallback mechanism`       | 1 个测试 | ✅   |
 
 ---
 
@@ -255,15 +255,15 @@ export function buildProgram() {
 
 ```typescript
 // 基础使用
-import { t } from './i18n/index.js';
-t('cli.plugins.description'); // => "管理 OpenClaw 插件/扩展"
+import { t } from "./i18n/index.js";
+t("cli.plugins.description"); // => "管理 OpenClaw 插件/扩展"
 
 // 插值
-t('pairing.request.code', { code: '123456' }); // => "Pairing code: 123456"
+t("pairing.request.code", { code: "123456" }); // => "Pairing code: 123456"
 
 // 切换语言
-import { setLocale } from './i18n/index.js';
-setLocale('zh-CN');
+import { setLocale } from "./i18n/index.js";
+setLocale("zh-CN");
 ```
 
 ```bash
@@ -282,6 +282,7 @@ echo '{"lang": "zh-CN"}' > ~/.openclaw/openclaw.json
 **Phase 1 状态: 已完成 ✅**
 
 所有基础设施已就绪，包含：
+
 - 22 个文件（5 个核心 + 14 个语言包 + 3 个配置更新）
 - 172 条翻译键（中英文完全对应）
 - 完整的 API 和类型定义

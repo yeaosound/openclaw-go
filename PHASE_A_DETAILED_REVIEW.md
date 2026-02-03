@@ -9,6 +9,7 @@
 ## 1. 复核方法
 
 本次复核采用多维度验证：
+
 - ✅ 代码审查 - 逐行检查所有文件
 - ✅ 构建验证 - Vite 生产构建测试
 - ✅ 输出检查 - 验证翻译文件是否打包
@@ -46,6 +47,7 @@ ui/tsconfig.json           # ✅ 已修改
 ### 3.1 config.ts ✅
 
 **检查项**:
+
 - ✅ 正确导入 i18next 和 LanguageDetector
 - ✅ 使用 createInstance() 创建独立实例
 - ✅ 实现异步翻译文件加载
@@ -56,6 +58,7 @@ ui/tsconfig.json           # ✅ 已修改
 - ✅ 提供完整 API: initI18n, changeLanguage, getCurrentLanguage, isLanguageSupported, onLanguageChanged
 
 **代码质量**:
+
 - ✅ 使用 initialized 标志防止重复初始化
 - ✅ 使用 Promise.all 并行加载翻译文件
 - ✅ 正确类型注解
@@ -64,12 +67,14 @@ ui/tsconfig.json           # ✅ 已修改
 ### 3.2 index.ts ✅
 
 **检查项**:
+
 - ✅ 统一导出所有公共 API
 - ✅ 简洁明了
 
 ### 3.3 lit.ts ✅
 
 **检查项**:
+
 - ✅ 正确继承 AsyncDirective
 - ✅ 实现 render 方法
 - ✅ 实现 disconnected 生命周期
@@ -78,6 +83,7 @@ ui/tsconfig.json           # ✅ 已修改
 - ✅ 提供 t 指令和 translate 函数
 
 **关键逻辑**:
+
 ```typescript
 // 正确实现：key 或 options 变化时重新订阅
 if (key !== this.key || JSON.stringify(options) !== JSON.stringify(this.options)) {
@@ -93,16 +99,19 @@ if (key !== this.key || JSON.stringify(options) !== JSON.stringify(this.options)
 ### 3.4 翻译文件 ✅
 
 **英文** (locales/en/common.json):
+
 - ✅ 20个翻译键
 - ✅ 格式正确 (JSON)
 - ✅ 命名规范 (camelCase)
 
 **中文** (locales/zh-CN/common.json):
+
 - ✅ 20个对应中文翻译
 - ✅ 键名与英文完全一致
 - ✅ 翻译准确
 
 **键名列表**:
+
 ```json
 appName, loading, refresh, save, cancel, confirm, delete, edit, create,
 search, filter, yes, no, enabled, disabled, configured, notConfigured,
@@ -112,12 +121,14 @@ running, stopped, connected, disconnected, error, warning, success, info
 ### 3.5 main.ts ✅
 
 **修改前**:
+
 ```typescript
 import "./styles.css";
 import "./ui/app.ts";
 ```
 
 **修改后**:
+
 ```typescript
 import "./styles.css";
 import { initI18n } from "./i18n/index.js";
@@ -131,6 +142,7 @@ bootstrap();
 ```
 
 **检查项**:
+
 - ✅ 在应用启动前初始化 i18n
 - ✅ 使用异步函数确保顺序
 - ✅ 动态导入 app.js
@@ -139,6 +151,7 @@ bootstrap();
 ### 3.6 tsconfig.json ✅
 
 **添加的配置**:
+
 ```json
 {
   "compilerOptions": {
@@ -149,6 +162,7 @@ bootstrap();
 ```
 
 **检查项**:
+
 - ✅ resolveJsonModule: 允许导入 JSON 文件
 - ✅ allowSyntheticDefaultImports: 允许默认导入
 
@@ -172,6 +186,7 @@ transforming...
 ### 4.2 输出文件检查 ✅
 
 **生成的文件**:
+
 ```
 ../dist/control-ui/assets/
 ├── app-jR3cRsWe.js        (360.55 kB)
@@ -184,12 +199,14 @@ transforming...
 ### 4.3 翻译内容验证 ✅
 
 **中文翻译**:
+
 ```bash
 $ grep "加载中" dist/control-ui/assets/common-By1O_0zJ.js
 ✅ 找到: 加载中
 ```
 
 **英文翻译**:
+
 ```bash
 $ grep "Loading" dist/control-ui/assets/common-CM4ai2Bv.js
 ✅ 找到: Loading…
@@ -203,32 +220,32 @@ $ grep "Loading" dist/control-ui/assets/common-CM4ai2Bv.js
 
 ### 5.1 功能特性检查表
 
-| 特性 | 实现状态 | 验证方法 |
-|------|----------|----------|
-| 自动语言检测 | ✅ | 配置中设置了 localStorage + navigator 顺序 |
-| 语言持久化 | ✅ | 配置中设置了 caches: ['localStorage'] |
-| 实时切换 | ✅ | onLanguageChanged 事件 + Lit 指令更新 |
-| 回退机制 | ✅ | fallbackLng: 'en' |
-| Lit 集成 | ✅ | t 指令实现 |
-| 内存清理 | ✅ | disconnected 生命周期 |
+| 特性         | 实现状态 | 验证方法                                   |
+| ------------ | -------- | ------------------------------------------ |
+| 自动语言检测 | ✅       | 配置中设置了 localStorage + navigator 顺序 |
+| 语言持久化   | ✅       | 配置中设置了 caches: ['localStorage']      |
+| 实时切换     | ✅       | onLanguageChanged 事件 + Lit 指令更新      |
+| 回退机制     | ✅       | fallbackLng: 'en'                          |
+| Lit 集成     | ✅       | t 指令实现                                 |
+| 内存清理     | ✅       | disconnected 生命周期                      |
 
 ### 5.2 API 可用性
 
 ```typescript
 // 所有导出的 API 可用
 import {
-  i18n,                    // ✅ i18next 实例
-  initI18n,               // ✅ 初始化函数
-  changeLanguage,         // ✅ 切换语言
-  getCurrentLanguage,     // ✅ 获取当前语言
-  isLanguageSupported,    // ✅ 检查语言支持
-  onLanguageChanged,      // ✅ 语言变化监听
-} from './i18n/index.js';
+  i18n, // ✅ i18next 实例
+  initI18n, // ✅ 初始化函数
+  changeLanguage, // ✅ 切换语言
+  getCurrentLanguage, // ✅ 获取当前语言
+  isLanguageSupported, // ✅ 检查语言支持
+  onLanguageChanged, // ✅ 语言变化监听
+} from "./i18n/index.js";
 
 import {
-  t,                      // ✅ Lit 指令
-  translate,              // ✅ 普通函数
-} from './i18n/lit.js';
+  t, // ✅ Lit 指令
+  translate, // ✅ 普通函数
+} from "./i18n/lit.js";
 ```
 
 ---
@@ -240,6 +257,7 @@ import {
 **无问题发现！**
 
 所有检查项均通过：
+
 - ✅ 代码结构: 优秀
 - ✅ 类型安全: 完全
 - ✅ 构建成功: 是
@@ -264,6 +282,7 @@ import {
 ### 7.1 构建大小影响
 
 **新增大小**:
+
 - 英文翻译: ~1 kB (gzip)
 - 中文翻译: ~1 kB (gzip)
 - 总计: ~2 kB (gzip)
@@ -283,14 +302,14 @@ import {
 ### 8.1 在 Lit 组件中使用
 
 ```typescript
-import { LitElement, html } from 'lit';
-import { t } from '../i18n/lit.js';
+import { LitElement, html } from "lit";
+import { t } from "../i18n/lit.js";
 
 export class MyView extends LitElement {
   render() {
     return html`
-      <h1>${t('common:loading')}</h1>
-      <button>${t('common:save')}</button>
+      <h1>${t("common:loading")}</h1>
+      <button>${t("common:save")}</button>
     `;
   }
 }
@@ -301,13 +320,13 @@ export class MyView extends LitElement {
 ### 8.2 语言切换
 
 ```typescript
-import { changeLanguage } from '../i18n/index.js';
+import { changeLanguage } from "../i18n/index.js";
 
 // 切换到中文
-await changeLanguage('zh-CN');
+await changeLanguage("zh-CN");
 
 // 切换到英文
-await changeLanguage('en');
+await changeLanguage("en");
 ```
 
 **验证**: ✅ API 设计正确
@@ -318,13 +337,13 @@ await changeLanguage('en');
 
 ### 9.1 实现 vs 方案
 
-| 方案要求 | 实现状态 | 备注 |
-|----------|----------|------|
-| i18next 核心 | ✅ | 已实现 |
-| 语言检测器 | ✅ | 已实现 |
-| Lit 指令 t() | ✅ | 已实现 |
-| 翻译文件 | ✅ | 20个基础键 |
-| 入口初始化 | ✅ | main.ts 修改 |
+| 方案要求     | 实现状态 | 备注         |
+| ------------ | -------- | ------------ |
+| i18next 核心 | ✅       | 已实现       |
+| 语言检测器   | ✅       | 已实现       |
+| Lit 指令 t() | ✅       | 已实现       |
+| 翻译文件     | ✅       | 20个基础键   |
+| 入口初始化   | ✅       | main.ts 修改 |
 
 ### 9.2 完成度
 
@@ -338,14 +357,14 @@ await changeLanguage('en');
 
 ### ✅ 复核结果: **全部通过**
 
-| 检查项 | 状态 | 详情 |
-|--------|------|------|
-| 文件完整性 | ✅ | 7个文件全部创建 |
-| 代码质量 | ✅ | 无问题 |
-| 构建成功 | ✅ | Vite 构建通过 |
-| 翻译打包 | ✅ | 中英文都已打包 |
-| 功能实现 | ✅ | 100% 完成 |
-| 类型安全 | ✅ | 完全 |
+| 检查项     | 状态 | 详情            |
+| ---------- | ---- | --------------- |
+| 文件完整性 | ✅   | 7个文件全部创建 |
+| 代码质量   | ✅   | 无问题          |
+| 构建成功   | ✅   | Vite 构建通过   |
+| 翻译打包   | ✅   | 中英文都已打包  |
+| 功能实现   | ✅   | 100% 完成       |
+| 类型安全   | ✅   | 完全            |
 
 ### 📊 统计
 
@@ -360,6 +379,7 @@ await changeLanguage('en');
 **阶段 A 质量: 优秀 (A+)**
 
 所有要求已实现：
+
 - ✅ 基础设施完整
 - ✅ 代码质量高
 - ✅ 构建成功
