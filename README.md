@@ -1,6 +1,6 @@
 # 🚀 OpenClaw Go
 
-**Self-hosted AI assistant with complete Chinese localization and performance optimization.**
+**Self-hosted AI assistant with complete multi-language support and performance optimization.**
 
 > 🌍 **Go** = **Global** + **Optimized**
 >
@@ -34,8 +34,7 @@
 - **Go** = **Global** + **Optimized**
   - 🌍 **Global**: Global support, multi-language adaptation
   - ⚡ **Optimized**: Performance optimization, improved code structure
-- 🇨🇳 **Complete Chinese Localization** - CLI, Web UI, and configuration wizard fully translated
-- 🌏 **Multi-language Support** - Planned support for Simplified Chinese, Traditional Chinese, English, and more
+- 🌐 **Complete Multi-language Support** - CLI, Web UI, and configuration wizard fully translated in 4 languages
 - 🔄 **Upstream Sync** - Regularly merges security fixes and feature updates from upstream
 
 > 💡 **Note**: This project is developed with Node.js/TypeScript. "Go" stands for Global + Optimized, not the Go programming language.
@@ -44,7 +43,7 @@
 
 ## ✨ Features
 
-- **🇨🇳 Complete Chinese Localization** — CLI, Web control panel, and configuration wizard fully translated (634+ translation entries)
+- **🌐 Multi-language Support** — Full i18n support for English, Simplified Chinese, Hong Kong Cantonese, and Traditional Chinese (4,240+ translation entries)
 - **🏠 Local-first** — Data stored on your own device, privacy under your control
 - **📱 Multi-channel Support** — WhatsApp, Telegram, Slack, Discord, Signal, iMessage, Google Chat, Microsoft Teams
 - **🎙️ Voice Interaction** — Voice wake and conversation on macOS/iOS/Android
@@ -58,7 +57,7 @@
 
 **Requirements:** Node.js ≥ 22
 
-\`\`\`bash
+```bash
 # Install
 npm install -g openclaw-go@latest
 
@@ -67,9 +66,9 @@ openclaw-go onboard --install-daemon
 
 # Start gateway
 openclaw-go gateway --port 18789 --verbose
-\`\`\`
+```
 
-> 💡 **Compatibility**: Old \`clawdbot\` commands remain available.
+> 💡 **Compatibility**: Old `clawdbot` commands remain available.
 
 ---
 
@@ -77,15 +76,15 @@ openclaw-go gateway --port 18789 --verbose
 
 ### npm (Recommended)
 
-\`\`\`bash
+```bash
 npm install -g openclaw-go@latest
 # or
 pnpm add -g openclaw-go@latest
-\`\`\`
+```
 
 ### Build from Source
 
-\`\`\`bash
+```bash
 git clone https://github.com/yeaosound/openclaw-go.git
 cd openclaw-go
 
@@ -94,31 +93,31 @@ pnpm ui:build
 pnpm build
 
 pnpm openclaw-go onboard --install-daemon
-\`\`\`
+```
 
 ---
 
 ## 🔧 Configuration
 
-Minimal configuration in \`~/.openclaw/openclaw.json\`:
+Minimal configuration in `~/.openclaw/openclaw.json`:
 
-\`\`\`json
+```json
 {
   "agent": {
     "model": "anthropic/claude-opus-4-5"
   },
-  "lang": "zh-CN"
+  "lang": "en"
 }
-\`\`\`
+```
 
 **Language Settings**:
-- Environment variable: \`OPENCLAW_LANG=zh-CN\`
-- Config file: \`lang\` field
+- Environment variable: `OPENCLAW_LANG=zh-CN`
+- Config file: `lang` field
 - Supported languages:
-  - \`en\` - English
-  - \`zh-CN\` - 简体中文 (Simplified Chinese)
-  - \`zh-HK\` - 香港粵語 (Hong Kong Cantonese, planned)
-  - \`zh-TW\` - 繁體中文 (Traditional Chinese, planned)
+  - `en` - English
+  - `zh-CN` - 简体中文 (Simplified Chinese)
+  - `zh-HK` - 香港粵語 (Hong Kong Cantonese)
+  - `zh-TW` - 繁體中文 (Traditional Chinese)
 
 ---
 
@@ -133,14 +132,14 @@ Minimal configuration in \`~/.openclaw/openclaw.json\`:
 **Languages**:
 - 📘 [English](./README.md) (this file)
 - 📕 [简体中文](./README_i18n/README_zh-CN.md)
-- 📙 [香港粵語](./README_i18n/README_zh-HK.md) (planned)
-- 📗 [繁體中文](./README_i18n/README_zh-TW.md) (planned)
+- 📙 [香港粵語](./README_i18n/README_zh-HK.md)
+- 📗 [繁體中文](./README_i18n/README_zh-TW.md)
 
 ---
 
 ## 🔄 Version Sync
 
-This project is based on [openclaw/openclaw](https://github.com/openclaw/openclaw) with optimization and Chinese localization, regularly synchronized with upstream.
+This project is based on [openclaw/openclaw](https://github.com/openclaw/openclaw) with optimization and multi-language support, regularly synchronized with upstream.
 
 **Merged upstream updates**:
 - ✅ SSRF security fixes
@@ -149,7 +148,7 @@ This project is based on [openclaw/openclaw](https://github.com/openclaw/opencla
 - ✅ Agent and Channel bug fixes
 - ✅ Unified code style (import sorting)
 
-**Version format**: \`vYYYY.M.D-go.N\` (e.g., \`v2026.2.3-go.1\`)
+**Version format**: `vYYYY.M.D-go.N` (e.g., `v2026.2.3-go.1`)
 
 ---
 
@@ -158,47 +157,48 @@ This project is based on [openclaw/openclaw](https://github.com/openclaw/opencla
 This project implements complete multi-language internationalization support:
 
 ### Supported Languages
-- 🇺🇸 **English** (en)
-- 🇨🇳 **Simplified Chinese** (zh-CN) - 634+ translation entries
+- 🇺🇸 **English** (en) - 636+ translation entries
+- 🇨🇳 **Simplified Chinese** (zh-CN) - 636+ translation entries
+- 🇭🇰 **Hong Kong Cantonese** (zh-HK) - Written Cantonese, 636+ entries
+- 🇹🇼 **Traditional Chinese** (zh-TW) - 636+ translation entries
 
 ### Planned Support
-- 🇭🇰 **Hong Kong Cantonese** (zh-HK) - Written Cantonese
-- 🇹🇼 **Traditional Chinese** (zh-TW)
 - 🇯🇵 **Japanese** (ja)
 - 🇰🇷 **Korean** (ko)
 - 🇫🇷 **French** (fr)
 - More languages welcome!
 
 ### Implementation Structure
-- **Backend i18n** (\`src/i18n/\`):
+- **Backend i18n** (`src/i18n/`):
   - CLI commands and prompts
   - Configuration wizard
   - Pairing messages
   - Channel configuration
   
-- **Frontend i18n** (\`ui/src/i18n/\`): Based on i18next
+- **Frontend i18n** (`ui/src/i18n/`): Based on i18next
   - Web control panel
   - Language switcher
 
 **Usage Example**:
-\`\`\`typescript
+```typescript
 import { t, setLocale, getAvailableLocales } from './i18n/index.js';
 
 // Check available languages
-console.log(getAvailableLocales()); // ['en', 'zh-CN', 'zh-TW', ...]
+console.log(getAvailableLocales()); // ['en', 'zh-CN', 'zh-HK', 'zh-TW']
 
 // Set language
 setLocale('zh-CN');  // Simplified Chinese
+// setLocale('zh-HK');  // Hong Kong Cantonese
 // setLocale('zh-TW');  // Traditional Chinese
 
 // Get translation
 console.log(t('cli.plugins.description'));
-// => "管理 OpenClaw 插件/扩展"
+// => "Manage OpenClaw plugins/extensions"
 
 // Interpolation
 console.log(t('common.status.loading', { item: 'gateway' }));
-// => "正在加载 gateway..."
-\`\`\`
+// => "Loading gateway..."
+```
 
 ---
 
@@ -207,66 +207,66 @@ console.log(t('common.status.loading', { item: 'gateway' }));
 Issues and PRs welcome!
 
 - 🐛 Bug fixes and feature optimizations
-- 🌐 Translation improvements (Chinese/other languages)
+- 🌐 Translation improvements
 - 📖 Documentation improvements
 - 🔌 Domestic channel adaptation
 
 **Contribution Guidelines**:
 - Follow upstream code style (oxfmt configured)
-- Run \`pnpm lint\` and \`pnpm build\` before submitting
-- For translations, refer to \`src/i18n/locales/\` structure
+- Run `pnpm lint` and `pnpm build` before submitting
+- For translations, refer to `src/i18n/locales/` structure
 
 ---
 
 ## 📋 Development Roadmap
 
 ### Completed ✅
-- [x] CLI interface localization
-- [x] Web control panel localization
-- [x] Configuration wizard localization
+- [x] CLI interface localization (4 languages)
+- [x] Web control panel localization (4 languages)
+- [x] Configuration wizard localization (4 languages)
 - [x] Language switching feature
 - [x] Upstream version sync mechanism
+- [x] English (en) full support
 - [x] Simplified Chinese (zh-CN) full support
-
-### In Progress 🚧
-- [ ] Hong Kong Cantonese (zh-HK) support - Written Cantonese
-- [ ] Traditional Chinese (zh-TW) support
-- [ ] Japanese (ja) support
-- [ ] Korean (ko) support
+- [x] Hong Kong Cantonese (zh-HK) full support
+- [x] Traditional Chinese (zh-TW) full support
 
 ### Planned 📅
-- [ ] Domestic channel adaptation (Lark/Feishu, DingTalk, WeCom)
-- [ ] More language support (French, German, Spanish, etc.)
+- [ ] Japanese (ja) support
+- [ ] Korean (ko) support
+- [ ] French (fr) support
+- [ ] German (de) support
+- [ ] Spanish (es) support
 - [ ] Translation contributor community building
 
 ---
 
 ## 🏗️ Project Structure
 
-\`\`\`
+```
 openclaw-go/
 ├── src/
 │   ├── i18n/              # Internationalization core module
 │   │   ├── locales/       # Language packs
-│   │   │   ├── en/        # English
-│   │   │   ├── zh-CN/     # Simplified Chinese
-│   │   │   ├── zh-HK/     # Hong Kong Cantonese (planned)
-│   │   │   └── zh-TW/     # Traditional Chinese (planned)
+│   │   │   ├── en/        # English (636+ entries)
+│   │   │   ├── zh-CN/     # Simplified Chinese (636+ entries)
+│   │   │   ├── zh-HK/     # Hong Kong Cantonese (636+ entries)
+│   │   │   └── zh-TW/     # Traditional Chinese (636+ entries)
 │   │   ├── index.ts       # Translation functions
 │   │   └── config.ts      # Initialization config
 │   ├── commands/          # CLI commands
 │   ├── channels/          # Channel integrations
 │   └── ...
 ├── ui/
-│   └── src/i18n/          # Frontend i18n
+│   └── src/i18n/          # Frontend i18n (424+ entries per language)
 ├── extensions/            # Extension plugins
 ├── README_i18n/           # Multi-language README files
 │   ├── README_zh-CN.md    # 简体中文
-│   ├── README_zh-HK.md    # Hong Kong Cantonese (planned)
-│   ├── README_zh-TW.md    # 繁體中文 (planned)
+│   ├── README_zh-HK.md    # 香港粵語
+│   ├── README_zh-TW.md    # 繁體中文
 │   └── ...
 └── ...
-\`\`\`
+```
 
 ---
 

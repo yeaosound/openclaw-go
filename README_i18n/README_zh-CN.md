@@ -1,6 +1,6 @@
 # 🚀 OpenClaw Go
 
-**私有化部署的 AI 智能助手，完整中文本地化 + 性能优化。**
+**私有化部署的 AI 智能助手，完整多语言支持 + 性能优化。**
 
 > 🌍 **Go** = **Global** + **Optimized**
 >
@@ -14,7 +14,7 @@
 </p>
 
 <p align="center">
-  <a href="../README.md">🇺🇸 English</a> · <b>🌐 简体中文</b> · <a href="./README_zh-HK.md">香港粵語</a> · <a href="./README_zh-TW.md">繁體中文</a>
+  <a href="../README.md">🇺🇸 English</a> · <b>🇨🇳 简体中文</b> · <a href="./README_zh-HK.md">香港粵語</a> · <a href="./README_zh-TW.md">繁體中文</a>
 </p>
 
 <p align="center">
@@ -34,8 +34,7 @@
 - **Go** = **Global** + **Optimized**
   - 🌍 **Global**：全球化支持，多语言适配
   - ⚡ **Optimized**：性能优化，代码结构优化
-- 🇨🇳 **完整中文化** - CLI、Web 界面、配置向导全部汉化
-- 🌏 **多语言支持** - 计划支持简体中文、繁体中文、英语及更多语言
+- 🌐 **完整多语言支持** - CLI、Web 界面、配置向导已支持 4 种语言
 - 🔄 **上游同步** - 定期合并上游安全修复和功能更新
 
 > 💡 **注意**：本项目使用 Node.js/TypeScript 开发，"Go" 代表 Global + Optimized，不是 Go 语言。
@@ -44,7 +43,7 @@
 
 ## ✨ 特性
 
-- **🇨🇳 完整中文化** — CLI、Web 控制界面、配置向导全部汉化（634+ 翻译条目）
+- **🌐 多语言支持** — 完整支持英语、简体中文、香港粵語、繁體中文（4,240+ 翻译条目）
 - **🏠 本地优先** — 数据存储在你自己的设备上，隐私可控
 - **📱 多渠道支持** — WhatsApp、Telegram、Slack、Discord、Signal、iMessage、Google Chat、Microsoft Teams
 - **🎙️ 语音交互** — macOS/iOS/Android 语音唤醒和对话
@@ -58,7 +57,7 @@
 
 **环境要求：** Node.js ≥ 22
 
-\`\`\`bash
+```bash
 # 安装
 npm install -g openclaw-go@latest
 
@@ -67,9 +66,9 @@ openclaw-go onboard --install-daemon
 
 # 启动网关
 openclaw-go gateway --port 18789 --verbose
-\`\`\`
+```
 
-> 💡 **兼容性**：旧版本 \`clawdbot\` 命令仍然可用。
+> 💡 **兼容性**：旧版本 `clawdbot` 命令仍然可用。
 
 ---
 
@@ -77,15 +76,15 @@ openclaw-go gateway --port 18789 --verbose
 
 ### npm（推荐）
 
-\`\`\`bash
+```bash
 npm install -g openclaw-go@latest
 # 或
 pnpm add -g openclaw-go@latest
-\`\`\`
+```
 
 ### 从源码构建
 
-\`\`\`bash
+```bash
 git clone https://github.com/yeaosound/openclaw-go.git
 cd openclaw-go
 
@@ -94,30 +93,31 @@ pnpm ui:build
 pnpm build
 
 pnpm openclaw-go onboard --install-daemon
-\`\`\`
+```
 
 ---
 
 ## 🔧 配置
 
-最小配置 \`~/.openclaw/openclaw.json\`：
+最小配置 `~/.openclaw/openclaw.json`：
 
-\`\`\`json
+```json
 {
   "agent": {
     "model": "anthropic/claude-opus-4-5"
   },
   "lang": "zh-CN"
 }
-\`\`\`
+```
 
 **语言设置**：
-- 环境变量：\`OPENCLAW_LANG=zh-CN\`
-- 配置文件：\`lang\` 字段
+- 环境变量：`OPENCLAW_LANG=zh-CN`
+- 配置文件：`lang` 字段
 - 支持语言：
-  - \`en\` - English (英语)
-  - \`zh-CN\` - 简体中文 (Simplified Chinese)
-  - \`zh-TW\` - 繁體中文 (Traditional Chinese, 计划中)
+  - `en` - English (英语)
+  - `zh-CN` - 简体中文
+  - `zh-HK` - 香港粵語 (Hong Kong Cantonese)
+  - `zh-TW` - 繁體中文 (Traditional Chinese)
 
 ---
 
@@ -132,14 +132,14 @@ pnpm openclaw-go onboard --install-daemon
 **多语言文档**：
 - 📘 [English](../README.md)
 - 📕 简体中文 (本文档)
-- 📙 [香港粵語](./README_zh-HK.md) (计划中)
-- 📗 [繁體中文](./README_zh-TW.md) (计划中)
+- 📙 [香港粵語](./README_zh-HK.md)
+- 📗 [繁體中文](./README_zh-TW.md)
 
 ---
 
 ## 🔄 版本同步
 
-本项目基于 [openclaw/openclaw](https://github.com/openclaw/openclaw) 进行优化和中文本地化，定期与上游保持同步。
+本项目基于 [openclaw/openclaw](https://github.com/openclaw/openclaw) 进行优化和多语言支持，定期与上游保持同步。
 
 **已合并上游更新**：
 - ✅ SSRF 安全修复
@@ -148,7 +148,7 @@ pnpm openclaw-go onboard --install-daemon
 - ✅ Agent 和 Channel Bug 修复
 - ✅ 代码风格统一（import 排序）
 
-**版本格式**：\`vYYYY.M.D-go.N\`（如 \`v2026.2.3-go.1\`）
+**版本格式**：`vYYYY.M.D-go.N`（如 `v2026.2.3-go.1`）
 
 ---
 
@@ -157,37 +157,39 @@ pnpm openclaw-go onboard --install-daemon
 本项目已实现完整的多语言国际化支持：
 
 ### 已支持语言
-- 🇺🇸 **英语** (en)
-- 🇨🇳 **简体中文** (zh-CN) - 634+ 翻译条目
+- 🇺🇸 **英语** (en) - 636+ 翻译条目
+- 🇨🇳 **简体中文** (zh-CN) - 636+ 翻译条目
+- 🇭🇰 **香港粵語** (zh-HK) - 粵语书面语，636+ 条目
+- 🇨🇳 **繁體中文** (zh-TW) - 636+ 翻译条目
 
 ### 计划支持
-- 🇹🇼 **繁体中文** (zh-TW)
 - 🇯🇵 **日语** (ja)
 - 🇰🇷 **韩语** (ko)
 - 🇫🇷 **法语** (fr)
 - 更多语言欢迎贡献！
 
 ### 实现结构
-- **后端 i18n** (\`src/i18n/\`)：
+- **后端 i18n** (`src/i18n/`)：
   - CLI 命令和提示
   - 配置向导
   - 配对消息
-  - 通道配置
+  - 渠道配置
   
-- **前端 i18n** (\`ui/src/i18n/\`)：基于 i18next
+- **前端 i18n** (`ui/src/i18n/`)：基于 i18next
   - Web 控制界面
   - 语言切换器
 
 **使用示例**：
-\`\`\`typescript
+```typescript
 import { t, setLocale, getAvailableLocales } from './i18n/index.js';
 
 // 查看可用语言
-console.log(getAvailableLocales()); // ['en', 'zh-CN', 'zh-TW', ...]
+console.log(getAvailableLocales()); // ['en', 'zh-CN', 'zh-HK', 'zh-TW']
 
 // 设置语言
 setLocale('zh-CN');  // 简体中文
-// setLocale('zh-TW');  // 繁体中文
+// setLocale('zh-HK');  // 香港粵語
+// setLocale('zh-TW');  // 繁體中文
 
 // 获取翻译
 console.log(t('cli.plugins.description'));
@@ -196,7 +198,7 @@ console.log(t('cli.plugins.description'));
 // 插值
 console.log(t('common.status.loading', { item: 'gateway' }));
 // => "正在加载 gateway..."
-\`\`\`
+```
 
 ---
 
@@ -205,63 +207,66 @@ console.log(t('common.status.loading', { item: 'gateway' }));
 欢迎提交 Issue 和 PR！
 
 - 🐛 Bug 修复和功能优化
-- 🌐 翻译改进（中文/其他语言）
+- 🌐 翻译改进
 - 📖 文档完善
 - 🔌 国内渠道适配
 
 **贡献指南**：
 - 遵循上游代码风格（已配置 oxfmt）
-- 提交前运行 \`pnpm lint\` 和 \`pnpm build\`
-- 如需添加翻译，请参考 \`src/i18n/locales/\` 结构
+- 提交前运行 `pnpm lint` 和 `pnpm build`
+- 如需添加翻译，请参考 `src/i18n/locales/` 结构
 
 ---
 
 ## 📋 开发计划
 
 ### 已完成 ✅
-- [x] CLI 界面汉化
-- [x] Web 控制界面汉化
-- [x] 配置向导汉化
+- [x] CLI 界面本地化（4 种语言）
+- [x] Web 控制界面本地化（4 种语言）
+- [x] 配置向导本地化（4 种语言）
 - [x] 语言切换功能
 - [x] 上游版本同步机制
+- [x] 英语 (en) 完整支持
 - [x] 简体中文 (zh-CN) 完整支持
-
-### 进行中 🚧
-- [ ] 繁体中文 (zh-TW) 支持
-- [ ] 日语 (ja) 支持
-- [ ] 韩语 (ko) 支持
+- [x] 香港粵語 (zh-HK) 完整支持
+- [x] 繁體中文 (zh-TW) 完整支持
 
 ### 计划中 📅
-- [ ] 国内渠道适配（飞书、钉钉、企业微信）
-- [ ] 更多语言支持（法语、德语、西班牙语等）
+- [ ] 日语 (ja) 支持
+- [ ] 韩语 (ko) 支持
+- [ ] 法语 (fr) 支持
+- [ ] 德语 (de) 支持
+- [ ] 西班牙语 (es) 支持
 - [ ] 翻译贡献者社区建设
 
 ---
 
 ## 🏗️ 项目结构
 
-\`\`\`
+```
 openclaw-go/
 ├── src/
 │   ├── i18n/              # 国际化核心模块
 │   │   ├── locales/       # 语言包
-│   │   │   ├── en/        # 英语
-│   │   │   ├── zh-CN/     # 简体中文
-│   │   │   └── zh-TW/     # 繁体中文 (计划中)
+│   │   │   ├── en/        # 英语 (636+ 条目)
+│   │   │   ├── zh-CN/     # 简体中文 (636+ 条目)
+│   │   │   ├── zh-HK/     # 香港粵語 (636+ 条目)
+│   │   │   └── zh-TW/     # 繁體中文 (636+ 条目)
 │   │   ├── index.ts       # 翻译函数
 │   │   └── config.ts      # 初始化配置
 │   ├── commands/          # CLI 命令
 │   ├── channels/          # 渠道集成
 │   └── ...
 ├── ui/
-│   └── src/i18n/          # 前端国际化
+│   └── src/i18n/          # 前端国际化 (每种语言 424+ 条目)
 ├── extensions/            # 扩展插件
 ├── README_i18n/           # 多语言 README 文件
 │   ├── README_zh-CN.md    # 简体中文 (本文档)
-│   ├── README_zh-TW.md    # 繁體中文 (计划中)
+│   ├── README_zh-HK.md    # 香港粵語
+│   ├── README_zh-TW.md    # 繁體中文
 │   └── ...
 └── ...
-\`\`\`
+```
 
 ---
 
