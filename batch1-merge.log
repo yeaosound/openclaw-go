@@ -1,0 +1,5 @@
+# 批次1合并日志
+
+## 开始时间: $(date)
+
+### 1. LFI防护 (Local File Inclusion)
