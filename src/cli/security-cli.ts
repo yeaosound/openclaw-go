@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { loadConfig } from "../config/config.js";
+import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";
 import { runSecurityAudit } from "../security/audit.js";
 import { fixSecurityFootguns } from "../security/fix.js";
@@ -29,7 +30,7 @@ function formatSummary(summary: { critical: number; warn: number; info: number }
 export function registerSecurityCli(program: Command) {
   const security = program
     .command("security")
-    .description("Security tools (audit)")
+    .description(t("cli.security.description"))
     .addHelpText(
       "after",
       () =>
@@ -38,7 +39,7 @@ export function registerSecurityCli(program: Command) {
 
   security
     .command("audit")
-    .description("Audit config + local state for common security foot-guns")
+    .description(t("cli.security.audit.description"))
     .option("--deep", "Attempt live Gateway probe (best-effort)", false)
     .option("--fix", "Apply safe fixes (tighten defaults + chmod state/config)", false)
     .option("--json", "Print JSON", false)

@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 import type { PresenceEntry } from "../types";
 import { formatPresenceAge, formatPresenceSummary } from "../presenter";
+import { t } from "../../i18n/lit.js";
 
 export type InstancesProps = {
   loading: boolean;
@@ -15,11 +16,11 @@ export function renderInstances(props: InstancesProps) {
     <section class="card">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Connected Instances</div>
-          <div class="card-sub">Presence beacons from the gateway and clients.</div>
+          <div class="card-title">${t("views.instances.title")}</div>
+          <div class="card-sub">${t("views.instances.subtitle")}</div>
         </div>
         <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-          ${props.loading ? "Loading…" : "Refresh"}
+          ${props.loading ? t("views.instances.actions.loading") : t("views.instances.actions.refresh")}
         </button>
       </div>
       ${
@@ -40,7 +41,7 @@ export function renderInstances(props: InstancesProps) {
         ${
           props.entries.length === 0
             ? html`
-                <div class="muted">No instances reported yet.</div>
+                <div class="muted">${t("views.instances.empty")}</div>
               `
             : props.entries.map((entry) => renderEntry(entry))
         }
@@ -81,8 +82,8 @@ function renderEntry(entry: PresenceEntry) {
       </div>
       <div class="list-meta">
         <div>${formatPresenceAge(entry)}</div>
-        <div class="muted">Last input ${lastInput}</div>
-        <div class="muted">Reason ${entry.reason ?? ""}</div>
+        <div class="muted">${t("views.instances.labels.lastInput")} ${lastInput}</div>
+        <div class="muted">${t("views.instances.labels.reason")} ${entry.reason ?? ""}</div>
       </div>
     </div>
   `;

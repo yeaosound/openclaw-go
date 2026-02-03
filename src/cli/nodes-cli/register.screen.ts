@@ -1,6 +1,7 @@
 import type { Command } from "commander";
 import type { NodesRpcOpts } from "./types.js";
 import { randomIdempotencyKey } from "../../gateway/call.js";
+import { t } from "../../i18n/index.js";
 import { defaultRuntime } from "../../runtime.js";
 import { shortenHomePath } from "../../utils.js";
 import {
@@ -13,14 +14,12 @@ import { runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
 
 export function registerNodesScreenCommands(nodes: Command) {
-  const screen = nodes
-    .command("screen")
-    .description("Capture screen recordings from a paired node");
+  const screen = nodes.command("screen").description(t("cli.nodes.screen.description"));
 
   nodesCallOpts(
     screen
       .command("record")
-      .description("Capture a short screen recording from a node (prints MEDIA:<path>)")
+      .description(t("cli.nodes.screen.record.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--screen <index>", "Screen index (0 = primary)", "0")
       .option("--duration <ms|10s>", "Clip duration (ms or 10s)", "10000")

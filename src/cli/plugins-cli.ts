@@ -4,6 +4,7 @@ import path from "node:path";
 import type { OpenClawConfig } from "../config/config.js";
 import type { PluginRecord } from "../plugins/registry.js";
 import { loadConfig, writeConfigFile } from "../config/config.js";
+import { t } from "../i18n/index.js";
 import { resolveArchiveKind } from "../infra/archive.js";
 import { installPluginFromNpmSpec, installPluginFromPath } from "../plugins/install.js";
 import { recordPluginInstall } from "../plugins/installs.js";
@@ -99,7 +100,7 @@ function logSlotWarnings(warnings: string[]) {
 export function registerPluginsCli(program: Command) {
   const plugins = program
     .command("plugins")
-    .description("Manage OpenClaw plugins/extensions")
+    .description(t("cli.plugins.description"))
     .addHelpText(
       "after",
       () =>
@@ -108,7 +109,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("list")
-    .description("List discovered plugins")
+    .description(t("cli.plugins.list.description"))
     .option("--json", "Print JSON")
     .option("--enabled", "Only show enabled plugins", false)
     .option("--verbose", "Show detailed entries", false)
@@ -182,7 +183,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("info")
-    .description("Show plugin details")
+    .description(t("cli.plugins.show.description"))
     .argument("<id>", "Plugin id")
     .option("--json", "Print JSON")
     .action((id: string, opts: PluginInfoOptions) => {
@@ -260,7 +261,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("enable")
-    .description("Enable a plugin in config")
+    .description(t("cli.plugins.enable.description"))
     .argument("<id>", "Plugin id")
     .action(async (id: string) => {
       const cfg = loadConfig();
@@ -286,7 +287,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("disable")
-    .description("Disable a plugin in config")
+    .description(t("cli.plugins.disable.description"))
     .argument("<id>", "Plugin id")
     .action(async (id: string) => {
       const cfg = loadConfig();
@@ -309,7 +310,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("install")
-    .description("Install a plugin (path, archive, or npm spec)")
+    .description(t("cli.plugins.install.description"))
     .argument("<path-or-spec>", "Path (.ts/.js/.zip/.tgz/.tar.gz) or an npm package spec")
     .option("-l, --link", "Link a local path instead of copying", false)
     .action(async (raw: string, opts: { link?: boolean }) => {
@@ -465,7 +466,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("update")
-    .description("Update installed plugins (npm installs only)")
+    .description(t("cli.plugins.update.description"))
     .argument("[id]", "Plugin id (omit with --all)")
     .option("--all", "Update all tracked plugins", false)
     .option("--dry-run", "Show what would change without writing", false)
@@ -513,7 +514,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("doctor")
-    .description("Report plugin load issues")
+    .description(t("cli.plugins.doctor.description"))
     .action(() => {
       const report = buildPluginStatusReport();
       const errors = report.plugins.filter((p) => p.status === "error");

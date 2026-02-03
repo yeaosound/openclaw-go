@@ -281,6 +281,36 @@
 }
 
 /* ===========================================
+   Language Switcher
+   =========================================== */
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+}
+
+.language-switcher__select {
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--secondary);
+  color: var(--text);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--duration-fast) ease;
+}
+
+.language-switcher__select:hover {
+  border-color: var(--accent);
+}
+
+.language-switcher__select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-alpha);
+}
+
+/* ===========================================
    Status Dot - With glow for emphasis
    =========================================== */
 

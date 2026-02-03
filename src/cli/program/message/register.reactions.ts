@@ -1,11 +1,12 @@
 import type { Command } from "commander";
 import type { MessageCliHelpers } from "./helpers.js";
+import { t } from "../../../i18n/index.js";
 
 export function registerMessageReactionsCommands(message: Command, helpers: MessageCliHelpers) {
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
-        message.command("react").description("Add or remove a reaction"),
+        message.command("react").description(t("cli.message.react.description")),
       ),
     )
     .requiredOption("--message-id <id>", "Message id")
@@ -22,7 +23,7 @@ export function registerMessageReactionsCommands(message: Command, helpers: Mess
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
-        message.command("reactions").description("List reactions on a message"),
+        message.command("reactions").description(t("cli.message.reactions.description")),
       ),
     )
     .requiredOption("--message-id <id>", "Message id")

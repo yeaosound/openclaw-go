@@ -1,6 +1,7 @@
 import { html, nothing } from "lit";
 import type { EventLogEntry } from "../app-events";
 import { formatEventPayload } from "../presenter";
+import { t } from "../../i18n/lit.js";
 
 export type DebugProps = {
   loading: boolean;
@@ -37,43 +38,43 @@ export function renderDebug(props: DebugProps) {
       <div class="card">
         <div class="row" style="justify-content: space-between;">
           <div>
-            <div class="card-title">Snapshots</div>
-            <div class="card-sub">Status, health, and heartbeat data.</div>
+            <div class="card-title">${t("views.debug.snapshots.title")}</div>
+            <div class="card-sub">${t("views.debug.snapshots.subtitle")}</div>
           </div>
           <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-            ${props.loading ? "Refreshing…" : "Refresh"}
+            ${props.loading ? t("views.debug.snapshots.actions.refreshing") : t("views.debug.snapshots.actions.refresh")}
           </button>
         </div>
         <div class="stack" style="margin-top: 12px;">
           <div>
-            <div class="muted">Status</div>
+            <div class="muted">${t("views.debug.snapshots.labels.status")}</div>
             ${
               securitySummary
                 ? html`<div class="callout ${securityTone}" style="margin-top: 8px;">
                   Security audit: ${securityLabel}${info > 0 ? ` · ${info} info` : ""}. Run
-                  <span class="mono">openclaw security audit --deep</span> for details.
+                  <span class="mono">openclaw security audit --deep</span> ${t("views.debug.snapshots.hints.security")}
                 </div>`
                 : nothing
             }
             <pre class="code-block">${JSON.stringify(props.status ?? {}, null, 2)}</pre>
           </div>
           <div>
-            <div class="muted">Health</div>
+            <div class="muted">${t("views.debug.snapshots.labels.health")}</div>
             <pre class="code-block">${JSON.stringify(props.health ?? {}, null, 2)}</pre>
           </div>
           <div>
-            <div class="muted">Last heartbeat</div>
+            <div class="muted">${t("views.debug.snapshots.labels.lastHeartbeat")}</div>
             <pre class="code-block">${JSON.stringify(props.heartbeat ?? {}, null, 2)}</pre>
           </div>
         </div>
       </div>
 
       <div class="card">
-        <div class="card-title">Manual RPC</div>
-        <div class="card-sub">Send a raw gateway method with JSON params.</div>
+        <div class="card-title">${t("views.debug.manualRpc.title")}</div>
+        <div class="card-sub">${t("views.debug.manualRpc.subtitle")}</div>
         <div class="form-grid" style="margin-top: 16px;">
           <label class="field">
-            <span>Method</span>
+            <span>${t("views.debug.manualRpc.fields.method")}</span>
             <input
               .value=${props.callMethod}
               @input=${(e: Event) => props.onCallMethodChange((e.target as HTMLInputElement).value)}
@@ -81,7 +82,7 @@ export function renderDebug(props: DebugProps) {
             />
           </label>
           <label class="field">
-            <span>Params (JSON)</span>
+            <span>${t("views.debug.manualRpc.fields.params")}</span>
             <textarea
               .value=${props.callParams}
               @input=${(e: Event) =>
@@ -91,7 +92,7 @@ export function renderDebug(props: DebugProps) {
           </label>
         </div>
         <div class="row" style="margin-top: 12px;">
-          <button class="btn primary" @click=${props.onCall}>Call</button>
+          <button class="btn primary" @click=${props.onCall}>${t("views.debug.manualRpc.actions.call")}</button>
         </div>
         ${
           props.callError
@@ -109,8 +110,8 @@ export function renderDebug(props: DebugProps) {
     </section>
 
     <section class="card" style="margin-top: 18px;">
-      <div class="card-title">Models</div>
-      <div class="card-sub">Catalog from models.list.</div>
+      <div class="card-title">${t("views.debug.models.title")}</div>
+      <div class="card-sub">${t("views.debug.models.subtitle")}</div>
       <pre class="code-block" style="margin-top: 12px;">${JSON.stringify(
         props.models ?? [],
         null,
@@ -119,12 +120,12 @@ export function renderDebug(props: DebugProps) {
     </section>
 
     <section class="card" style="margin-top: 18px;">
-      <div class="card-title">Event Log</div>
-      <div class="card-sub">Latest gateway events.</div>
+      <div class="card-title">${t("views.debug.eventLog.title")}</div>
+      <div class="card-sub">${t("views.debug.eventLog.subtitle")}</div>
       ${
         props.eventLog.length === 0
           ? html`
-              <div class="muted" style="margin-top: 12px">No events yet.</div>
+              <div class="muted" style="margin-top: 12px">${t("views.debug.eventLog.empty")}</div>
             `
           : html`
             <div class="list" style="margin-top: 12px;">

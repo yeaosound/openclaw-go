@@ -1,5 +1,6 @@
 import type { AgentToolResult } from "@mariozechner/pi-agent-core";
 import type { OpenClawConfig } from "../../config/config.js";
+import { t } from "../../i18n/index.js";
 import { resolveSlackAccount } from "../../slack/accounts.js";
 import {
   deleteSlackMessage,
@@ -126,7 +127,7 @@ export async function handleSlackAction(
 
   if (reactionsActions.has(action)) {
     if (!isActionEnabled("reactions")) {
-      throw new Error("Slack reactions are disabled.");
+      throw new Error(t("channel.tools.slack.reactionsDisabled"));
     }
     const channelId = resolveChannelId();
     const messageId = readStringParam(params, "messageId", { required: true });
@@ -163,7 +164,7 @@ export async function handleSlackAction(
 
   if (messagingActions.has(action)) {
     if (!isActionEnabled("messages")) {
-      throw new Error("Slack messages are disabled.");
+      throw new Error(t("channel.tools.slack.messagesDisabled"));
     }
     switch (action) {
       case "sendMessage": {
@@ -250,7 +251,7 @@ export async function handleSlackAction(
 
   if (pinActions.has(action)) {
     if (!isActionEnabled("pins")) {
-      throw new Error("Slack pins are disabled.");
+      throw new Error(t("channel.tools.slack.pinsDisabled"));
     }
     const channelId = resolveChannelId();
     if (action === "pinMessage") {
@@ -292,7 +293,7 @@ export async function handleSlackAction(
 
   if (action === "memberInfo") {
     if (!isActionEnabled("memberInfo")) {
-      throw new Error("Slack member info is disabled.");
+      throw new Error(t("channel.tools.slack.memberInfoDisabled"));
     }
     const userId = readStringParam(params, "userId", { required: true });
     const info = writeOpts
@@ -303,7 +304,7 @@ export async function handleSlackAction(
 
   if (action === "emojiList") {
     if (!isActionEnabled("emojiList")) {
-      throw new Error("Slack emoji list is disabled.");
+      throw new Error(t("channel.tools.slack.emojiListDisabled"));
     }
     const emojis = readOpts ? await listSlackEmojis(readOpts) : await listSlackEmojis();
     return jsonResult({ ok: true, emojis });

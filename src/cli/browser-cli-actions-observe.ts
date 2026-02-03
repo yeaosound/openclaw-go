@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { danger } from "../globals.js";
+import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";
 import { shortenHomePath } from "../utils.js";
 import { callBrowserRequest, type BrowserParentOpts } from "./browser-cli-shared.js";
@@ -18,7 +19,7 @@ export function registerBrowserActionObserveCommands(
 ) {
   browser
     .command("console")
-    .description("Get recent console messages")
+    .description(t("cli.browser.console.description"))
     .option("--level <level>", "Filter by level (error, warn, info)")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
@@ -48,7 +49,7 @@ export function registerBrowserActionObserveCommands(
 
   browser
     .command("pdf")
-    .description("Save page as PDF")
+    .description(t("cli.browser.pdf.description"))
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
       const parent = parentOpts(cmd);
@@ -74,7 +75,7 @@ export function registerBrowserActionObserveCommands(
 
   browser
     .command("responsebody")
-    .description("Wait for a network response and return its body")
+    .description(t("cli.browser.network.description"))
     .argument("<url>", "URL (exact, substring, or glob like **/api)")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .option(

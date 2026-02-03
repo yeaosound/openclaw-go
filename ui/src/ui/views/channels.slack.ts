@@ -1,4 +1,5 @@
 import { html, nothing } from "lit";
+import { t } from "../../i18n/lit.js";
 import type { SlackStatus } from "../types";
 import type { ChannelsProps } from "./channels.types";
 import { formatAgo } from "../format";
@@ -13,25 +14,25 @@ export function renderSlackCard(params: {
 
   return html`
     <div class="card">
-      <div class="card-title">Slack</div>
-      <div class="card-sub">Socket mode status and channel configuration.</div>
+      <div class="card-title">${t("views.channels.slack.title")}</div>
+      <div class="card-sub">${t("views.channels.slack.subtitle")}</div>
       ${accountCountLabel}
 
       <div class="status-list" style="margin-top: 16px;">
         <div>
-          <span class="label">Configured</span>
-          <span>${slack?.configured ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.configured")}</span>
+          <span>${slack?.configured ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Running</span>
-          <span>${slack?.running ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.running")}</span>
+          <span>${slack?.running ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Last start</span>
+          <span class="label">${t("views.channels.common.lastStart")}</span>
           <span>${slack?.lastStartAt ? formatAgo(slack.lastStartAt) : "n/a"}</span>
         </div>
         <div>
-          <span class="label">Last probe</span>
+          <span class="label">${t("views.channels.common.lastProbe")}</span>
           <span>${slack?.lastProbeAt ? formatAgo(slack.lastProbeAt) : "n/a"}</span>
         </div>
       </div>

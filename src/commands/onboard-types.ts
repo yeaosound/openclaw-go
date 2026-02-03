@@ -93,4 +93,6 @@ export type OnboardOptions = {
   remoteUrl?: string;
   remoteToken?: string;
   json?: boolean;
+  /** Language locale for onboarding and CLI (e.g., 'en', 'zh-CN', 'auto') */
+  lang?: string;
 };

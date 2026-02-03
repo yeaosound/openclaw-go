@@ -1,12 +1,13 @@
 import type { Command } from "commander";
 import type { MessageCliHelpers } from "./helpers.js";
+import { t } from "../../../i18n/index.js";
 import { collectOption } from "../helpers.js";
 
 export function registerMessagePermissionsCommand(message: Command, helpers: MessageCliHelpers) {
   helpers
     .withMessageBase(
       helpers.withRequiredMessageTarget(
-        message.command("permissions").description("Fetch channel permissions"),
+        message.command("permissions").description(t("cli.message.permissions.description")),
       ),
     )
     .action(async (opts) => {
@@ -16,7 +17,7 @@ export function registerMessagePermissionsCommand(message: Command, helpers: Mes
 
 export function registerMessageSearchCommand(message: Command, helpers: MessageCliHelpers) {
   helpers
-    .withMessageBase(message.command("search").description("Search Discord messages"))
+    .withMessageBase(message.command("search").description(t("cli.message.search.description")))
     .requiredOption("--guild-id <id>", "Guild id")
     .requiredOption("--query <text>", "Search query")
     .option("--channel-id <id>", "Channel id")

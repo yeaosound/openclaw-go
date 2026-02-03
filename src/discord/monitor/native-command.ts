@@ -33,6 +33,7 @@ import {
 import { finalizeInboundContext } from "../../auto-reply/reply/inbound-context.js";
 import { dispatchReplyWithDispatcher } from "../../auto-reply/reply/provider-dispatcher.js";
 import { resolveCommandAuthorizedFromAuthorizers } from "../../channels/command-gating.js";
+import { t } from "../../i18n/index.js";
 import { buildPairingReply } from "../../pairing/pairing-messages.js";
 import {
   readChannelAllowFromStore,
@@ -587,11 +588,11 @@ async function dispatchDiscordCommandInteraction(params: {
       })
     : null;
   if (channelConfig?.enabled === false) {
-    await respond("This channel is disabled.");
+    await respond(t("channel.discord.channelDisabled"));
     return;
   }
   if (interaction.guild && channelConfig?.allowed === false) {
-    await respond("This channel is not allowed.");
+    await respond(t("channel.discord.notAllowed"));
     return;
   }
   if (useAccessGroups && interaction.guild) {
@@ -605,7 +606,7 @@ async function dispatchDiscordCommandInteraction(params: {
       channelAllowed,
     });
     if (!allowByPolicy) {
-      await respond("This channel is not allowed.");
+      await respond(t("channel.discord.notAllowed"));
       return;
     }
   }
@@ -614,7 +615,7 @@ async function dispatchDiscordCommandInteraction(params: {
   let commandAuthorized = true;
   if (isDirectMessage) {
     if (!dmEnabled || dmPolicy === "disabled") {
-      await respond("Discord DMs are disabled.");
+      await respond(t("channel.discord.dmsDisabled"));
       return;
     }
     if (dmPolicy !== "open") {
@@ -650,7 +651,7 @@ async function dispatchDiscordCommandInteraction(params: {
             );
           }
         } else {
-          await respond("You are not authorized to use this command.", { ephemeral: true });
+          await respond(t("channel.discord.notAuthorized"), { ephemeral: true });
         }
         return;
       }
@@ -680,12 +681,12 @@ async function dispatchDiscordCommandInteraction(params: {
       modeWhenAccessGroupsOff: "configured",
     });
     if (!commandAuthorized) {
-      await respond("You are not authorized to use this command.", { ephemeral: true });
+      await respond(t("channel.discord.notAuthorized"), { ephemeral: true });
       return;
     }
   }
   if (isGroupDm && discordConfig?.dm?.groupEnabled === false) {
-    await respond("Discord group DMs are disabled.");
+    await respond(t("channel.discord.groupDMsDisabled"));
     return;
   }
 

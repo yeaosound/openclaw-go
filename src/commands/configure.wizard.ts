@@ -8,6 +8,7 @@ import type {
 import { formatCliCommand } from "../cli/command-format.js";
 import { readConfigFileSnapshot, resolveGatewayPort, writeConfigFile } from "../config/config.js";
 import { logConfigUpdated } from "../config/logging.js";
+import { t } from "../i18n/index.js";
 import { ensureControlUiAssetsBuilt } from "../infra/control-ui-assets.js";
 import { defaultRuntime } from "../runtime.js";
 import { note } from "../terminal/note.js";
@@ -57,7 +58,7 @@ async function promptConfigureSection(
         {
           value: "__continue",
           label: "Continue",
-          hint: hasSelection ? "Done" : "Skip for now",
+          hint: hasSelection ? t("common.done") : t("common.skipForNow"),
         },
       ],
       initialValue: CONFIGURE_SECTION_OPTIONS[0]?.value,

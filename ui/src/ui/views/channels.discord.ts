@@ -1,4 +1,5 @@
 import { html, nothing } from "lit";
+import { t } from "../../i18n/lit.js";
 import type { DiscordStatus } from "../types";
 import type { ChannelsProps } from "./channels.types";
 import { formatAgo } from "../format";
@@ -13,25 +14,25 @@ export function renderDiscordCard(params: {
 
   return html`
     <div class="card">
-      <div class="card-title">Discord</div>
-      <div class="card-sub">Bot status and channel configuration.</div>
+      <div class="card-title">${t("views.channels.discord.title")}</div>
+      <div class="card-sub">${t("views.channels.discord.subtitle")}</div>
       ${accountCountLabel}
 
       <div class="status-list" style="margin-top: 16px;">
         <div>
-          <span class="label">Configured</span>
-          <span>${discord?.configured ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.configured")}</span>
+          <span>${discord?.configured ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Running</span>
-          <span>${discord?.running ? "Yes" : "No"}</span>
+          <span class="label">${t("views.channels.common.running")}</span>
+          <span>${discord?.running ? t("views.channels.common.yes") : t("views.channels.common.no")}</span>
         </div>
         <div>
-          <span class="label">Last start</span>
+          <span class="label">${t("views.channels.common.lastStart")}</span>
           <span>${discord?.lastStartAt ? formatAgo(discord.lastStartAt) : "n/a"}</span>
         </div>
         <div>
-          <span class="label">Last probe</span>
+          <span class="label">${t("views.channels.common.lastProbe")}</span>
           <span>${discord?.lastProbeAt ? formatAgo(discord.lastProbeAt) : "n/a"}</span>
         </div>
       </div>

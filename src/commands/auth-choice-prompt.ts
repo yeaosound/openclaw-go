@@ -1,6 +1,7 @@
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
 import type { AuthChoice } from "./onboard-types.js";
+import { t } from "../i18n/index.js";
 import { buildAuthChoiceGroups } from "./auth-choice-options.js";
 
 const BACK_VALUE = "__back";
@@ -24,7 +25,7 @@ export async function promptAuthChoiceGrouped(params: {
     ];
 
     const providerSelection = (await params.prompter.select({
-      message: "Model/auth provider",
+      message: t("wizard.model.provider.title"),
       options: providerOptions,
     })) as string;
 
@@ -37,7 +38,7 @@ export async function promptAuthChoiceGrouped(params: {
     if (!group || group.options.length === 0) {
       await params.prompter.note(
         "No auth methods available for that provider.",
-        "Model/auth choice",
+        t("wizard.model.provider.choice"),
       );
       continue;
     }

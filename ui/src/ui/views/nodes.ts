@@ -11,6 +11,7 @@ import type {
   ExecApprovalsSnapshot,
 } from "../controllers/exec-approvals";
 import { clampText, formatAgo, formatList } from "../format";
+import { t } from "../../i18n/lit.js";
 
 export type NodesProps = {
   loading: boolean;
@@ -59,18 +60,18 @@ export function renderNodes(props: NodesProps) {
     <section class="card">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Nodes</div>
-          <div class="card-sub">Paired devices and live links.</div>
+          <div class="card-title">${t("views.nodes.title")}</div>
+          <div class="card-sub">${t("views.nodes.subtitle")}</div>
         </div>
         <button class="btn" ?disabled=${props.loading} @click=${props.onRefresh}>
-          ${props.loading ? "Loading…" : "Refresh"}
+          ${props.loading ? t("views.nodes.actions.loading") : t("views.nodes.actions.refresh")}
         </button>
       </div>
       <div class="list" style="margin-top: 16px;">
         ${
           props.nodes.length === 0
             ? html`
-                <div class="muted">No nodes found.</div>
+                <div class="muted">${t("views.nodes.noNodes")}</div>
               `
             : props.nodes.map((n) => renderNode(n))
         }
@@ -87,11 +88,11 @@ function renderDevices(props: NodesProps) {
     <section class="card">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Devices</div>
-          <div class="card-sub">Pairing requests + role tokens.</div>
+          <div class="card-title">${t("views.nodes.devices.title")}</div>
+          <div class="card-sub">${t("views.nodes.devices.subtitle")}</div>
         </div>
         <button class="btn" ?disabled=${props.devicesLoading} @click=${props.onDevicesRefresh}>
-          ${props.devicesLoading ? "Loading…" : "Refresh"}
+          ${props.devicesLoading ? t("views.nodes.devices.loading") : t("views.nodes.devices.refresh")}
         </button>
       </div>
       ${

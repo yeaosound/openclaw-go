@@ -4,6 +4,7 @@ import type { NodesRpcOpts } from "./types.js";
 import { resolveAgentConfig, resolveDefaultAgentId } from "../../agents/agent-scope.js";
 import { loadConfig } from "../../config/config.js";
 import { randomIdempotencyKey } from "../../gateway/call.js";
+import { t } from "../../i18n/index.js";
 import {
   type ExecApprovalsFile,
   type ExecAsk,
@@ -135,7 +136,7 @@ export function registerNodesInvokeCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("invoke")
-      .description("Invoke a command on a paired node")
+      .description(t("cli.nodes.invoke.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .requiredOption("--command <command>", "Command (e.g. canvas.eval)")
       .option("--params <json>", "JSON object string for params", "{}")
@@ -176,7 +177,7 @@ export function registerNodesInvokeCommands(nodes: Command) {
   nodesCallOpts(
     nodes
       .command("run")
-      .description("Run a shell command on a node (mac only)")
+      .description(t("cli.nodes.invoke.run.description"))
       .option("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--cwd <path>", "Working directory")
       .option(

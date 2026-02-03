@@ -5,6 +5,7 @@ import type { OpenClawConfig } from "../../config/config.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import type { WizardPrompter } from "../../wizard/prompts.js";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
+import { t } from "../../i18n/index.js";
 import { createSubsystemLogger } from "../../logging/subsystem.js";
 import { enablePluginInConfig } from "../../plugins/enable.js";
 import { installPluginFromNpmSpec } from "../../plugins/install.js";
@@ -91,7 +92,7 @@ async function promptInstallChoice(params: {
   const options: Array<{ value: InstallChoice; label: string; hint?: string }> = [
     { value: "npm", label: `Download from npm (${entry.install.npmSpec})` },
     ...localOptions,
-    { value: "skip", label: "Skip for now" },
+    { value: "skip", label: t("common.skipForNow") },
   ];
   const initialValue: InstallChoice =
     defaultChoice === "local" && !localPath ? "npm" : defaultChoice;

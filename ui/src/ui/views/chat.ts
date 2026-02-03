@@ -13,6 +13,7 @@ import { normalizeMessage, normalizeRoleForGrouping } from "../chat/message-norm
 import { icons } from "../icons";
 import { renderMarkdownSidebar } from "./markdown-sidebar";
 import "../components/resizable-divider";
+import { t } from "../../i18n/lit.js";
 
 export type CompactionIndicatorStatus = {
   active: boolean;
@@ -86,7 +87,7 @@ function renderCompactionIndicator(status: CompactionIndicatorStatus | null | un
   if (status.active) {
     return html`
       <div class="callout info compaction-indicator compaction-indicator--active">
-        ${icons.loader} Compacting context...
+        ${icons.loader} ${t("views.chat.compacting")}
       </div>
     `;
   }
@@ -97,7 +98,7 @@ function renderCompactionIndicator(status: CompactionIndicatorStatus | null | un
     if (elapsed < COMPACTION_TOAST_DURATION_MS) {
       return html`
         <div class="callout success compaction-indicator compaction-indicator--complete">
-          ${icons.check} Context compacted
+          ${icons.check} ${t("views.chat.compacted")}
         </div>
       `;
     }
@@ -162,15 +163,15 @@ function renderAttachmentPreview(props: ChatProps) {
       ${attachments.map(
         (att) => html`
           <div class="chat-attachment">
-            <img
-              src=${att.dataUrl}
-              alt="Attachment preview"
-              class="chat-attachment__img"
-            />
-            <button
-              class="chat-attachment__remove"
-              type="button"
-              aria-label="Remove attachment"
+             <img
+               src=${att.dataUrl}
+               alt=${t("views.chat.attachmentPreview")}
+               class="chat-attachment__img"
+             />
+             <button
+               class="chat-attachment__remove"
+               type="button"
+               aria-label=${t("views.chat.removeAttachment")}
               @click=${() => {
                 const next = (props.attachments ?? []).filter((a) => a.id !== att.id);
                 props.onAttachmentsChange?.(next);
@@ -200,9 +201,9 @@ export function renderChat(props: ChatProps) {
   const hasAttachments = (props.attachments?.length ?? 0) > 0;
   const composePlaceholder = props.connected
     ? hasAttachments
-      ? "Add a message or paste more images..."
-      : "Message (↩ to send, Shift+↩ for line breaks, paste images)"
-    : "Connect to the gateway to start chatting…";
+      ? t("views.chat.placeholder.withImages")
+      : t("views.chat.placeholder.default")
+    : t("views.chat.placeholder.disconnected");
 
   const splitRatio = props.splitRatio ?? 0.6;
   const sidebarOpen = Boolean(props.sidebarOpen && props.onCloseSidebar);
@@ -216,7 +217,7 @@ export function renderChat(props: ChatProps) {
       ${
         props.loading
           ? html`
-              <div class="muted">Loading chat…</div>
+              <div class="muted">${t("views.chat.loading")}</div>
             `
           : nothing
       }
@@ -263,13 +264,13 @@ export function renderChat(props: ChatProps) {
       ${
         props.focusMode
           ? html`
-            <button
-              class="chat-focus-exit"
-              type="button"
-              @click=${props.onToggleFocusMode}
-              aria-label="Exit focus mode"
-              title="Exit focus mode"
-            >
+             <button
+               class="chat-focus-exit"
+               type="button"
+               @click=${props.onToggleFocusMode}
+               aria-label=${t("views.chat.exitFocus.aria")}
+               title=${t("views.chat.exitFocus.title")}
+             >
               ${icons.x}
             </button>
           `
@@ -315,7 +316,7 @@ export function renderChat(props: ChatProps) {
         props.queue.length
           ? html`
             <div class="chat-queue" role="status" aria-live="polite">
-              <div class="chat-queue__title">Queued (${props.queue.length})</div>
+               <div class="chat-queue__title">${t("views.chat.queueTitle", { count: props.queue.length })}</div>
               <div class="chat-queue__list">
                 ${props.queue.map(
                   (item) => html`
@@ -326,12 +327,12 @@ export function renderChat(props: ChatProps) {
                           (item.attachments?.length ? `Image (${item.attachments.length})` : "")
                         }
                       </div>
-                      <button
-                        class="btn chat-queue__remove"
-                        type="button"
-                        aria-label="Remove queued message"
-                        @click=${() => props.onQueueRemove(item.id)}
-                      >
+                       <button
+                         class="btn chat-queue__remove"
+                         type="button"
+                         aria-label=${t("views.chat.remove")}
+                         @click=${() => props.onQueueRemove(item.id)}
+                       >
                         ${icons.x}
                       </button>
                     </div>
@@ -360,8 +361,8 @@ export function renderChat(props: ChatProps) {
       <div class="chat-compose">
         ${renderAttachmentPreview(props)}
         <div class="chat-compose__row">
-          <label class="field chat-compose__field">
-            <span>Message</span>
+           <label class="field chat-compose__field">
+             <span>${t("views.chat.message")}</span>
             <textarea
               ${ref((el) => el && adjustTextareaHeight(el as HTMLTextAreaElement))}
               .value=${props.draft}
@@ -398,15 +399,15 @@ export function renderChat(props: ChatProps) {
               class="btn"
               ?disabled=${!props.connected || (!canAbort && props.sending)}
               @click=${canAbort ? props.onAbort : props.onNewSession}
-            >
-              ${canAbort ? "Stop" : "New session"}
-            </button>
-            <button
-              class="btn primary"
-              ?disabled=${!props.connected}
-              @click=${props.onSend}
-            >
-              ${isBusy ? "Queue" : "Send"}<kbd class="btn-kbd">↵</kbd>
+             >
+               ${canAbort ? t("views.chat.stop") : t("views.chat.newSession")}
+             </button>
+             <button
+               class="btn primary"
+               ?disabled=${!props.connected}
+               @click=${props.onSend}
+             >
+               ${isBusy ? t("views.chat.queue") : t("views.chat.send")}<kbd class="btn-kbd">↵</kbd>
             </button>
           </div>
         </div>

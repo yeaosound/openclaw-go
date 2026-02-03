@@ -1,17 +1,18 @@
 import type { Command } from "commander";
 import type { NodesRpcOpts } from "./types.js";
 import { randomIdempotencyKey } from "../../gateway/call.js";
+import { t } from "../../i18n/index.js";
 import { defaultRuntime } from "../../runtime.js";
 import { runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
 
 export function registerNodesLocationCommands(nodes: Command) {
-  const location = nodes.command("location").description("Fetch location from a paired node");
+  const location = nodes.command("location").description(t("cli.nodes.location.description"));
 
   nodesCallOpts(
     location
       .command("get")
-      .description("Fetch the current location from a node")
+      .description(t("cli.nodes.location.get.description"))
       .requiredOption("--node <idOrNameOrIp>", "Node id, name, or IP")
       .option("--max-age <ms>", "Use cached location newer than this (ms)")
       .option(
