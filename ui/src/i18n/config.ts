@@ -6,13 +6,15 @@ export const i18n = i18next.createInstance();
 let initialized = false;
 
 async function loadTranslations() {
-  const [enCommon, enViews, zhCommon, zhViews, zhHkCommon, zhHkViews] = await Promise.all([
+  const [enCommon, enViews, zhCommon, zhViews, zhHkCommon, zhHkViews, zhTwCommon, zhTwViews] = await Promise.all([
     import('./locales/en/common.json'),
     import('./locales/en/views.json'),
     import('./locales/zh-CN/common.json'),
     import('./locales/zh-CN/views.json'),
     import('./locales/zh-HK/common.json'),
-    import('./locales/zh-HK/views.json')
+    import('./locales/zh-HK/views.json'),
+    import('./locales/zh-TW/common.json'),
+    import('./locales/zh-TW/views.json')
   ]);
 
   return {
@@ -28,6 +30,10 @@ async function loadTranslations() {
       common: zhHkCommon.default,
       views: zhHkViews.default,
     },
+    'zh-TW': {
+      common: zhTwCommon.default,
+      views: zhTwViews.default,
+    },
   };
 }
 
@@ -42,7 +48,7 @@ export async function initI18n(): Promise<void> {
     .use(LanguageDetector)
     .init({
       fallbackLng: 'en',
-      supportedLngs: ['en', 'zh-CN', 'zh-HK'],
+      supportedLngs: ['en', 'zh-CN', 'zh-HK', 'zh-TW'],
       defaultNS: 'common',
       detection: {
         order: ['localStorage', 'navigator'],
@@ -67,7 +73,7 @@ export function getCurrentLanguage(): string {
 }
 
 export function isLanguageSupported(lng: string): boolean {
-  return ['en', 'zh-CN', 'zh-HK'].includes(lng);
+  return ['en', 'zh-CN', 'zh-HK', 'zh-TW'].includes(lng);
 }
 
 export function onLanguageChanged(callback: (lng: string) => void): () => void {

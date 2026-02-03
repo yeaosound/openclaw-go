@@ -29,6 +29,7 @@ import { DEFAULT_LOCALE, isAvailableLocale, type LocaleLoader } from "./types.js
 import { en } from "./locales/en/index.js";
 import { zhCN } from "./locales/zh-CN/index.js";
 import { zhHK } from "./locales/zh-HK/index.js";
+import { zhTW } from "./locales/zh-TW/index.js";
 
 /**
  * Locale data storage
@@ -37,6 +38,7 @@ const localeData: Record<AvailableLocale, Record<string, string>> = {
   en,
   "zh-CN": zhCN,
   "zh-HK": zhHK,
+  "zh-TW": zhTW,
 };
 
 /**
