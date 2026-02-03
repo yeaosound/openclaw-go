@@ -22,23 +22,23 @@
  * ```
  */
 
-import type { InterpolationParams, AvailableLocale } from './types.js';
-import {
-  DEFAULT_LOCALE,
-  isAvailableLocale,
-  type LocaleLoader,
-} from './types.js';
+import type { InterpolationParams, AvailableLocale } from "./types.js";
+import { DEFAULT_LOCALE, isAvailableLocale, type LocaleLoader } from "./types.js";
 
 // Import locale data
-import { en } from './locales/en/index.js';
-import { zhCN } from './locales/zh-CN/index.js';
+import { en } from "./locales/en/index.js";
+import { zhCN } from "./locales/zh-CN/index.js";
+import { zhHK } from "./locales/zh-HK/index.js";
+import { zhTW } from "./locales/zh-TW/index.js";
 
 /**
  * Locale data storage
  */
 const localeData: Record<AvailableLocale, Record<string, string>> = {
   en,
-  'zh-CN': zhCN,
+  "zh-CN": zhCN,
+  "zh-HK": zhHK,
+  "zh-TW": zhTW,
 };
 
 /**
@@ -90,7 +90,7 @@ export function t(key: string, params?: InterpolationParams): string {
     Object.entries(params).forEach(([paramKey, value]) => {
       if (value !== undefined) {
         // Replace all occurrences: {key} -> value
-        message = message.replace(new RegExp(`\\{${paramKey}\\}`, 'g'), String(value));
+        message = message.replace(new RegExp(`\\{${paramKey}\\}`, "g"), String(value));
       }
     });
   }
@@ -114,7 +114,7 @@ export function setLocale(locale: string): void {
   if (!isAvailableLocale(locale)) {
     throw new Error(
       `Locale "${locale}" is not available. ` +
-        `Available locales: ${getAvailableLocales().join(', ')}`,
+        `Available locales: ${getAvailableLocales().join(", ")}`,
     );
   }
   currentLocale = locale;
@@ -190,5 +190,5 @@ export function getTranslationStats(): Record<string, number> {
 }
 
 // Re-export types
-export type { InterpolationParams, AvailableLocale } from './types.js';
-export { DEFAULT_LOCALE, isAvailableLocale, AVAILABLE_LOCALES, LANG_ENV_VAR } from './types.js';
+export type { InterpolationParams, AvailableLocale } from "./types.js";
+export { DEFAULT_LOCALE, isAvailableLocale, AVAILABLE_LOCALES, LANG_ENV_VAR } from "./types.js";

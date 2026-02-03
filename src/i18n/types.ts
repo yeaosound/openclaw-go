@@ -29,12 +29,14 @@ export type TranslateFunction = (key: string, params?: InterpolationParams) => s
 /**
  * Locale loader function type
  */
-export type LocaleLoader = (locale: string) => Promise<Record<string, string>> | Record<string, string>;
+export type LocaleLoader = (
+  locale: string,
+) => Promise<Record<string, string>> | Record<string, string>;
 
 /**
  * Available locales in the system
  */
-export const AVAILABLE_LOCALES = ['en', 'zh-CN'] as const;
+export const AVAILABLE_LOCALES = ["en", "zh-CN", "zh-HK", "zh-TW"] as const;
 
 /**
  * Type for available locale codes
@@ -51,9 +53,9 @@ export function isAvailableLocale(locale: string): locale is AvailableLocale {
 /**
  * Default locale
  */
-export const DEFAULT_LOCALE: AvailableLocale = 'en';
+export const DEFAULT_LOCALE: AvailableLocale = "en";
 
 /**
  * Environment variable name for language setting
  */
-export const LANG_ENV_VAR = 'OPENCLAW_LANG';
+export const LANG_ENV_VAR = "OPENCLAW_LANG";

@@ -1,0 +1,609 @@
+{
+  "overview": {
+    "title": "概覽",
+    "gatewayAccess": {
+      "title": "網關存取",
+      "subtitle": "儀表版連線位置同埋認證方式。",
+      "webSocketUrl": "WebSocket 網址",
+      "webSocketPlaceholder": "ws://100.x.y.z:18789",
+      "gatewayToken": "網關信物",
+      "tokenPlaceholder": "OPENCLAW_GATEWAY_TOKEN",
+      "password": "密碼（唔會儲存）",
+      "passwordPlaceholder": "系統或者共享密碼",
+      "defaultSessionKey": "預設會話密鑰",
+      "connect": "連線",
+      "refresh": "重新整理",
+      "applyHint": "撳連線去套用連線變更。"
+    },
+    "snapshot": {
+      "title": "快照",
+      "subtitle": "最新網關交握資訊。",
+      "status": "狀態",
+      "connected": "已連線",
+      "disconnected": "已斷線",
+      "uptime": "運行時間",
+      "tickInterval": "刻度間隔",
+      "lastChannelsRefresh": "上次頻道重新整理"
+    },
+    "stats": {
+      "instances": "執行個體",
+      "instancesHint": "過去 5 分鐘嘅存在信標。",
+      "sessions": "會話",
+      "sessionsHint": "網關追蹤嘅最近會話密鑰。",
+      "cron": "定時任務",
+      "cronNext": "下次喚醒"
+    },
+    "notes": {
+      "title": "備註",
+      "subtitle": "遠端控制設定嘅快速提醒。",
+      "tailscale": {
+        "title": "Tailscale 服務",
+        "content": "建議使用服務模式，透過 tailnet 認證將網關保持喺迴環上。"
+      },
+      "session": {
+        "title": "會話衛生",
+        "content": "使用 /new 或者 sessions.patch 去重置情境。"
+      },
+      "cron": {
+        "title": "定時任務提醒",
+        "content": "為定期運行使用隔離會話。"
+      }
+    },
+    "hints": {
+      "authRequired": "呢個網關需要認證。新增信物或者密碼，然後撳連線。",
+      "authFailed": "認證失敗。重新複製帶信物嘅網址",
+      "authDocs": "文件：控制界面認證",
+      "insecureContext": "呢個頁面係 HTTP，所以瀏覽器會封鎖裝置身份。使用 HTTPS（Tailscale Serve）或者打開",
+      "insecureHint": "如果你必須保持喺 HTTP，設定",
+      "insecureConfig": "（淨係信物）。",
+      "channelsHint": "使用頻道去連結 WhatsApp、Telegram、Discord、Signal 或者 iMessage。",
+      "tokenCommand": "→ 帶信物網址",
+      "generateTokenCommand": "→ 設定信物"
+    }
+  },
+  "channels": {
+    "health": {
+      "title": "頻道健康",
+      "subtitle": "嚟自網關嘅頻道狀態快照。"
+    },
+    "common": {
+      "configured": "已配置",
+      "running": "運行中",
+      "connected": "已連線",
+      "lastStart": "上次啟動",
+      "lastProbe": "上次探測",
+      "lastInbound": "上次入嚟",
+      "yes": "係",
+      "no": "唔係",
+      "accounts": "帳戶"
+    },
+    "whatsapp": {
+      "title": "WhatsApp",
+      "subtitle": "連結 WhatsApp Web 同埋監察連線健康。",
+      "linked": "已連結",
+      "qrTitle": "WhatsApp QR 碼",
+      "showQr": "顯示 QR 碼",
+      "working": "處理緊…"
+    },
+    "slack": {
+      "title": "Slack",
+      "subtitle": "Socket 模式狀態同埋頻道配置。"
+    },
+    "telegram": {
+      "title": "Telegram",
+      "subtitle": "機械人狀態同埋頻道配置。",
+      "mode": "模式"
+    },
+    "discord": {
+      "title": "Discord",
+      "subtitle": "機械人狀態同埋頻道配置。"
+    },
+    "signal": {
+      "title": "Signal",
+      "subtitle": "signal-cli 狀態同埋頻道配置。",
+      "baseUrl": "基礎網址"
+    },
+    "imessage": {
+      "title": "iMessage",
+      "subtitle": "macOS 橋接狀態同埋頻道配置。"
+    },
+    "nostr": {
+      "title": "Nostr",
+      "subtitle": "透過 Nostr 中繼嘅去中心化 DM（NIP-04）。",
+      "publicKey": "公開密鑰",
+      "profile": {
+        "title": "個人檔案",
+        "noProfile": "未設定個人檔案。撳「編輯個人檔案」去新增你嘅名、簡介同埋頭像。",
+        "edit": "編輯個人檔案",
+        "username": "用戶名",
+        "usernameHelp": "短用戶名（例如：satoshi）",
+        "displayName": "顯示名稱",
+        "displayNamePlaceholder": "Satoshi Nakamoto",
+        "displayNameHelp": "你嘅全名顯示名稱",
+        "bio": "簡介",
+        "bioPlaceholder": "同大家介紹吓你自己…",
+        "avatarUrl": "頭像網址",
+        "bannerUrl": "橫額網址",
+        "website": "網站",
+        "websiteHelp": "你嘅個人網站",
+        "nip05": "NIP-05",
+        "nip05Help": "可驗證識別碼（例如：you@domain.com）",
+        "lightningAddress": "閃電網址",
+        "lightningHelp": "俾小費嘅閃電網址（LUD-16）",
+        "advanced": "進階",
+        "save": "儲存同埋發佈",
+        "import": "由中繼匯入",
+        "showAdvanced": "顯示進階",
+        "hideAdvanced": "隱藏進階",
+        "saving": "儲存緊…",
+        "importing": "匯入緊…"
+      }
+    },
+    "googlechat": {
+      "title": "Google Chat",
+      "subtitle": "Chat API Webhook 狀態同埋頻道配置。",
+      "credential": "憑證",
+      "audience": "受眾"
+    },
+    "config": {
+      "save": "儲存",
+      "saving": "儲存緊…",
+      "schemaUnavailable": "結構描述不可用。使用原始模式。",
+      "schemaError": "頻道配置結構描述不可用。",
+      "loading": "載入緊配置結構描述…",
+      "unsupported": "唔支援嘅類型：{type}。使用原始模式。"
+    }
+  },
+  "chat": {
+    "loading": "載入緊對話…",
+    "placeholder": {
+      "disconnected": "連線去網關以開始對話…",
+      "default": "訊息（↩ 傳送，Shift+↩ 換行，貼圖片）",
+      "withImages": "新增訊息或者貼更多圖片…"
+    },
+    "buttons": {
+      "send": "傳送",
+      "queue": "排隊",
+      "stop": "停止",
+      "newSession": "新會話"
+    },
+    "shortcuts": {
+      "send": "↵",
+      "newline": "Shift+↩"
+    },
+    "queued": "已排隊",
+    "queueTitle": "已排隊（{count}）",
+    "remove": "移除已排隊訊息",
+    "attachmentPreview": "附件預覽",
+    "removeAttachment": "移除附件",
+    "exitFocus": {
+      "aria": "退出聚焦模式",
+      "title": "退出聚焦模式"
+    },
+    "disabledReason": "停用原因",
+    "error": "錯誤"
+  },
+  "skills": {
+    "title": "技能",
+    "subtitle": "捆綁、受管理同埋工作區技能。",
+    "loading": "載入緊…",
+    "refresh": "重新整理",
+    "filter": "篩選",
+    "searchPlaceholder": "搜尋技能",
+    "shown": "顯示 {count} 個",
+    "noSkills": "搵唔到技能。",
+    "error": "錯誤",
+    "list": {
+      "description": "描述",
+      "source": "來源",
+      "disabled": "已停用"
+    },
+    "actions": {
+      "enable": "啟用",
+      "disable": "停用",
+      "installing": "安裝緊…",
+      "install": "安裝"
+    },
+    "apiKey": "API 密鑰"
+  },
+  "cron": {
+    "title": "排程器",
+    "subtitle": "網關擁有嘅定時排程器狀態。",
+    "status": {
+      "enabled": "已啟用",
+      "yes": "係",
+      "no": "唔係",
+      "na": "唔適用"
+    },
+    "stats": {
+      "jobs": "工作"
+    },
+    "refresh": {
+      "refreshing": "重新整理緊…",
+      "refresh": "重新整理"
+    },
+    "error": "錯誤",
+    "newJob": {
+      "title": "新工作",
+      "subtitle": "建立一個定時喚醒或者智能體運行。",
+      "fields": {
+        "name": "名稱",
+        "description": "描述",
+        "agentId": "智能體 ID",
+        "enabled": "已啟用",
+        "schedule": "排程",
+        "every": "每",
+        "cron": "Cron",
+        "session": "會話",
+        "main": "主要",
+        "isolated": "隔離",
+        "wakeMode": "喚醒模式",
+        "nextHeartbeat": "下次心跳",
+        "now": "而家",
+        "payload": "載荷",
+        "systemEvent": "系統事件",
+        "agentTurn": "智能體回合",
+        "systemText": "系統文字",
+        "agentMessage": "智能體訊息",
+        "deliver": "傳送",
+        "channel": "頻道",
+        "timeout": "逾時（秒）",
+        "postToMainPrefix": "張貼去主要前綴",
+        "unit": "單位",
+        "minutes": "分鐘",
+        "hours": "鐘頭",
+        "days": "日",
+        "expression": "表達式",
+        "timezone": "時區（可選）"
+      },
+      "actions": {
+        "saving": "儲存緊…",
+        "add": "新增工作"
+      }
+    },
+    "jobsList": {
+      "title": "工作",
+      "subtitle": "儲存喺網關嘅所有定時工作。",
+      "noJobs": "重未有工作。",
+      "fields": {
+        "runAt": "運行喺"
+      },
+      "actions": {
+        "enable": "啟用",
+        "disable": "停用"
+      },
+      "labels": {
+        "enabled": "已啟用",
+        "disabled": "已停用",
+        "sessionTarget": "會話目標",
+        "wakeMode": "喚醒模式"
+      }
+    },
+    "runHistory": {
+      "title": "運行歷程",
+      "selectHint": "揀一個工作去檢查運行歷程。",
+      "noRuns": "重未有運行。",
+      "fields": {
+        "status": "狀態",
+        "summary": "摘要",
+        "duration": "{ms}毫秒"
+      }
+    }
+  },
+  "config": {
+    "title": "設定",
+    "validity": {
+      "valid": "有效",
+      "invalid": "無效"
+    },
+    "searchPlaceholder": "搜尋設定…",
+    "nav": {
+      "all": "所有設定"
+    },
+    "changes": {
+      "unsaved": "未儲存變更",
+      "unsavedCount": "{count} 項未儲存變更",
+      "unsavedCountPlural": "{count} 項未儲存變更",
+      "none": "冇變更"
+    },
+    "actions": {
+      "reload": {
+        "loading": "載入緊…",
+        "reload": "重新載入"
+      },
+      "save": {
+        "saving": "儲存緊…",
+        "save": "儲存"
+      },
+      "apply": {
+        "applying": "套用緊…",
+        "apply": "套用"
+      },
+      "update": {
+        "updating": "更新緊…",
+        "update": "更新"
+      }
+    },
+    "diff": {
+      "path": "路徑",
+      "from": "由",
+      "to": "至"
+    },
+    "sectionHero": {
+      "desc": "描述"
+    },
+    "form": {
+      "loading": "載入緊結構描述…",
+      "raw": "原始 JSON5"
+    },
+    "sections": {
+      "env": "環境",
+      "update": "更新",
+      "agents": "智能體",
+      "auth": "認證",
+      "channels": "頻道",
+      "messages": "訊息",
+      "commands": "命令",
+      "hooks": "鈎子",
+      "skills": "技能",
+      "tools": "工具",
+      "gateway": "網關",
+      "wizard": "設定精靈",
+      "meta": "元資料",
+      "logging": "日誌",
+      "browser": "瀏覽器",
+      "ui": "界面",
+      "models": "模型",
+      "bindings": "繫結",
+      "broadcast": "廣播",
+      "audio": "音訊",
+      "session": "會話",
+      "cron": "定時任務",
+      "web": "網頁",
+      "discovery": "發現",
+      "canvasHost": "畫布主機",
+      "talk": "對話",
+      "plugins": "外掛"
+    }
+  },
+  "nodes": {
+    "title": "節點",
+    "subtitle": "已配對裝置同埋即時連結。",
+    "actions": {
+      "loading": "載入緊…",
+      "refresh": "重新整理"
+    },
+    "noNodes": "搵唔到節點。",
+    "devices": {
+      "title": "裝置",
+      "subtitle": "配對請求 + 角色信物。",
+      "pending": "待處理",
+      "paired": "已配對",
+      "noPaired": "冇已配對裝置。",
+      "errors": {
+        "load": "錯誤"
+      }
+    },
+    "execBinding": {
+      "title": "執行節點繫結",
+      "description": "使用時將智能體釘去特定節點",
+      "fields": {
+        "node": "節點"
+      },
+      "actions": {
+        "saving": "儲存緊…",
+        "save": "儲存"
+      },
+      "hints": {
+        "formMode": "將配置分頁切換去",
+        "formModeStrong": "表格",
+        "formModeEnd": "模式去喺呢度編輯繫結。",
+        "loadConfig": "載入配置去編輯繫結。",
+        "loading": "載入緊…",
+        "load": "載入配置"
+      },
+      "empty": {
+        "default": "預設繫結",
+        "description": "智能體冇覆寫節點繫結嗰陣使用。",
+        "any": "任何節點",
+        "noNodes": "冇可用嘅 system.run 節點。",
+        "noAgents": "搵唔到智能體。"
+      }
+    },
+    "execApprovals": {
+      "title": "執行批核",
+      "description": "允許清單同埋批核政策",
+      "actions": {
+        "saving": "儲存緊…",
+        "save": "儲存"
+      },
+      "hints": {
+        "load": "載入執行批核去編輯允許清單。",
+        "loading": "載入緊…",
+        "loadBtn": "載入批核"
+      },
+      "fields": {
+        "target": "目標",
+        "host": "主機",
+        "gateway": "網關",
+        "node": "節點",
+        "selectNode": "揀節點",
+        "scope": "範圍"
+      },
+      "empty": "未有節點宣告執行批核。",
+      "security": {
+        "title": "保安",
+        "default": "預設保安模式。",
+        "withDefault": "預設：",
+        "mode": "模式"
+      },
+      "ask": {
+        "title": "詢問",
+        "default": "預設提示政策。",
+        "mode": "模式",
+        "fallback": {
+          "title": "詢問後備",
+          "description": "界面提示不可用嗰陣套用。",
+          "mode": "模式"
+        }
+      },
+      "autoAllow": {
+        "title": "自動允許技能 CLI",
+        "description": "允許網關列出嘅技能執行檔。",
+        "enabled": "已啟用"
+      },
+      "allowlist": {
+        "title": "允許清單",
+        "subtitle": "大小寫唔敏感嘅萬用字元模式。",
+        "empty": "未有允許清單項目。",
+        "fields": {
+          "pattern": "模式"
+        },
+        "labels": {
+          "lastUsed": "上次使用",
+          "newPattern": "新模式"
+        }
+      }
+    },
+    "labels": {
+      "roles": "角色",
+      "scopes": "範圍",
+      "platform": "平台",
+      "deviceFamily": "裝置系列",
+      "modelIdentifier": "型號識別碼",
+      "version": "版本",
+      "paired": "已配對",
+      "unpaired": "未配對"
+    }
+  },
+  "sessions": {
+    "title": "會話",
+    "subtitle": "作用中會話密鑰同埋每個會話覆寫。",
+    "actions": {
+      "loading": "載入緊…",
+      "refresh": "重新整理"
+    },
+    "filters": {
+      "activeWithin": "活躍喺（分鐘）",
+      "limit": "限制",
+      "includeGlobal": "包括全域",
+      "includeUnknown": "包括未知"
+    },
+    "error": "錯誤",
+    "table": {
+      "key": "密鑰",
+      "label": "標籤",
+      "kind": "類型",
+      "updated": "已更新",
+      "tokens": "信物",
+      "thinking": "思考",
+      "verbose": "詳盡",
+      "reasoning": "推理",
+      "actions": "動作"
+    },
+    "empty": "搵唔到會話。",
+    "levels": {
+      "inherit": "繼承"
+    }
+  },
+  "logs": {
+    "title": "日誌",
+    "subtitle": "網關檔案日誌（JSONL）。",
+    "actions": {
+      "loading": "載入緊…",
+      "refresh": "重新整理"
+    },
+    "filter": "篩選",
+    "searchPlaceholder": "搜尋日誌",
+    "autoFollow": "自動跟隨",
+    "file": "檔案",
+    "truncated": "日誌輸出已截斷；顯示最新區塊。",
+    "error": "錯誤",
+    "empty": "冇日誌項目。",
+    "columns": {
+      "time": "時間",
+      "level": "級別",
+      "subsystem": "子系統",
+      "message": "訊息"
+    }
+  },
+  "debug": {
+    "title": "除錯",
+    "snapshots": {
+      "title": "快照",
+      "subtitle": "狀態、健康同埋心跳資料。",
+      "actions": {
+        "refreshing": "重新整理緊…",
+        "refresh": "重新整理"
+      },
+      "labels": {
+        "status": "狀態",
+        "health": "健康",
+        "lastHeartbeat": "上次心跳"
+      },
+      "hints": {
+        "security": "攞詳情。"
+      }
+    },
+    "manualRpc": {
+      "title": "手動 RPC",
+      "subtitle": "用 JSON 參數傳送原始網關方法。",
+      "fields": {
+        "method": "方法",
+        "params": "參數（JSON）"
+      },
+      "actions": {
+        "call": "呼叫"
+      }
+    },
+    "models": {
+      "title": "模型",
+      "subtitle": "嚟自 models.list 嘅目錄。"
+    },
+    "eventLog": {
+      "title": "事件日誌",
+      "subtitle": "最新網關事件。",
+      "empty": "重未有事件。"
+    }
+  },
+  "instances": {
+    "title": "已連線執行個體",
+    "subtitle": "嚟自網關同埋客戶端嘅存在信標。",
+    "actions": {
+      "loading": "載入緊…",
+      "refresh": "重新整理"
+    },
+    "empty": "重未有報告嘅執行個體。",
+    "labels": {
+      "lastInput": "上次輸入",
+      "reason": "原因"
+    }
+  },
+  "execApproval": {
+    "title": "需要執行批核",
+    "queue": {
+      "pending": "{count} 個待處理"
+    },
+    "fields": {
+      "host": "主機",
+      "agent": "智能體",
+      "session": "會話",
+      "resolved": "已解析",
+      "security": "保安",
+      "ask": "詢問"
+    },
+    "error": "錯誤"
+  },
+  "gatewayUrlConfirmation": {
+    "title": "變更網關網址",
+    "subtitle": "呢個會重新連線去另一個網關伺服器"
+  },
+  "markdownSidebar": {
+    "title": "工具輸出",
+    "actions": {
+      "close": "關閉側邊欄"
+    },
+    "error": "錯誤",
+    "empty": "冇可用內容"
+  }
+}
