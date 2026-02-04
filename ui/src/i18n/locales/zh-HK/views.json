@@ -1,4 +1,188 @@
 {
+  "agents": {
+    "title": "智能體",
+    "configured": "已配置",
+    "loading": "載入緊…",
+    "refresh": "重新整理",
+    "noAgents": "搵唔到智能體。",
+    "selectTitle": "揀個智能體",
+    "selectSubtitle": "由側邊欄揀個智能體去睇詳情。",
+    "tabs": {
+      "overview": "概覽",
+      "files": "檔案",
+      "tools": "工具",
+      "skills": "技能",
+      "channels": "頻道",
+      "cron": "定時任務"
+    },
+    "overview": {
+      "title": "概覽",
+      "subtitle": "工作區路徑同埋身份元數據。",
+      "workspace": "工作區",
+      "primaryModel": "主模型",
+      "identityName": "身份名稱",
+      "identityEmoji": "身份圖示",
+      "default": "預設",
+      "skillsFilter": "技能篩選",
+      "yes": "係",
+      "no": "唔係",
+      "selected": "已揀",
+      "allSkills": "全部技能",
+      "modelSelection": "模型揀選",
+      "primaryModelLabel": "主模型",
+      "inheritDefault": "繼承預設值",
+      "inheritDefaultWithModel": "繼承預設值（{model}）",
+      "fallbacks": "後備模型（逗號分隔）",
+      "fallbacksPlaceholder": "提供者/模型, 提供者/模型",
+      "reloadConfig": "重新載入設定",
+      "saving": "儲存緊…",
+      "save": "儲存",
+      "loading": "載入緊…",
+      "unavailable": "唔用得"
+    },
+    "context": {
+      "title": "智能體情境",
+      "workspaceSubtitle": "工作區、身份同埋模型配置。",
+      "cronSubtitle": "工作區同埋排程目標。"
+    },
+    "channels": {
+      "title": "頻道",
+      "subtitle": "網關範圍頻道狀態快照。",
+      "refreshing": "重新整理緊…",
+      "lastRefresh": "上次重新整理：",
+      "never": "從未",
+      "loadPrompt": "載入頻道去睇實時狀態。",
+      "noChannels": "搵唔到頻道。",
+      "connected": "已連線",
+      "accounts": "帳戶",
+      "configured": "已配置",
+      "notConfigured": "未配置",
+      "enabled": "已啟用",
+      "disabled": "已停用"
+    },
+    "cron": {
+      "schedulerTitle": "排程器",
+      "schedulerSubtitle": "網關定時任務狀態。",
+      "enabled": "已啟用",
+      "yes": "係",
+      "no": "唔係",
+      "na": "唔適用",
+      "jobs": "任務",
+      "nextWake": "下次喚醒",
+      "jobsTitle": "智能體定時任務",
+      "jobsSubtitle": "針對呢個智能體嘅定時任務。",
+      "noJobs": "未指派任務。",
+      "sessionTarget": "會話目標",
+      "wakeMode": "喚醒模式"
+    },
+    "files": {
+      "title": "核心檔案",
+      "subtitle": "啟動角色、身份同埋工具指引。",
+      "loading": "載入緊…",
+      "workspace": "工作區：",
+      "loadPrompt": "載入智能體工作區檔案去編輯核心指令。",
+      "noFiles": "搵唔到檔案。",
+      "selectFile": "揀個檔案去編輯。",
+      "reset": "重設",
+      "saving": "儲存緊…",
+      "save": "儲存",
+      "content": "內容",
+      "missing": "欠奉",
+      "missingPill": "欠奉",
+      "missingMessage": "呢個檔案欠奉。儲存會喺智能體工作區度建立佢。"
+    },
+    "tools": {
+      "title": "工具存取",
+      "subtitle": "呢個智能體嘅配置檔同埋每個工具嘅覆寫。",
+      "enabled": "已啟用",
+      "enableAll": "全部啟用",
+      "disableAll": "全部停用",
+      "reloadConfig": "重新載入設定",
+      "saving": "儲存緊…",
+      "save": "儲存",
+      "loadPrompt": "載入網關設定去調較工具配置檔。",
+      "explicitAllowlist": "呢個智能體喺設定入面用咗明確允許清單。工具覆寫喺設定頁面度管理。",
+      "globalBlock": "設定咗全局 tools.allow。智能體覆寫無法啟用被全局封鎖嘅工具。",
+      "profile": "配置檔",
+      "source": "來源",
+      "status": "狀態",
+      "unsaved": "未儲存",
+      "quickPresets": "快速預設",
+      "inherit": "繼承",
+      "profiles": {
+        "minimal": "最簡",
+        "coding": "編程",
+        "messaging": "訊息",
+        "full": "完整"
+      },
+      "sections": {
+        "files": "檔案",
+        "runtime": "執行環境",
+        "web": "網頁",
+        "memory": "記憶體",
+        "sessions": "會話",
+        "ui": "介面",
+        "messaging": "訊息",
+        "automation": "自動化",
+        "nodes": "節點",
+        "agents": "智能體",
+        "media": "媒體"
+      },
+      "loading": "載入緊…",
+      "refresh": "重新整理",
+      "filter": "篩選",
+      "searchPlaceholder": "搜尋技能",
+      "shown": "顯示",
+      "noSkills": "搵唔到技能。",
+      "error": "錯誤",
+      "list": {
+        "description": "描述",
+        "source": "來源",
+        "disabled": "已停用"
+      },
+      "actions": {
+        "enable": "啟用",
+        "disable": "停用",
+        "installing": "安裝緊…",
+        "install": "安裝"
+      },
+      "apiKey": "API 密鑰"
+    },
+    "skills": {
+      "title": "技能",
+      "subtitle": "每個智能體嘅技能允許清單同埋工作區技能。",
+      "useAll": "全部使用",
+      "disableAll": "全部停用",
+      "reloadConfig": "重新載入設定",
+      "loading": "載入緊…",
+      "refresh": "重新整理",
+      "saving": "儲存緊…",
+      "save": "儲存",
+      "loadConfigPrompt": "載入網關設定去設定每個智能體嘅技能。",
+      "customAllowlist": "呢個智能體用緊自訂技能允許清單。",
+      "allEnabled": "全部技能都已啟用。停用任何技能會建立每個智能體嘅允許清單。",
+      "loadSkillsPrompt": "載入呢個智能體嘅技能去睇工作區特定項目。",
+      "filter": "篩選",
+      "searchPlaceholder": "搜尋技能",
+      "shown": "顯示",
+      "noSkills": "搵唔到技能。",
+      "groups": {
+        "workspace": "工作區技能",
+        "builtIn": "內置技能",
+        "installed": "已安裝技能",
+        "extra": "額外技能",
+        "other": "其他技能"
+      },
+      "status": {
+        "disabled": "已停用",
+        "blockedByAllowlist": "被允許清單封鎖",
+        "eligible": "符合資格",
+        "blocked": "被封鎖",
+        "missing": "欠奉：",
+        "reason": "原因："
+      }
+    }
+  },
   "overview": {
     "title": "概覽",
     "gatewayAccess": {
@@ -75,7 +259,10 @@
       "lastInbound": "上次入嚟",
       "yes": "係",
       "no": "唔係",
-      "accounts": "帳戶"
+      "accounts": "帳戶",
+      "probe": "探測",
+      "na": "唔適用",
+      "mode": "模式"
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -111,6 +298,14 @@
       "title": "Nostr",
       "subtitle": "透過 Nostr 中繼嘅去中心化 DM（NIP-04）。",
       "publicKey": "公開密鑰",
+      "running": "運行中",
+      "configured": "已配置",
+      "lastInbound": "上次入嚟",
+      "lastStart": "上次啟動",
+      "yes": "係",
+      "no": "唔係",
+      "na": "唔適用",
+      "refresh": "重新整理",
       "profile": {
         "title": "個人檔案",
         "noProfile": "未設定個人檔案。撳「編輯個人檔案」去新增你嘅名、簡介同埋頭像。",
@@ -148,10 +343,21 @@
     "config": {
       "save": "儲存",
       "saving": "儲存緊…",
+      "reload": "重新載入",
       "schemaUnavailable": "結構描述不可用。使用原始模式。",
       "schemaError": "頻道配置結構描述不可用。",
       "loading": "載入緊配置結構描述…",
-      "unsupported": "唔支援嘅類型：{type}。使用原始模式。"
+      "unsupported": "唔支援嘅類型：{type}。使用原始模式。",
+      "form": {
+        "unsupportedNode": "唔支援嘅結構描述節點。使用原始模式。",
+        "default": "預設值：{value}",
+        "empty": "冇設定符合 \"{query}\"",
+        "emptySection": "呢個部分冇設定",
+        "rawJson": "原始 JSON",
+        "addItem": "新增項目",
+        "remove": "移除",
+        "edit": "編輯"
+      }
     }
   },
   "chat": {
@@ -181,7 +387,14 @@
       "title": "退出聚焦模式"
     },
     "disabledReason": "停用原因",
-    "error": "錯誤"
+    "error": "錯誤",
+    "compacting": "壓縮緊…",
+    "compacted": "已壓縮",
+    "message": "訊息",
+    "stop": "停止",
+    "newSession": "新會話",
+    "queue": "排隊",
+    "send": "傳送"
   },
   "skills": {
     "title": "技能",
@@ -202,7 +415,8 @@
       "enable": "啟用",
       "disable": "停用",
       "installing": "安裝緊…",
-      "install": "安裝"
+      "install": "安裝",
+      "saveKey": "儲存密鑰"
     },
     "apiKey": "API 密鑰"
   },
@@ -382,7 +596,9 @@
       "noPaired": "冇已配對裝置。",
       "errors": {
         "load": "錯誤"
-      }
+      },
+      "loading": "載入緊…",
+      "refresh": "重新整理"
     },
     "execBinding": {
       "title": "執行節點繫結",
@@ -499,7 +715,8 @@
       "thinking": "思考",
       "verbose": "詳盡",
       "reasoning": "推理",
-      "actions": "動作"
+      "actions": "動作",
+      "delete": "刪除"
     },
     "empty": "搵唔到會話。",
     "levels": {
@@ -525,7 +742,8 @@
       "level": "級別",
       "subsystem": "子系統",
       "message": "訊息"
-    }
+    },
+    "export": "匯出"
   },
   "debug": {
     "title": "除錯",

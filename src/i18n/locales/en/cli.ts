@@ -286,6 +286,197 @@ export const cliMessages = {
   "cli.status.warning": "Warning",
   "cli.status.error": "Error",
   "cli.status.info": "Info",
+
+  // update-cli.ts - Update steps
+  "update.step.cleanCheck": "Working directory is clean",
+  "update.step.upstreamCheck": "Upstream branch exists",
+  "update.step.gitFetch": "Fetching latest changes",
+  "update.step.gitRebase": "Rebasing onto target commit",
+  "update.step.gitRevParseUpstream": "Resolving upstream commit",
+  "update.step.gitRevList": "Enumerating candidate commits",
+  "update.step.gitClone": "Cloning git checkout",
+  "update.step.preflightWorktree": "Preparing preflight worktree",
+  "update.step.preflightCleanup": "Cleaning preflight worktree",
+  "update.step.depsInstall": "Installing dependencies",
+  "update.step.build": "Building",
+  "update.step.uiBuild": "Building UI",
+  "update.step.doctor": "Running doctor checks",
+  "update.step.gitRevParseHead": "Verifying update",
+  "update.step.globalUpdate": "Updating via package manager",
+  "update.step.globalInstall": "Installing global package",
+
+  // update-cli.ts - Quips
+  "update.quip.levelUp": "Leveled up! New skills unlocked. You're welcome.",
+  "update.quip.freshCode": "Fresh code, same lobster. Miss me?",
+  "update.quip.backAndBetter": "Back and better. Did you even notice I was gone?",
+  "update.quip.newTricks": "Update complete. I learned some new tricks while I was out.",
+  "update.quip.moreSass": "Upgraded! Now with 23% more sass.",
+  "update.quip.evolved": "I've evolved. Try to keep up.",
+  "update.quip.newVersion": "New version, who dis? Oh right, still me but shinier.",
+  "update.quip.patchedPolished": "Patched, polished, and ready to pinch. Let's go.",
+  "update.quip.molted": "The lobster has molted. Harder shell, sharper claws.",
+  "update.quip.updateDone": "Update done! Check the changelog or just trust me, it's good.",
+  "update.quip.reborn": "Reborn from the boiling waters of npm. Stronger now.",
+  "update.quip.cameBackSmarter": "I went away and came back smarter. You should try it sometime.",
+  "update.quip.bugsFeared": "Update complete. The bugs feared me, so they left.",
+  "update.quip.oldVersion": "New version installed. Old version sends its regards.",
+  "update.quip.firmwareFresh": "Firmware fresh. Brain wrinkles: increased.",
+  "update.quip.seenThings": "I've seen things you wouldn't believe. Anyway, I'm updated.",
+  "update.quip.backOnline": "Back online. The changelog is long but our friendship is longer.",
+  "update.quip.peterFixed": "Upgraded! Peter fixed stuff. Blame him if it breaks.",
+  "update.quip.moltingComplete": "Molting complete. Please don't look at my soft shell phase.",
+  "update.quip.versionBump": "Version bump! Same chaos energy, fewer crashes (probably).",
+
+  // update-cli.ts - Status and UI
+  "update.status.title": "OpenClaw update status",
+  "update.result.title": "Update Result:",
+  "update.steps.title": "Steps:",
+  "update.progress.title": "Updating OpenClaw...",
+  "update.complete": "Update complete.",
+  "update.cancelled": "Update cancelled.",
+
+  // update-cli.ts - Errors and warnings
+  "update.error.invalidConfig": "Config is invalid; cannot set update channel.",
+  "update.downgrade.required": "Downgrade confirmation required.",
+  "update.downgrade.warning": "Downgrading can break configuration. Re-run in a TTY to confirm.",
+  "update.downgrade.confirm":
+    "Downgrading from {currentVersion} to {targetLabel} can break configuration. Continue?",
+  "update.tagNote": "Note: --tag applies to npm installs only; git updates ignore it.",
+  "update.skipped.dirty":
+    "Skipped: working directory has uncommitted changes. Commit or stash them first.",
+  "update.error.timeoutInvalid": "--timeout must be a positive integer (seconds)",
+  "update.wizard.ttyRequired":
+    "Update wizard requires a TTY. Use `openclaw update --channel <stable|beta|dev>` instead.",
+
+  // update-cli.ts - Channel selection
+  "update.channel.select": "Update channel",
+  "update.channel.keep": "Keep current ({channel})",
+  "update.channel.stable": "Stable",
+  "update.channel.stableHint": "Tagged releases (npm latest)",
+  "update.channel.beta": "Beta",
+  "update.channel.betaHint": "Prereleases (npm beta)",
+  "update.channel.dev": "Dev",
+  "update.channel.devHint": "Git main",
+
+  // update-cli.ts - Gateway restart
+  "update.restartGateway.prompt": "Restart the gateway service after update?",
+
+  // reset.ts
+  "reset.scope.message": "Reset scope",
+  "reset.scope.config.label": "Config only",
+  "reset.scope.config.hint": "openclaw.json",
+  "reset.scope.configCredsSessions.label": "Config + credentials + sessions",
+  "reset.scope.configCredsSessions.hint": "keeps workspace + auth profiles",
+  "reset.scope.full.label": "Full reset",
+  "reset.scope.full.hint": "state dir + workspace",
+  "reset.confirm": "Proceed with {scope} reset?",
+  "reset.cancelled": "Reset cancelled.",
+  "reset.error.nonInteractiveYes": "Non-interactive mode requires --yes.",
+  "reset.error.nonInteractiveScope": "Non-interactive mode requires --scope.",
+
+  // doctor.ts - Main messages
+  "doctor.intro": "OpenClaw doctor",
+  "doctor.complete": "Doctor complete.",
+
+  // doctor.ts - Gateway messages
+  "doctor.gateway.title": "Gateway",
+  "doctor.gateway.modeUnset": "gateway.mode is unset; gateway start will be blocked.",
+  "doctor.gateway.fixConfigure": "Fix: run {command} and set Gateway mode (local/remote).",
+  "doctor.gateway.fixDirect": "Or set directly: {command}",
+  "doctor.gateway.missingConfig": "Missing config: run {command} first.",
+  "doctor.gateway.auth.title": "Gateway auth",
+  "doctor.gateway.auth.off":
+    "Gateway auth is off or missing a token. Token auth is now the recommended default (including loopback).",
+  "doctor.gateway.auth.tokenConfigured": "Gateway token configured.",
+  "doctor.gateway.auth.generatePrompt": "Generate and configure a gateway token now?",
+
+  // doctor.ts - Legacy state messages
+  "doctor.legacy.title": "Legacy state detected",
+  "doctor.legacy.migratePrompt": "Migrate legacy state (sessions/agent/WhatsApp auth) now?",
+
+  // doctor.ts - Hooks messages
+  "doctor.hooks.title": "Hooks",
+  "doctor.hooks.modelNotResolved": '- hooks.gmail.model "{model}" could not be resolved',
+
+  // doctor.ts - Config messages
+  "doctor.config.invalid": "Invalid config:",
+
+  // doctor.ts - Systemd linger
+  "doctor.systemd.lingerWarning":
+    "Gateway runs as a systemd user service. Without lingering, systemd stops the user session on logout/idle and kills the Gateway.",
+
+  // doctor.ts - Workspace
+  "doctor.workspace.title": "Workspace",
+
+  // doctor-auth.ts
+  "doctor.auth.title": "Auth profiles",
+  "doctor.auth.deprecatedDetected":
+    "Deprecated external CLI auth profiles detected (no longer supported):",
+  "doctor.auth.removePrompt": "Remove deprecated CLI auth profiles now?",
+  "doctor.auth.updateOAuthPrompt": "Update Anthropic OAuth profile id in config now?",
+  "doctor.auth.refreshPrompt": "Refresh expiring OAuth tokens now? (static tokens need re-auth)",
+  "doctor.auth.model.title": "Model auth",
+  "doctor.auth.cooldowns.title": "Auth profile cooldowns",
+  "doctor.auth.topUp": "Top up credits (provider billing) or switch provider.",
+  "doctor.auth.waitCooldown": "Wait for cooldown or switch provider.",
+
+  // doctor-config-flow.ts
+  "doctor.config.title": "Config",
+  "doctor.config.invalidNote": "Config invalid; doctor will run with best-effort config.",
+  "doctor.config.warnings.title": "Config warnings",
+  "doctor.config.legacyKeys.title": "Legacy config keys detected",
+  "doctor.config.repairPrompt": "Apply recommended config repairs now?",
+  "doctor.config.zen.title": "OpenCode Zen",
+  "doctor.config.unknownKeys.title": "Unknown config keys",
+  "doctor.changes.title": "Doctor changes",
+  "doctor.warnings.title": "Doctor warnings",
+
+  // doctor-gateway-daemon-flow.ts
+  "doctor.gateway.launchAgent.notLoaded": "LaunchAgent is listed but not loaded in launchd.",
+  "doctor.gateway.launchAgent.repaired": "{title} LaunchAgent repaired.",
+  "doctor.gateway.service.notInstalled": "Gateway service not installed.",
+  "doctor.gateway.service.installPrompt": "Install gateway service now?",
+  "doctor.gateway.service.runtime": "Gateway service runtime",
+  "doctor.gateway.service.installFailed": "Gateway service install failed: {error}",
+  "doctor.gateway.service.startPrompt": "Start gateway service now?",
+  "doctor.gateway.service.restartPrompt": "Restart gateway service now?",
+  "doctor.gateway.notRunning": "Gateway not running.",
+  "doctor.gateway.connection": "Gateway connection",
+  "doctor.gateway.port.title": "Gateway port",
+  "doctor.gateway.lastError": "Last gateway error: {error}",
+
+  // doctor-gateway-services.ts
+  "doctor.gateway.nixMode": "Nix mode detected; skip service updates.",
+  "doctor.gateway.remoteMode": "Gateway mode is remote; skipped local service audit.",
+  "doctor.gateway.entrypoint.mismatch":
+    "Gateway service entrypoint does not match the current install.",
+  "doctor.gateway.overwritePrompt": "Overwrite gateway service config with current defaults now?",
+  "doctor.gateway.updatePrompt": "Update gateway service config to the recommended defaults now?",
+  "doctor.gateway.removeLegacyPrompt": "Remove legacy gateway services (clawdbot/moltbot) now?",
+
+  // doctor-gateway-health.ts
+  "doctor.gateway.health.notRunning": "Gateway not running.",
+
+  // doctor-sandbox.ts
+  "doctor.sandbox.title": "Sandbox",
+  "doctor.sandbox.scriptNotFound": "Unable to locate {script}. Run it from the repo root.",
+  "doctor.sandbox.imageMissing": "Sandbox {kind} image missing: {image}. {hint}",
+  "doctor.sandbox.dockerNotAvailable": "Docker not available; skipping sandbox image checks.",
+
+  // doctor-ui.ts
+  "doctor.ui.title": "UI",
+  "doctor.ui.sourcesNotPresent": "Skipping UI build: ui/ sources not present.",
+  "doctor.ui.building": "Building Control UI assets... (this may take a moment)",
+  "doctor.ui.buildComplete": "UI build complete.",
+  "doctor.ui.rebuildStale": "Rebuilding stale UI assets... (this may take a moment)",
+  "doctor.ui.rebuildComplete": "UI rebuild complete.",
+  "doctor.ui.buildPrompt": "Build Control UI assets now?",
+  "doctor.ui.rebuildPrompt": "Rebuild UI now? (Detected protocol mismatch requiring update)",
+
+  // doctor-update.ts
+  "doctor.update.title": "Update",
+  "doctor.update.running": "Running update (fetch/rebase/build/ui:build/doctor)…",
+  "doctor.update.prompt": "Update OpenClaw from git before running doctor?",
 };
 
 export default cliMessages;

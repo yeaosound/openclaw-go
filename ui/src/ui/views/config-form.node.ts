@@ -1,4 +1,5 @@
 import { html, nothing, type TemplateResult } from "lit";
+import { t } from "../../i18n/lit.js";
 import type { ConfigUiHints } from "../types";
 import {
   defaultValue,
@@ -116,7 +117,7 @@ export function renderNode(params: {
   if (unsupported.has(key)) {
     return html`<div class="cfg-field cfg-field--error">
       <div class="cfg-field__label">${label}</div>
-      <div class="cfg-field__error">Unsupported schema node. Use Raw mode.</div>
+      <div class="cfg-field__error">${t("views.config.form.unsupportedNode")}</div>
     </div>`;
   }
 
@@ -314,7 +315,7 @@ function renderTextInput(params: {
     (isSensitive
       ? "••••"
       : schema.default !== undefined
-        ? `Default: ${String(schema.default)}`
+        ? t("views.config.form.default", { value: String(schema.default) })
         : "");
   const displayValue = value ?? "";
 

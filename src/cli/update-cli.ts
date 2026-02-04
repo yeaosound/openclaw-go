@@ -10,6 +10,7 @@ import {
   resolveUpdateAvailability,
 } from "../commands/status.update.js";
 import { readConfigFileSnapshot, writeConfigFile } from "../config/config.js";
+import { t } from "../i18n/index.js";
 import { resolveOpenClawPackageRoot } from "../infra/openclaw-root.js";
 import { trimLogTail } from "../infra/restart-sentinel.js";
 import { parseSemver } from "../infra/runtime-guard.js";
@@ -69,47 +70,30 @@ export type UpdateWizardOptions = {
   timeout?: string;
 };
 
-const STEP_LABELS: Record<string, string> = {
-  "clean check": "Working directory is clean",
-  "upstream check": "Upstream branch exists",
-  "git fetch": "Fetching latest changes",
-  "git rebase": "Rebasing onto target commit",
-  "git rev-parse @{upstream}": "Resolving upstream commit",
-  "git rev-list": "Enumerating candidate commits",
-  "git clone": "Cloning git checkout",
-  "preflight worktree": "Preparing preflight worktree",
-  "preflight cleanup": "Cleaning preflight worktree",
-  "deps install": "Installing dependencies",
-  build: "Building",
-  "ui:build": "Building UI",
-  "openclaw doctor": "Running doctor checks",
-  "git rev-parse HEAD (after)": "Verifying update",
-  "global update": "Updating via package manager",
-  "global install": "Installing global package",
-};
-
-const UPDATE_QUIPS = [
-  "Leveled up! New skills unlocked. You're welcome.",
-  "Fresh code, same lobster. Miss me?",
-  "Back and better. Did you even notice I was gone?",
-  "Update complete. I learned some new tricks while I was out.",
-  "Upgraded! Now with 23% more sass.",
-  "I've evolved. Try to keep up.",
-  "New version, who dis? Oh right, still me but shinier.",
-  "Patched, polished, and ready to pinch. Let's go.",
-  "The lobster has molted. Harder shell, sharper claws.",
-  "Update done! Check the changelog or just trust me, it's good.",
-  "Reborn from the boiling waters of npm. Stronger now.",
-  "I went away and came back smarter. You should try it sometime.",
-  "Update complete. The bugs feared me, so they left.",
-  "New version installed. Old version sends its regards.",
-  "Firmware fresh. Brain wrinkles: increased.",
-  "I've seen things you wouldn't believe. Anyway, I'm updated.",
-  "Back online. The changelog is long but our friendship is longer.",
-  "Upgraded! Peter fixed stuff. Blame him if it breaks.",
-  "Molting complete. Please don't look at my soft shell phase.",
-  "Version bump! Same chaos energy, fewer crashes (probably).",
-];
+function getUpdateQuips(): string[] {
+  return [
+    t("update.quip.levelUp"),
+    t("update.quip.freshCode"),
+    t("update.quip.backAndBetter"),
+    t("update.quip.newTricks"),
+    t("update.quip.moreSass"),
+    t("update.quip.evolved"),
+    t("update.quip.newVersion"),
+    t("update.quip.patchedPolished"),
+    t("update.quip.molted"),
+    t("update.quip.updateDone"),
+    t("update.quip.reborn"),
+    t("update.quip.cameBackSmarter"),
+    t("update.quip.bugsFeared"),
+    t("update.quip.oldVersion"),
+    t("update.quip.firmwareFresh"),
+    t("update.quip.seenThings"),
+    t("update.quip.backOnline"),
+    t("update.quip.peterFixed"),
+    t("update.quip.moltingComplete"),
+    t("update.quip.versionBump"),
+  ];
+}
 
 const MAX_LOG_CHARS = 8000;
 const DEFAULT_PACKAGE_NAME = "openclaw";
@@ -136,7 +120,8 @@ function normalizeTag(value?: string | null): string | null {
 }
 
 function pickUpdateQuip(): string {
-  return UPDATE_QUIPS[Math.floor(Math.random() * UPDATE_QUIPS.length)] ?? "Update complete.";
+  const quips = getUpdateQuips();
+  return quips[Math.floor(Math.random() * quips.length)] ?? t("update.complete");
 }
 
 function normalizeVersionTag(tag: string): string | null {
@@ -374,7 +359,7 @@ function formatGitStatusLine(params: {
 export async function updateStatusCommand(opts: UpdateStatusOptions): Promise<void> {
   const timeoutMs = opts.timeout ? Number.parseInt(opts.timeout, 10) * 1000 : undefined;
   if (timeoutMs !== undefined && (Number.isNaN(timeoutMs) || timeoutMs <= 0)) {
-    defaultRuntime.error("--timeout must be a positive integer (seconds)");
+    defaultRuntime.error(t("update.error.timeoutInvalid"));
     defaultRuntime.exit(1);
     return;
   }
@@ -455,14 +440,14 @@ export async function updateStatusCommand(opts: UpdateStatusOptions): Promise<vo
     },
   ];
 
-  defaultRuntime.log(theme.heading("OpenClaw update status"));
+  defaultRuntime.log(theme.heading(t("update.status.title")));
   defaultRuntime.log("");
   defaultRuntime.log(
     renderTable({
       width: tableWidth,
       columns: [
-        { key: "Item", header: "Item", minWidth: 10 },
-        { key: "Value", header: "Value", flex: true, minWidth: 24 },
+        { key: "Item", header: t("common.item"), minWidth: 10 },
+        { key: "Value", header: t("common.value"), flex: true, minWidth: 24 },
       ],
       rows,
     }).trimEnd(),
@@ -475,7 +460,25 @@ export async function updateStatusCommand(opts: UpdateStatusOptions): Promise<vo
 }
 
 function getStepLabel(step: UpdateStepInfo): string {
-  return STEP_LABELS[step.name] ?? step.name;
+  const stepLabels: Record<string, string> = {
+    "clean check": t("update.step.cleanCheck"),
+    "upstream check": t("update.step.upstreamCheck"),
+    "git fetch": t("update.step.gitFetch"),
+    "git rebase": t("update.step.gitRebase"),
+    "git rev-parse @{upstream}": t("update.step.gitRevParseUpstream"),
+    "git rev-list": t("update.step.gitRevList"),
+    "git clone": t("update.step.gitClone"),
+    "preflight worktree": t("update.step.preflightWorktree"),
+    "preflight cleanup": t("update.step.preflightCleanup"),
+    "deps install": t("update.step.depsInstall"),
+    build: t("update.step.build"),
+    "ui:build": t("update.step.uiBuild"),
+    "openclaw doctor": t("update.step.doctor"),
+    "git rev-parse HEAD (after)": t("update.step.gitRevParseHead"),
+    "global update": t("update.step.globalUpdate"),
+    "global install": t("update.step.globalInstall"),
+  };
+  return stepLabels[step.name] ?? step.name;
 }
 
 type ProgressController = {
@@ -574,7 +577,7 @@ function printResult(result: UpdateRunResult, opts: PrintResultOptions) {
 
   defaultRuntime.log("");
   defaultRuntime.log(
-    `${theme.heading("Update Result:")} ${statusColor(result.status.toUpperCase())}`,
+    `${theme.heading(t("update.result.title"))} ${statusColor(result.status.toUpperCase())}`,
   );
   if (result.root) {
     defaultRuntime.log(`  Root: ${theme.muted(result.root)}`);
@@ -594,7 +597,7 @@ function printResult(result: UpdateRunResult, opts: PrintResultOptions) {
 
   if (!opts.hideSteps && result.steps.length > 0) {
     defaultRuntime.log("");
-    defaultRuntime.log(theme.heading("Steps:"));
+    defaultRuntime.log(theme.heading(t("update.steps.title")));
     for (const step of result.steps) {
       const status = formatStepStatus(step.exitCode);
       const duration = theme.muted(`(${formatDuration(step.durationMs)})`);
@@ -622,7 +625,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
   const shouldRestart = opts.restart !== false;
 
   if (timeoutMs !== undefined && (Number.isNaN(timeoutMs) || timeoutMs <= 0)) {
-    defaultRuntime.error("--timeout must be a positive integer (seconds)");
+    defaultRuntime.error(t("update.error.timeoutInvalid"));
     defaultRuntime.exit(1);
     return;
   }
@@ -690,33 +693,27 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
     if (needsConfirm && !opts.yes) {
       if (!process.stdin.isTTY || opts.json) {
         defaultRuntime.error(
-          [
-            "Downgrade confirmation required.",
-            "Downgrading can break configuration. Re-run in a TTY to confirm.",
-          ].join("\n"),
+          [t("update.downgrade.required"), t("update.downgrade.warning")].join("\n"),
         );
         defaultRuntime.exit(1);
         return;
       }
 
       const targetLabel = targetVersion ?? `${tag} (unknown)`;
-      const message = `Downgrading from ${currentVersion} to ${targetLabel} can break configuration. Continue?`;
       const ok = await confirm({
-        message: stylePromptMessage(message),
+        message: stylePromptMessage(t("update.downgrade.confirm", { currentVersion, targetLabel })),
         initialValue: false,
       });
       if (isCancel(ok) || !ok) {
         if (!opts.json) {
-          defaultRuntime.log(theme.muted("Update cancelled."));
+          defaultRuntime.log(theme.muted(t("update.cancelled")));
         }
         defaultRuntime.exit(0);
         return;
       }
     }
   } else if (opts.tag && !opts.json) {
-    defaultRuntime.log(
-      theme.muted("Note: --tag applies to npm installs only; git updates ignore it."),
-    );
+    defaultRuntime.log(theme.muted(t("update.tagNote")));
   }
 
   if (requestedChannel && configSnapshot.valid) {
@@ -737,7 +734,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
   const showProgress = !opts.json && process.stdout.isTTY;
 
   if (!opts.json) {
-    defaultRuntime.log(theme.heading("Updating OpenClaw..."));
+    defaultRuntime.log(theme.heading(t("update.progress.title")));
     defaultRuntime.log("");
   }
 
@@ -872,11 +869,7 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
 
   if (result.status === "skipped") {
     if (result.reason === "dirty") {
-      defaultRuntime.log(
-        theme.warn(
-          "Skipped: working directory has uncommitted changes. Commit or stash them first.",
-        ),
-      );
+      defaultRuntime.log(theme.warn(t("update.skipped.dirty")));
     }
     if (result.reason === "not-git-install") {
       defaultRuntime.log(
@@ -1044,16 +1037,14 @@ export async function updateCommand(opts: UpdateCommandOptions): Promise<void> {
 
 export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promise<void> {
   if (!process.stdin.isTTY) {
-    defaultRuntime.error(
-      "Update wizard requires a TTY. Use `openclaw update --channel <stable|beta|dev>` instead.",
-    );
+    defaultRuntime.error(t("update.wizard.ttyRequired"));
     defaultRuntime.exit(1);
     return;
   }
 
   const timeoutMs = opts.timeout ? Number.parseInt(opts.timeout, 10) * 1000 : undefined;
   if (timeoutMs !== undefined && (Number.isNaN(timeoutMs) || timeoutMs <= 0)) {
-    defaultRuntime.error("--timeout must be a positive integer (seconds)");
+    defaultRuntime.error(t("update.error.timeoutInvalid"));
     defaultRuntime.exit(1);
     return;
   }
@@ -1093,34 +1084,34 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
   });
 
   const pickedChannel = await selectStyled({
-    message: "Update channel",
+    message: t("update.channel.select"),
     options: [
       {
         value: "keep",
-        label: `Keep current (${channelInfo.channel})`,
+        label: t("update.channel.keep", { channel: channelInfo.channel }),
         hint: channelLabel,
       },
       {
         value: "stable",
-        label: "Stable",
-        hint: "Tagged releases (npm latest)",
+        label: t("update.channel.stable"),
+        hint: t("update.channel.stableHint"),
       },
       {
         value: "beta",
-        label: "Beta",
-        hint: "Prereleases (npm beta)",
+        label: t("update.channel.beta"),
+        hint: t("update.channel.betaHint"),
       },
       {
         value: "dev",
-        label: "Dev",
-        hint: "Git main",
+        label: t("update.channel.dev"),
+        hint: t("update.channel.devHint"),
       },
     ],
     initialValue: "keep",
   });
 
   if (isCancel(pickedChannel)) {
-    defaultRuntime.log(theme.muted("Update cancelled."));
+    defaultRuntime.log(theme.muted(t("update.cancelled")));
     defaultRuntime.exit(0);
     return;
   }
@@ -1149,7 +1140,7 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
         initialValue: true,
       });
       if (isCancel(ok) || !ok) {
-        defaultRuntime.log(theme.muted("Update cancelled."));
+        defaultRuntime.log(theme.muted(t("update.cancelled")));
         defaultRuntime.exit(0);
         return;
       }
@@ -1157,11 +1148,11 @@ export async function updateWizardCommand(opts: UpdateWizardOptions = {}): Promi
   }
 
   const restart = await confirm({
-    message: stylePromptMessage("Restart the gateway service after update?"),
+    message: stylePromptMessage(t("update.restartGateway.prompt")),
     initialValue: true,
   });
   if (isCancel(restart)) {
-    defaultRuntime.log(theme.muted("Update cancelled."));
+    defaultRuntime.log(theme.muted(t("update.cancelled")));
     defaultRuntime.exit(0);
     return;
   }

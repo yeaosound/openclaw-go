@@ -273,6 +273,193 @@ export const cliMessages = {
   "cli.status.warning": "警告",
   "cli.status.error": "错误",
   "cli.status.info": "信息",
+
+  // update-cli.ts - Update steps
+  "update.step.cleanCheck": "工作目录已清理",
+  "update.step.upstreamCheck": "上游分支存在",
+  "update.step.gitFetch": "获取最新更改",
+  "update.step.gitRebase": "变基到目标提交",
+  "update.step.gitRevParseUpstream": "解析上游提交",
+  "update.step.gitRevList": "枚举候选提交",
+  "update.step.gitClone": "克隆 git 仓库",
+  "update.step.preflightWorktree": "准备预检工作区",
+  "update.step.preflightCleanup": "清理预检工作区",
+  "update.step.depsInstall": "安装依赖",
+  "update.step.build": "构建中",
+  "update.step.uiBuild": "构建 UI",
+  "update.step.doctor": "运行 doctor 检查",
+  "update.step.gitRevParseHead": "验证更新",
+  "update.step.globalUpdate": "通过包管理器更新",
+  "update.step.globalInstall": "安装全局包",
+
+  // update-cli.ts - Quips
+  "update.quip.levelUp": "升级完成！解锁了新技能。不客气。",
+  "update.quip.freshCode": "全新代码，还是那个龙虾。想我了吗？",
+  "update.quip.backAndBetter": "回来并且更好了。你甚至注意到我离开了吗？",
+  "update.quip.newTricks": "更新完成。我不在的时候学了一些新把戏。",
+  "update.quip.moreSass": "升级完成！现在多了 23% 的 sass。",
+  "update.quip.evolved": "我已经进化了。试着跟上。",
+  "update.quip.newVersion": "新版本，谁啊？哦对，还是我，只是更闪亮了。",
+  "update.quip.patchedPolished": "已修补、已抛光，准备夹人。走吧。",
+  "update.quip.molted": "龙虾已经蜕皮。更硬的壳，更锋利的爪。",
+  "update.quip.updateDone": "更新完成！查看变更日志或者就相信我，它很好。",
+  "update.quip.reborn": "从 npm 的沸水中重生。现在更强了。",
+  "update.quip.cameBackSmarter": "我离开了，回来变得更聪明了。你有时候也该试试。",
+  "update.quip.bugsFeared": "更新完成。虫子们都害怕我，所以它们离开了。",
+  "update.quip.oldVersion": "新版本已安装。旧版本向你致意。",
+  "update.quip.firmwareFresh": "固件新鲜。脑回：增加了。",
+  "update.quip.seenThings": "我看到了一些你不会相信的东西。总之，我更新了。",
+  "update.quip.backOnline": "重新上线。变更日志很长，但我们的友谊更长。",
+  "update.quip.peterFixed": "升级完成！Peter 修复了东西。如果出问题就怪他。",
+  "update.quip.moltingComplete": "蜕皮完成。请不要看我的软壳阶段。",
+  "update.quip.versionBump": "版本提升！同样的混乱能量，更少的崩溃（可能）。",
+
+  // update-cli.ts - Status and UI
+  "update.status.title": "OpenClaw 更新状态",
+  "update.result.title": "更新结果：",
+  "update.steps.title": "步骤：",
+  "update.progress.title": "正在更新 OpenClaw...",
+  "update.complete": "更新完成。",
+  "update.cancelled": "更新已取消。",
+
+  // update-cli.ts - Errors and warnings
+  "update.error.invalidConfig": "配置无效；无法设置更新通道。",
+  "update.downgrade.required": "需要降级确认。",
+  "update.downgrade.warning": "降级可能会破坏配置。在 TTY 中重新运行以确认。",
+  "update.downgrade.confirm": "从 {currentVersion} 降级到 {targetLabel} 可能会破坏配置。继续？",
+  "update.tagNote": "注意：--tag 仅适用于 npm 安装；git 更新会忽略它。",
+  "update.skipped.dirty": "跳过：工作目录有未提交的更改。请先提交或暂存它们。",
+  "update.error.timeoutInvalid": "--timeout 必须是正整数（秒）",
+  "update.wizard.ttyRequired":
+    "更新向导需要 TTY。请使用 `openclaw update --channel <stable|beta|dev>` 代替。",
+
+  // update-cli.ts - Channel selection
+  "update.channel.select": "更新通道",
+  "update.channel.keep": "保持当前 ({channel})",
+  "update.channel.stable": "稳定版",
+  "update.channel.stableHint": "标记的发布版本 (npm latest)",
+  "update.channel.beta": "测试版",
+  "update.channel.betaHint": "预发布版本 (npm beta)",
+  "update.channel.dev": "开发版",
+  "update.channel.devHint": "Git main",
+
+  // update-cli.ts - Gateway restart
+  "update.restartGateway.prompt": "更新后重启网关服务？",
+
+  // reset.ts
+  "reset.scope.message": "重置范围",
+  "reset.scope.config.label": "仅配置",
+  "reset.scope.config.hint": "openclaw.json",
+  "reset.scope.configCredsSessions.label": "配置 + 凭据 + 会话",
+  "reset.scope.configCredsSessions.hint": "保留工作区和认证配置文件",
+  "reset.scope.full.label": "完全重置",
+  "reset.scope.full.hint": "状态目录 + 工作区",
+  "reset.confirm": "继续执行 {scope} 重置？",
+  "reset.cancelled": "重置已取消。",
+  "reset.error.nonInteractiveYes": "非交互模式需要使用 --yes。",
+  "reset.error.nonInteractiveScope": "非交互模式需要使用 --scope。",
+
+  // doctor.ts - 主要消息
+  "doctor.intro": "OpenClaw 诊断",
+  "doctor.complete": "诊断完成。",
+
+  // doctor.ts - 网关消息
+  "doctor.gateway.title": "网关",
+  "doctor.gateway.modeUnset": "gateway.mode 未设置；网关启动将被阻止。",
+  "doctor.gateway.fixConfigure": "修复：运行 {command} 并设置网关模式（local/remote）。",
+  "doctor.gateway.fixDirect": "或直接设置：{command}",
+  "doctor.gateway.missingConfig": "缺少配置：先运行 {command}。",
+  "doctor.gateway.auth.title": "网关认证",
+  "doctor.gateway.auth.off":
+    "网关认证已关闭或缺少令牌。令牌认证现在是推荐的默认设置（包括本地回环）。",
+  "doctor.gateway.auth.tokenConfigured": "网关令牌已配置。",
+  "doctor.gateway.auth.generatePrompt": "立即生成并配置网关令牌？",
+
+  // doctor.ts - 旧版状态消息
+  "doctor.legacy.title": "检测到旧版状态",
+  "doctor.legacy.migratePrompt": "立即迁移旧版状态（会话/代理/WhatsApp 认证）？",
+
+  // doctor.ts - 钩子消息
+  "doctor.hooks.title": "钩子",
+  "doctor.hooks.modelNotResolved": '- hooks.gmail.model "{model}" 无法解析',
+
+  // doctor.ts - 配置消息
+  "doctor.config.invalid": "配置无效：",
+
+  // doctor.ts - Systemd 驻留
+  "doctor.systemd.lingerWarning":
+    "网关作为 systemd 用户服务运行。如果没有驻留，systemd 会在注销/空闲时停止用户会话并终止网关。",
+
+  // doctor.ts - 工作区
+  "doctor.workspace.title": "工作区",
+
+  // doctor-auth.ts
+  "doctor.auth.title": "认证配置文件",
+  "doctor.auth.deprecatedDetected": "检测到已弃用的外部 CLI 认证配置文件（不再支持）：",
+  "doctor.auth.removePrompt": "立即移除已弃用的 CLI 认证配置文件？",
+  "doctor.auth.updateOAuthPrompt": "立即更新配置中的 Anthropic OAuth 配置文件 ID？",
+  "doctor.auth.refreshPrompt": "立即刷新即将过期的 OAuth 令牌？（静态令牌需要重新认证）",
+  "doctor.auth.model.title": "模型认证",
+  "doctor.auth.cooldowns.title": "认证配置文件冷却期",
+  "doctor.auth.topUp": "充值（提供商计费）或切换提供商。",
+  "doctor.auth.waitCooldown": "等待冷却期结束或切换提供商。",
+
+  // doctor-config-flow.ts
+  "doctor.config.title": "配置",
+  "doctor.config.invalidNote": "配置无效；诊断将使用尽力而为的配置运行。",
+  "doctor.config.warnings.title": "配置警告",
+  "doctor.config.legacyKeys.title": "检测到旧版配置键",
+  "doctor.config.repairPrompt": "立即应用推荐的配置修复？",
+  "doctor.config.zen.title": "OpenCode Zen",
+  "doctor.config.unknownKeys.title": "未知配置键",
+  "doctor.changes.title": "诊断变更",
+  "doctor.warnings.title": "诊断警告",
+
+  // doctor-gateway-daemon-flow.ts
+  "doctor.gateway.launchAgent.notLoaded": "LaunchAgent 已列出但未在 launchd 中加载。",
+  "doctor.gateway.launchAgent.repaired": "{title} LaunchAgent 已修复。",
+  "doctor.gateway.service.notInstalled": "网关服务未安装。",
+  "doctor.gateway.service.installPrompt": "立即安装网关服务？",
+  "doctor.gateway.service.runtime": "网关服务运行时",
+  "doctor.gateway.service.installFailed": "网关服务安装失败：{error}",
+  "doctor.gateway.service.startPrompt": "立即启动网关服务？",
+  "doctor.gateway.service.restartPrompt": "立即重启网关服务？",
+  "doctor.gateway.notRunning": "网关未运行。",
+  "doctor.gateway.connection": "网关连接",
+  "doctor.gateway.port.title": "网关端口",
+  "doctor.gateway.lastError": "上次网关错误：{error}",
+
+  // doctor-gateway-services.ts
+  "doctor.gateway.nixMode": "检测到 Nix 模式；跳过服务更新。",
+  "doctor.gateway.remoteMode": "网关模式为远程；跳过本地服务审计。",
+  "doctor.gateway.entrypoint.mismatch": "网关服务入口点与当前安装不匹配。",
+  "doctor.gateway.overwritePrompt": "立即使用当前默认值覆盖网关服务配置？",
+  "doctor.gateway.updatePrompt": "立即将网关服务配置更新为推荐的默认值？",
+  "doctor.gateway.removeLegacyPrompt": "立即移除旧版网关服务（clawdbot/moltbot）？",
+
+  // doctor-gateway-health.ts
+  "doctor.gateway.health.notRunning": "网关未运行。",
+
+  // doctor-sandbox.ts
+  "doctor.sandbox.title": "沙盒",
+  "doctor.sandbox.scriptNotFound": "无法找到 {script}。请从仓库根目录运行它。",
+  "doctor.sandbox.imageMissing": "沙盒 {kind} 镜像缺失：{image}。{hint}",
+  "doctor.sandbox.dockerNotAvailable": "Docker 不可用；跳过沙盒镜像检查。",
+
+  // doctor-ui.ts
+  "doctor.ui.title": "UI",
+  "doctor.ui.sourcesNotPresent": "跳过 UI 构建：ui/ 源文件不存在。",
+  "doctor.ui.building": "正在构建控制 UI 资源...（这可能需要一些时间）",
+  "doctor.ui.buildComplete": "UI 构建完成。",
+  "doctor.ui.rebuildStale": "正在重建过期的 UI 资源...（这可能需要一些时间）",
+  "doctor.ui.rebuildComplete": "UI 重建完成。",
+  "doctor.ui.buildPrompt": "立即构建控制 UI 资源？",
+  "doctor.ui.rebuildPrompt": "立即重建 UI？（检测到需要更新的协议不匹配）",
+
+  // doctor-update.ts
+  "doctor.update.title": "更新",
+  "doctor.update.running": "正在运行更新（fetch/rebase/build/ui:build/doctor）…",
+  "doctor.update.prompt": "在运行诊断之前从 git 更新 OpenClaw？",
 };
 
 export default cliMessages;

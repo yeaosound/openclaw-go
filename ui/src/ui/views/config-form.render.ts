@@ -1,4 +1,5 @@
 import { html, nothing } from "lit";
+import { t } from "../../i18n/lit.js";
 import type { ConfigUiHints } from "../types";
 import { icons } from "../icons";
 import { renderNode } from "./config-form.node";
@@ -413,7 +414,7 @@ export function renderConfigForm(props: ConfigFormProps) {
       <div class="config-empty">
         <div class="config-empty__icon">${icons.search}</div>
         <div class="config-empty__text">
-          ${searchQuery ? `No settings match "${searchQuery}"` : "No settings in this section"}
+          ${searchQuery ? t("views.config.form.empty", { query: searchQuery }) : t("views.config.form.emptySection")}
         </div>
       </div>
     `;

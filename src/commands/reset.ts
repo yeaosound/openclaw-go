@@ -9,6 +9,7 @@ import {
   resolveStateDir,
 } from "../config/config.js";
 import { resolveGatewayService } from "../daemon/service.js";
+import { t } from "../i18n/index.js";
 import { stylePromptHint, stylePromptMessage, stylePromptTitle } from "../terminal/prompt-style.js";
 import {
   collectWorkspaceDirs,
@@ -60,7 +61,7 @@ async function stopGatewayIfRunning(runtime: RuntimeEnv) {
 export async function resetCommand(runtime: RuntimeEnv, opts: ResetOptions) {
   const interactive = !opts.nonInteractive;
   if (!interactive && !opts.yes) {
-    runtime.error("Non-interactive mode requires --yes.");
+    runtime.error(t("reset.error.nonInteractiveYes"));
     runtime.exit(1);
     return;
   }
@@ -68,33 +69,33 @@ export async function resetCommand(runtime: RuntimeEnv, opts: ResetOptions) {
   let scope = opts.scope;
   if (!scope) {
     if (!interactive) {
-      runtime.error("Non-interactive mode requires --scope.");
+      runtime.error(t("reset.error.nonInteractiveScope"));
       runtime.exit(1);
       return;
     }
     const selection = await selectStyled<ResetScope>({
-      message: "Reset scope",
+      message: t("reset.scope.message"),
       options: [
         {
           value: "config",
-          label: "Config only",
-          hint: "openclaw.json",
+          label: t("reset.scope.config.label"),
+          hint: t("reset.scope.config.hint"),
         },
         {
           value: "config+creds+sessions",
-          label: "Config + credentials + sessions",
-          hint: "keeps workspace + auth profiles",
+          label: t("reset.scope.configCredsSessions.label"),
+          hint: t("reset.scope.configCredsSessions.hint"),
         },
         {
           value: "full",
-          label: "Full reset",
-          hint: "state dir + workspace",
+          label: t("reset.scope.full.label"),
+          hint: t("reset.scope.full.hint"),
         },
       ],
       initialValue: "config+creds+sessions",
     });
     if (isCancel(selection)) {
-      cancel(stylePromptTitle("Reset cancelled.") ?? "Reset cancelled.");
+      cancel(stylePromptTitle(t("reset.cancelled")) ?? t("reset.cancelled"));
       runtime.exit(0);
       return;
     }
@@ -109,10 +110,10 @@ export async function resetCommand(runtime: RuntimeEnv, opts: ResetOptions) {
 
   if (interactive && !opts.yes) {
     const ok = await confirm({
-      message: stylePromptMessage(`Proceed with ${scope} reset?`),
+      message: stylePromptMessage(t("reset.confirm", { scope })),
     });
     if (isCancel(ok) || !ok) {
-      cancel(stylePromptTitle("Reset cancelled.") ?? "Reset cancelled.");
+      cancel(stylePromptTitle(t("reset.cancelled")) ?? t("reset.cancelled"));
       runtime.exit(0);
       return;
     }

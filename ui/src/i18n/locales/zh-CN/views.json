@@ -1,4 +1,188 @@
 {
+  "agents": {
+    "title": "代理",
+    "configured": "已配置",
+    "loading": "正在加载…",
+    "refresh": "刷新",
+    "noAgents": "未找到代理。",
+    "selectTitle": "选择代理",
+    "selectSubtitle": "从侧边栏选择代理以查看详情。",
+    "tabs": {
+      "overview": "概览",
+      "files": "文件",
+      "tools": "工具",
+      "skills": "技能",
+      "channels": "频道",
+      "cron": "定时任务"
+    },
+    "overview": {
+      "title": "概览",
+      "subtitle": "工作区路径和身份元数据。",
+      "workspace": "工作区",
+      "primaryModel": "主模型",
+      "identityName": "身份名称",
+      "identityEmoji": "身份表情",
+      "default": "默认",
+      "skillsFilter": "技能筛选",
+      "yes": "是",
+      "no": "否",
+      "selected": "已选择",
+      "allSkills": "所有技能",
+      "modelSelection": "模型选择",
+      "primaryModelLabel": "主模型",
+      "inheritDefault": "继承默认值",
+      "inheritDefaultWithModel": "继承默认值（{model}）",
+      "fallbacks": "回退模型（逗号分隔）",
+      "fallbacksPlaceholder": "provider/model, provider/model",
+      "reloadConfig": "重新加载配置",
+      "saving": "正在保存…",
+      "save": "保存",
+      "loading": "正在加载…",
+      "unavailable": "不可用"
+    },
+    "context": {
+      "title": "代理上下文",
+      "workspaceSubtitle": "工作区、身份和模型配置。",
+      "cronSubtitle": "工作区和调度目标。"
+    },
+    "channels": {
+      "title": "频道",
+      "subtitle": "网关范围的频道状态快照。",
+      "refreshing": "正在刷新…",
+      "lastRefresh": "上次刷新：",
+      "never": "从未",
+      "loadPrompt": "加载频道以查看实时状态。",
+      "noChannels": "未找到频道。",
+      "connected": "已连接",
+      "accounts": "账户",
+      "configured": "已配置",
+      "notConfigured": "未配置",
+      "enabled": "已启用",
+      "disabled": "已禁用"
+    },
+    "cron": {
+      "schedulerTitle": "调度器",
+      "schedulerSubtitle": "网关定时任务状态。",
+      "enabled": "已启用",
+      "yes": "是",
+      "no": "否",
+      "na": "不适用",
+      "jobs": "任务",
+      "nextWake": "下次唤醒",
+      "jobsTitle": "代理定时任务",
+      "jobsSubtitle": "针对此代理的定时任务。",
+      "noJobs": "无已分配任务。",
+      "sessionTarget": "会话目标",
+      "wakeMode": "唤醒模式"
+    },
+    "files": {
+      "title": "核心文件",
+      "subtitle": "引导角色、身份和工具指导。",
+      "loading": "正在加载…",
+      "workspace": "工作区：",
+      "loadPrompt": "加载代理工作区文件以编辑核心指令。",
+      "noFiles": "未找到文件。",
+      "selectFile": "选择文件进行编辑。",
+      "reset": "重置",
+      "saving": "正在保存…",
+      "save": "保存",
+      "content": "内容",
+      "missing": "缺失",
+      "missingPill": "缺失",
+      "missingMessage": "此文件缺失。保存将在代理工作区中创建它。"
+    },
+    "tools": {
+      "title": "工具",
+      "subtitle": "捆绑、托管和工作区技能。",
+      "loading": "正在加载…",
+      "refresh": "刷新",
+      "filter": "筛选",
+      "searchPlaceholder": "搜索技能",
+      "shown": "显示 {count} 个",
+      "noSkills": "未找到技能。",
+      "error": "错误",
+      "list": {
+        "description": "描述",
+        "source": "来源",
+        "disabled": "已禁用"
+      },
+      "actions": {
+        "enable": "启用",
+        "disable": "禁用",
+        "installing": "正在安装…",
+        "install": "安装"
+      },
+      "apiKey": "API 密钥",
+      "sections": {
+        "files": "文件",
+        "runtime": "运行时",
+        "web": "网页",
+        "memory": "内存",
+        "sessions": "会话",
+        "ui": "界面",
+        "messaging": "消息",
+        "automation": "自动化",
+        "nodes": "节点",
+        "agents": "代理",
+        "media": "媒体"
+      },
+      "enabled": "已启用",
+      "enableAll": "全部启用",
+      "disableAll": "全部禁用",
+      "reloadConfig": "重新加载配置",
+      "saving": "正在保存…",
+      "save": "保存",
+      "loadPrompt": "加载网关配置以调整工具配置文件。",
+      "explicitAllowlist": "此代理在配置中使用显式允许列表。工具覆盖在配置选项卡中管理。",
+      "globalBlock": "设置了全局 tools.allow。代理覆盖无法启用被全局阻止的工具。",
+      "profile": "配置文件",
+      "source": "来源",
+      "status": "状态",
+      "unsaved": "未保存",
+      "quickPresets": "快速预设",
+      "inherit": "继承",
+      "profiles": {
+        "minimal": "最小化",
+        "coding": "编码",
+        "messaging": "消息传递",
+        "full": "完整"
+      }
+    },
+    "skills": {
+      "title": "技能",
+      "subtitle": "每个代理的技能允许列表和工作区技能。",
+      "useAll": "使用全部",
+      "disableAll": "禁用全部",
+      "reloadConfig": "重新加载配置",
+      "loading": "正在加载…",
+      "refresh": "刷新",
+      "saving": "正在保存…",
+      "save": "保存",
+      "loadConfigPrompt": "加载网关配置以设置每个代理的技能。",
+      "customAllowlist": "此代理使用自定义技能允许列表。",
+      "allEnabled": "已启用所有技能。禁用任何技能将创建每个代理的允许列表。",
+      "loadSkillsPrompt": "加载此代理的技能以查看工作区特定条目。",
+      "filter": "筛选",
+      "searchPlaceholder": "搜索技能",
+      "shown": "显示",
+      "noSkills": "未找到技能。",
+      "groups": {
+        "workspace": "工作区技能",
+        "builtIn": "内置技能",
+        "installed": "已安装技能",
+        "extra": "额外技能",
+        "other": "其他技能"
+      },
+      "status": {
+        "disabled": "已禁用",
+        "blockedByAllowlist": "被允许列表阻止",
+        "eligible": "符合条件",
+        "blocked": "被阻止",
+        "missing": "缺失：",
+        "reason": "原因："
+      }
+    }
+  },
   "overview": {
     "title": "概览",
     "gatewayAccess": {
@@ -75,7 +259,10 @@
       "lastInbound": "上次接收",
       "yes": "是",
       "no": "否",
-      "accounts": "账户"
+      "accounts": "账户",
+      "probe": "探测",
+      "na": "不适用",
+      "mode": "模式"
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -111,6 +298,13 @@
       "title": "Nostr",
       "subtitle": "通过 Nostr 中继的去中心化私信（NIP-04）。",
       "publicKey": "公钥",
+      "running": "运行中",
+      "configured": "已配置",
+      "lastInbound": "上次接收",
+      "lastStart": "上次启动",
+      "yes": "是",
+      "no": "否",
+      "na": "不适用",
       "profile": {
         "title": "资料",
         "noProfile": "未设置资料。点击「编辑资料」添加您的姓名、简介和头像。",
@@ -137,7 +331,8 @@
         "hideAdvanced": "隐藏高级选项",
         "saving": "正在保存...",
         "importing": "正在导入..."
-      }
+      },
+      "refresh": "刷新"
     },
     "googlechat": {
       "title": "Google Chat",
@@ -148,10 +343,21 @@
     "config": {
       "save": "保存",
       "saving": "正在保存…",
+      "reload": "重新加载",
       "schemaUnavailable": "结构不可用。请使用原始模式。",
       "schemaError": "频道配置结构不可用。",
       "loading": "正在加载配置结构…",
-      "unsupported": "不支持的类型：{type}。请使用原始模式。"
+      "unsupported": "不支持的类型：{type}。请使用原始模式。",
+      "form": {
+        "unsupportedNode": "不支持的架构节点。请使用原始模式。",
+        "default": "默认值：{value}",
+        "empty": "没有设置匹配 \"{query}\"",
+        "emptySection": "此部分没有设置",
+        "rawJson": "原始 JSON",
+        "addItem": "添加项目",
+        "remove": "移除",
+        "edit": "编辑"
+      }
     }
   },
   "chat": {
@@ -181,7 +387,14 @@
       "title": "退出专注模式"
     },
     "disabledReason": "disabledReason",
-    "error": "错误"
+    "error": "错误",
+    "compacting": "正在压缩…",
+    "compacted": "已压缩",
+    "message": "消息",
+    "stop": "停止",
+    "newSession": "新会话",
+    "queue": "排队",
+    "send": "发送"
   },
   "skills": {
     "title": "技能",
@@ -202,7 +415,8 @@
       "enable": "启用",
       "disable": "禁用",
       "installing": "正在安装…",
-      "install": "安装"
+      "install": "安装",
+      "saveKey": "保存密钥"
     },
     "apiKey": "API 密钥"
   },
@@ -381,8 +595,10 @@
       "paired": "已配对",
       "noPaired": "无配对设备。",
       "errors": {
-        "load": "错误"
-      }
+        "load": "錯誤"
+      },
+      "loading": "正在加载…",
+      "refresh": "刷新"
     },
     "execBinding": {
       "title": "执行节点绑定",
@@ -499,7 +715,8 @@
       "thinking": "思考",
       "verbose": "详细",
       "reasoning": "推理",
-      "actions": "操作"
+      "actions": "操作",
+      "delete": "删除"
     },
     "empty": "未找到会话。",
     "levels": {
@@ -525,7 +742,8 @@
       "level": "级别",
       "subsystem": "子系统",
       "message": "消息"
-    }
+    },
+    "export": "导出"
   },
   "debug": {
     "title": "调试",
