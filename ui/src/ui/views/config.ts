@@ -14,7 +14,7 @@ export type ConfigProps = {
   applying: boolean;
   updating: boolean;
   connected: boolean;
-  schema: unknown | null;
+  schema: unknown;
   schemaLoading: boolean;
   uiHints: ConfigUiHints;
   formMode: "form" | "raw";
@@ -299,7 +299,9 @@ function resolveSectionMeta(
   description?: string;
 } {
   const meta = SECTION_META[key];
-  if (meta) return meta;
+  if (meta) {
+    return meta;
+  }
   return {
     label: schema?.title ?? humanize(key),
     description: schema?.description ?? "",
@@ -312,7 +314,9 @@ function resolveSubsections(params: {
   uiHints: ConfigUiHints;
 }): SubsectionEntry[] {
   const { key, schema, uiHints } = params;
-  if (!schema || schemaType(schema) !== "object" || !schema.properties) return [];
+  if (!schema || schemaType(schema) !== "object" || !schema.properties) {
+    return [];
+  }
   const entries = Object.entries(schema.properties).map(([subKey, node]) => {
     const hint = hintForPath([key, subKey], uiHints);
     const label = hint?.label ?? node.title ?? humanize(subKey);
@@ -328,11 +332,15 @@ function computeDiff(
   original: Record<string, unknown> | null,
   current: Record<string, unknown> | null,
 ): Array<{ path: string; from: unknown; to: unknown }> {
-  if (!original || !current) return [];
+  if (!original || !current) {
+    return [];
+  }
   const changes: Array<{ path: string; from: unknown; to: unknown }> = [];
 
   function compare(orig: unknown, curr: unknown, path: string) {
-    if (orig === curr) return;
+    if (orig === curr) {
+      return;
+    }
     if (typeof orig !== typeof curr) {
       changes.push({ path, from: orig, to: curr });
       return;
@@ -369,7 +377,9 @@ function truncateValue(value: unknown, maxLen = 40): string {
   } catch {
     str = String(value);
   }
-  if (str.length <= maxLen) return str;
+  if (str.length <= maxLen) {
+    return str;
+  }
   return str.slice(0, maxLen - 3) + "...";
 }
 
@@ -392,7 +402,7 @@ export function renderConfig(props: ConfigProps) {
 
   const activeSectionSchema =
     props.activeSection && analysis.schema && schemaType(analysis.schema) === "object"
-      ? (analysis.schema.properties?.[props.activeSection] as JsonSchema | undefined)
+      ? analysis.schema.properties?.[props.activeSection]
       : undefined;
   const activeSectionMeta = props.activeSection
     ? resolveSectionMeta(props.activeSection, activeSectionSchema)
@@ -439,13 +449,29 @@ export function renderConfig(props: ConfigProps) {
       <!-- Sidebar -->
       <aside class="config-sidebar">
         <div class="config-sidebar__header">
+<<<<<<< HEAD
+          <div class="config-sidebar__title">Settings</div>
+          <span
+            class="pill pill--sm ${
+              validity === "valid" ? "pill--ok" : validity === "invalid" ? "pill--danger" : ""
+            }"
+            >${validity}</span
+          >
+=======
           <div class="config-sidebar__title">${t('views.config.title')}</div>
           <span class="pill pill--sm ${validity === "valid" ? "pill--ok" : validity === "invalid" ? "pill--danger" : ""}">${validity === "valid" ? translate('views.config.validity.valid') : validity === "invalid" ? translate('views.config.validity.invalid') : validity}</span>
+>>>>>>> Dev
         </div>
 
         <!-- Search -->
         <div class="config-search">
-          <svg class="config-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg
+            class="config-search__icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
             <circle cx="11" cy="11" r="8"></circle>
             <path d="M21 21l-4.35-4.35"></path>
           </svg>
@@ -459,11 +485,13 @@ export function renderConfig(props: ConfigProps) {
           ${
             props.searchQuery
               ? html`
-            <button
-              class="config-search__clear"
-              @click=${() => props.onSearchChange("")}
-            >×</button>
-          `
+                <button
+                  class="config-search__clear"
+                  @click=${() => props.onSearchChange("")}
+                >
+                  ×
+                </button>
+              `
               : nothing
           }
         </div>
@@ -479,6 +507,18 @@ export function renderConfig(props: ConfigProps) {
           </button>
           ${allSections.map(
             (section) => html`
+<<<<<<< HEAD
+              <button
+                class="config-nav__item ${props.activeSection === section.key ? "active" : ""}"
+                @click=${() => props.onSectionChange(section.key)}
+              >
+                <span class="config-nav__icon"
+                  >${getSectionIcon(section.key)}</span
+                >
+                <span class="config-nav__label">${section.label}</span>
+              </button>
+            `,
+=======
             <button
               class="config-nav__item ${props.activeSection === section.key ? "active" : ""}"
               @click=${() => props.onSectionChange(section.key)}
@@ -487,6 +527,7 @@ export function renderConfig(props: ConfigProps) {
               <span class="config-nav__label">${translate(section.label)}</span>
             </button>
           `,
+>>>>>>> Dev
           )}
         </nav>
 
@@ -518,16 +559,36 @@ export function renderConfig(props: ConfigProps) {
             ${
               hasChanges
                 ? html`
+<<<<<<< HEAD
+                  <span class="config-changes-badge"
+                    >${
+                      props.formMode === "raw"
+                        ? "Unsaved changes"
+                        : `${diff.length} unsaved change${diff.length !== 1 ? "s" : ""}`
+                    }</span
+                  >
+                `
+=======
               <span class="config-changes-badge">${props.formMode === "raw" ? translate('views.config.changes.unsaved') : translate(diff.length === 1 ? 'views.config.changes.unsavedCount' : 'views.config.changes.unsavedCountPlural', { count: diff.length })}</span>
             `
+>>>>>>> Dev
                 : html`
                     <span class="config-status muted">${translate('views.config.changes.none')}</span>
                   `
             }
           </div>
           <div class="config-actions__right">
+<<<<<<< HEAD
+            <button
+              class="btn btn--sm"
+              ?disabled=${props.loading}
+              @click=${props.onReload}
+            >
+              ${props.loading ? "Loading…" : "Reload"}
+=======
             <button class="btn btn--sm" ?disabled=${props.loading} @click=${props.onReload}>
               ${props.loading ? translate('views.config.actions.reload.loading') : translate('views.config.actions.reload.reload')}
+>>>>>>> Dev
             </button>
             <button
               class="btn btn--sm primary"
@@ -557,6 +618,41 @@ export function renderConfig(props: ConfigProps) {
         ${
           hasChanges && props.formMode === "form"
             ? html`
+<<<<<<< HEAD
+              <details class="config-diff">
+                <summary class="config-diff__summary">
+                  <span
+                    >View ${diff.length} pending
+                    change${diff.length !== 1 ? "s" : ""}</span
+                  >
+                  <svg
+                    class="config-diff__chevron"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                  </svg>
+                </summary>
+                <div class="config-diff__content">
+                  ${diff.map(
+                    (change) => html`
+                      <div class="config-diff__item">
+                        <div class="config-diff__path">${change.path}</div>
+                        <div class="config-diff__values">
+                          <span class="config-diff__from"
+                            >${truncateValue(change.from)}</span
+                          >
+                          <span class="config-diff__arrow">→</span>
+                          <span class="config-diff__to"
+                            >${truncateValue(change.to)}</span
+                          >
+                        </div>
+                      </div>
+                    `,
+                  )}
+=======
           <details class="config-diff">
             <summary class="config-diff__summary">
               <span>${translate(diff.length === 1 ? 'views.config.changes.unsavedCount' : 'views.config.changes.unsavedCountPlural', { count: diff.length })}</span>
@@ -582,25 +678,32 @@ export function renderConfig(props: ConfigProps) {
                     <span class="config-diff__arrow">→</span>
                     <span class="config-diff__to">${truncateValue(change.to)}</span>
                   </div>
+>>>>>>> Dev
                 </div>
-              `,
-              )}
-            </div>
-          </details>
-        `
+              </details>
+            `
             : nothing
         }
-
         ${
           activeSectionMeta && props.formMode === "form"
             ? html`
               <div class="config-section-hero">
-                <div class="config-section-hero__icon">${getSectionIcon(props.activeSection ?? "")}</div>
+                <div class="config-section-hero__icon">
+                  ${getSectionIcon(props.activeSection ?? "")}
+                </div>
                 <div class="config-section-hero__text">
-                  <div class="config-section-hero__title">${activeSectionMeta.label}</div>
+                  <div class="config-section-hero__title">
+                    ${activeSectionMeta.label}
+                  </div>
                   ${
                     activeSectionMeta.description
+<<<<<<< HEAD
+                      ? html`<div class="config-section-hero__desc">
+                        ${activeSectionMeta.description}
+                      </div>`
+=======
                       ? html`                <div class="config-section-hero__desc"><span style="font-weight: 600;">${translate('views.config.sectionHero.desc')}:</span> ${activeSectionMeta.description}</div>`
+>>>>>>> Dev
                       : nothing
                   }
                 </div>
@@ -608,7 +711,6 @@ export function renderConfig(props: ConfigProps) {
             `
             : nothing
         }
-
         ${
           allowSubnav
             ? html`
@@ -688,7 +790,9 @@ export function renderConfig(props: ConfigProps) {
         ${
           props.issues.length > 0
             ? html`<div class="callout danger" style="margin-top: 12px;">
-              <pre class="code-block">${JSON.stringify(props.issues, null, 2)}</pre>
+              <pre class="code-block">
+${JSON.stringify(props.issues, null, 2)}</pre
+              >
             </div>`
             : nothing
         }

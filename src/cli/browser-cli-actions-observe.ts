@@ -1,10 +1,10 @@
 import type { Command } from "commander";
-import { t } from "../i18n/index.js";
 import { danger } from "../globals.js";
+import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";
+import { shortenHomePath } from "../utils.js";
 import { callBrowserRequest, type BrowserParentOpts } from "./browser-cli-shared.js";
 import { runCommandWithRuntime } from "./cli-utils.js";
-import { shortenHomePath } from "../utils.js";
 
 function runBrowserObserve(action: () => Promise<void>) {
   return runCommandWithRuntime(defaultRuntime, action, (err) => {
@@ -19,7 +19,7 @@ export function registerBrowserActionObserveCommands(
 ) {
   browser
     .command("console")
-    .description(t('cli.browser.console.description'))
+    .description(t("cli.browser.console.description"))
     .option("--level <level>", "Filter by level (error, warn, info)")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
@@ -49,7 +49,7 @@ export function registerBrowserActionObserveCommands(
 
   browser
     .command("pdf")
-    .description(t('cli.browser.pdf.description'))
+    .description(t("cli.browser.pdf.description"))
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
       const parent = parentOpts(cmd);
@@ -75,7 +75,7 @@ export function registerBrowserActionObserveCommands(
 
   browser
     .command("responsebody")
-    .description(t('cli.browser.network.description'))
+    .description(t("cli.browser.network.description"))
     .argument("<url>", "URL (exact, substring, or glob like **/api)")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .option(

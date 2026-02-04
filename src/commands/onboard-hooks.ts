@@ -1,9 +1,9 @@
 import type { OpenClawConfig } from "../config/config.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
-import { buildWorkspaceHookStatus } from "../hooks/hooks-status.js";
 import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
 import { formatCliCommand } from "../cli/command-format.js";
+import { buildWorkspaceHookStatus } from "../hooks/hooks-status.js";
 import { t } from "../i18n/index.js";
 
 export async function setupInternalHooks(
@@ -12,13 +12,10 @@ export async function setupInternalHooks(
   prompter: WizardPrompter,
 ): Promise<OpenClawConfig> {
   await prompter.note(
-    [
-      t('wizard.hooks.description'),
-      t('wizard.hooks.example'),
-      "",
-      t('wizard.hooks.docs'),
-    ].join("\n"),
-    t('wizard.hooks.title'),
+    [t("wizard.hooks.description"), t("wizard.hooks.example"), "", t("wizard.hooks.docs")].join(
+      "\n",
+    ),
+    t("wizard.hooks.title"),
   );
 
   // Discover available hooks using the hook discovery system
@@ -29,17 +26,14 @@ export async function setupInternalHooks(
   const eligibleHooks = report.hooks.filter((h) => h.eligible);
 
   if (eligibleHooks.length === 0) {
-    await prompter.note(
-      t('wizard.hooks.none.desc'),
-      t('wizard.hooks.none.title'),
-    );
+    await prompter.note(t("wizard.hooks.none.desc"), t("wizard.hooks.none.title"));
     return cfg;
   }
 
   const toEnable = await prompter.multiselect({
-    message: t('wizard.hooks.enablePrompt'),
+    message: t("wizard.hooks.enablePrompt"),
     options: [
-      { value: "__skip__", label: t('common.skipForNow') },
+      { value: "__skip__", label: t("common.skipForNow") },
       ...eligibleHooks.map((hook) => ({
         value: hook.name,
         label: `${hook.emoji ?? "🔗"} ${hook.name}`,
@@ -74,12 +68,12 @@ export async function setupInternalHooks(
     [
       `Enabled ${selected.length} hook${selected.length > 1 ? "s" : ""}: ${selected.join(", ")}`,
       "",
-      t('wizard.hooks.configured.manage'),
+      t("wizard.hooks.configured.manage"),
       `  ${formatCliCommand("openclaw hooks list")}`,
       `  ${formatCliCommand("openclaw hooks enable <name>")}`,
       `  ${formatCliCommand("openclaw hooks disable <name>")}`,
     ].join("\n"),
-    t('wizard.hooks.configured.title'),
+    t("wizard.hooks.configured.title"),
   );
 
   return next;

@@ -4,8 +4,8 @@
  * Handles initialization of i18n from environment variables and config files.
  */
 
-import { readConfigFileSnapshot } from '../config/io.js';
-import type { OpenClawConfig } from '../config/types.js';
+import type { OpenClawConfig } from "../config/types.js";
+import { readConfigFileSnapshot } from "../config/io.js";
 import {
   setLocale,
   getLocale,
@@ -14,23 +14,21 @@ import {
   LANG_ENV_VAR,
   getAvailableLocales,
   AVAILABLE_LOCALES,
-} from './index.js';
+} from "./index.js";
 
 /**
  * Detect system language from environment variables
  * Returns the best matching available locale or undefined
  */
-export function detectSystemLanguage(): typeof AVAILABLE_LOCALES[number] | undefined {
+export function detectSystemLanguage(): (typeof AVAILABLE_LOCALES)[number] | undefined {
   try {
-    const systemLang = process.env.LANG ||
-                       process.env.LC_ALL ||
-                       process.env.LC_MESSAGES ||
-                       process.env.LANGUAGE;
+    const systemLang =
+      process.env.LANG || process.env.LC_ALL || process.env.LC_MESSAGES || process.env.LANGUAGE;
 
     if (!systemLang) return undefined;
 
     // Extract language code (e.g., "zh_CN.UTF-8" -> "zh-CN")
-    const langCode = systemLang.split('.')[0].replace(/_/g, '-');
+    const langCode = systemLang.split(".")[0].replace(/_/g, "-");
 
     // Check for exact match
     if (isAvailableLocale(langCode)) {
@@ -38,8 +36,8 @@ export function detectSystemLanguage(): typeof AVAILABLE_LOCALES[number] | undef
     }
 
     // Check for language match (e.g., "zh" matches "zh-CN")
-    const baseLang = langCode.split('-')[0];
-    const match = AVAILABLE_LOCALES.find(loc => loc.startsWith(baseLang));
+    const baseLang = langCode.split("-")[0];
+    const match = AVAILABLE_LOCALES.find((loc) => loc.startsWith(baseLang));
     return match;
   } catch {
     return undefined;
@@ -119,12 +117,12 @@ export function initializeI18nSync(): void {
  */
 export async function getLanguageSettings(): Promise<{
   locale: string;
-  source: 'env' | 'config' | 'system' | 'default';
+  source: "env" | "config" | "system" | "default";
 }> {
   // Check environment variable
   const envLang = process.env[LANG_ENV_VAR];
   if (envLang && isAvailableLocale(envLang)) {
-    return { locale: envLang, source: 'env' };
+    return { locale: envLang, source: "env" };
   }
 
   // Check config file
@@ -133,7 +131,7 @@ export async function getLanguageSettings(): Promise<{
     if (snapshot.valid && snapshot.config.lang) {
       const configLang = snapshot.config.lang;
       if (isAvailableLocale(configLang)) {
-        return { locale: configLang, source: 'config' };
+        return { locale: configLang, source: "config" };
       }
     }
   } catch {
@@ -143,11 +141,11 @@ export async function getLanguageSettings(): Promise<{
   // Check system language
   const systemLang = detectSystemLanguage();
   if (systemLang) {
-    return { locale: systemLang, source: 'system' };
+    return { locale: systemLang, source: "system" };
   }
 
   // Default
-  return { locale: DEFAULT_LOCALE, source: 'default' };
+  return { locale: DEFAULT_LOCALE, source: "default" };
 }
 
 /**
@@ -160,7 +158,7 @@ export async function updateLanguageSetting(locale: string): Promise<void> {
   if (!isAvailableLocale(locale)) {
     throw new Error(
       `Cannot set language to "${locale}". ` +
-        `Available locales: ${getAvailableLocales().join(', ')}`,
+        `Available locales: ${getAvailableLocales().join(", ")}`,
     );
   }
 
@@ -169,7 +167,7 @@ export async function updateLanguageSetting(locale: string): Promise<void> {
 
   config.lang = locale;
 
-  const { writeConfigFile } = await import('../config/io.js');
+  const { writeConfigFile } = await import("../config/io.js");
   await writeConfigFile(config);
 
   // Update current locale
@@ -187,12 +185,18 @@ export function getAvailableLocalesWithNames(): Array<{
   nativeName: string;
 }> {
   return [
-    { code: 'en', name: 'English', nativeName: 'English' },
-    { code: 'zh-CN', name: 'Chinese (Simplified)', nativeName: '简体中文' },
+    { code: "en", name: "English", nativeName: "English" },
+    { code: "zh-CN", name: "Chinese (Simplified)", nativeName: "简体中文" },
   ];
 }
 
 /**
  * Re-export for convenience
  */
-export { getLocale, DEFAULT_LOCALE, isAvailableLocale, LANG_ENV_VAR, AVAILABLE_LOCALES } from './index.js';
+export {
+  getLocale,
+  DEFAULT_LOCALE,
+  isAvailableLocale,
+  LANG_ENV_VAR,
+  AVAILABLE_LOCALES,
+} from "./index.js";

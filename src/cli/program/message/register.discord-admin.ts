@@ -1,12 +1,15 @@
 import type { Command } from "commander";
-import { t } from "../../../i18n/index.js";
 import type { MessageCliHelpers } from "./helpers.js";
+import { t } from "../../../i18n/index.js";
 
 export function registerMessageDiscordAdminCommands(message: Command, helpers: MessageCliHelpers) {
   const role = message.command("role").description(t("cli.message.role.description"));
   helpers
     .withMessageBase(
-      role.command("info").description(t("cli.message.role.info.description")).requiredOption("--guild-id <id>", "Guild id"),
+      role
+        .command("info")
+        .description(t("cli.message.role.info.description"))
+        .requiredOption("--guild-id <id>", "Guild id"),
     )
     .action(async (opts) => {
       await helpers.runMessageAction("role-info", opts);
@@ -41,7 +44,9 @@ export function registerMessageDiscordAdminCommands(message: Command, helpers: M
   const channel = message.command("channel").description(t("cli.message.channel.description"));
   helpers
     .withMessageBase(
-      helpers.withRequiredMessageTarget(channel.command("info").description(t("cli.message.channel.info.description"))),
+      helpers.withRequiredMessageTarget(
+        channel.command("info").description(t("cli.message.channel.info.description")),
+      ),
     )
     .action(async (opts) => {
       await helpers.runMessageAction("channel-info", opts);

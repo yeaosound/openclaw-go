@@ -1,4 +1,188 @@
 {
+  "agents": {
+    "title": "代理程式",
+    "configured": "已設定",
+    "loading": "載入中…",
+    "refresh": "重新整理",
+    "noAgents": "找不到代理程式。",
+    "selectTitle": "選取代理程式",
+    "selectSubtitle": "從側邊欄選取代理程式以檢視詳細資料。",
+    "tabs": {
+      "overview": "概覽",
+      "files": "檔案",
+      "tools": "工具",
+      "skills": "技能",
+      "channels": "頻道",
+      "cron": "定時任務"
+    },
+    "overview": {
+      "title": "概覽",
+      "subtitle": "工作區路徑和身分識別資料。",
+      "workspace": "工作區",
+      "primaryModel": "主要模型",
+      "identityName": "身分名稱",
+      "identityEmoji": "身分表情符號",
+      "default": "預設",
+      "skillsFilter": "技能篩選",
+      "yes": "是",
+      "no": "否",
+      "selected": "已選取",
+      "allSkills": "所有技能",
+      "modelSelection": "模型選取",
+      "primaryModelLabel": "主要模型",
+      "inheritDefault": "繼承預設值",
+      "inheritDefaultWithModel": "繼承預設值（{model}）",
+      "fallbacks": "後備模型（逗號分隔）",
+      "fallbacksPlaceholder": "提供者/模型, 提供者/模型",
+      "reloadConfig": "重新載入設定",
+      "saving": "儲存中…",
+      "save": "儲存",
+      "loading": "載入中…",
+      "unavailable": "無法使用"
+    },
+    "context": {
+      "title": "代理程式內容",
+      "workspaceSubtitle": "工作區、身分識別和模型設定。",
+      "cronSubtitle": "工作區和排程目標。"
+    },
+    "channels": {
+      "title": "頻道",
+      "subtitle": "閘道器範圍頻道狀態快照。",
+      "refreshing": "重新整理中…",
+      "lastRefresh": "上次重新整理：",
+      "never": "從未",
+      "loadPrompt": "載入頻道以檢視即時狀態。",
+      "noChannels": "找不到頻道。",
+      "connected": "已連線",
+      "accounts": "帳戶",
+      "configured": "已設定",
+      "notConfigured": "未設定",
+      "enabled": "已啟用",
+      "disabled": "已停用"
+    },
+    "cron": {
+      "schedulerTitle": "排程器",
+      "schedulerSubtitle": "閘道器定時任務狀態。",
+      "enabled": "已啟用",
+      "yes": "是",
+      "no": "否",
+      "na": "不適用",
+      "jobs": "工作",
+      "nextWake": "下次喚醒",
+      "jobsTitle": "代理程式定時任務",
+      "jobsSubtitle": "針對此代理程式的定時任務。",
+      "noJobs": "未指派工作。",
+      "sessionTarget": "會話目標",
+      "wakeMode": "喚醒模式"
+    },
+    "files": {
+      "title": "核心檔案",
+      "subtitle": "啟動角色、身分識別和工具指引。",
+      "loading": "載入中…",
+      "workspace": "工作區：",
+      "loadPrompt": "載入代理程式工作區檔案以編輯核心指令。",
+      "noFiles": "找不到檔案。",
+      "selectFile": "選取檔案以編輯。",
+      "reset": "重設",
+      "saving": "儲存中…",
+      "save": "儲存",
+      "content": "內容",
+      "missing": "遺漏",
+      "missingPill": "遺漏",
+      "missingMessage": "此檔案遺漏。儲存將在代理程式工作區中建立。"
+    },
+    "tools": {
+      "title": "工具存取",
+      "subtitle": "此代理程式的設定檔和每個工具的覆寫。",
+      "enabled": "已啟用",
+      "enableAll": "全部啟用",
+      "disableAll": "全部停用",
+      "reloadConfig": "重新載入設定",
+      "saving": "儲存中…",
+      "save": "儲存",
+      "loadPrompt": "載入閘道器設定以調較工具設定檔。",
+      "explicitAllowlist": "此代理程式在設定中使用明確允許清單。工具覆寫在設定頁面中管理。",
+      "globalBlock": "已設定全域 tools.allow。代理程式覆寫無法啟用被全域封鎖的工具。",
+      "profile": "設定檔",
+      "source": "來源",
+      "status": "狀態",
+      "unsaved": "未儲存",
+      "quickPresets": "快速預設",
+      "inherit": "繼承",
+      "profiles": {
+        "minimal": "最簡",
+        "coding": "程式碼編寫",
+        "messaging": "訊息",
+        "full": "完整"
+      },
+      "sections": {
+        "files": "檔案",
+        "runtime": "執行階段",
+        "web": "網路",
+        "memory": "記憶體",
+        "sessions": "會話",
+        "ui": "使用者介面",
+        "messaging": "訊息",
+        "automation": "自動化",
+        "nodes": "節點",
+        "agents": "代理程式",
+        "media": "媒體"
+      },
+      "loading": "載入中…",
+      "refresh": "重新整理",
+      "filter": "篩選",
+      "searchPlaceholder": "搜尋技能",
+      "shown": "顯示",
+      "noSkills": "找不到技能。",
+      "error": "錯誤",
+      "list": {
+        "description": "描述",
+        "source": "來源",
+        "disabled": "已停用"
+      },
+      "actions": {
+        "enable": "啟用",
+        "disable": "停用",
+        "installing": "安裝中…",
+        "install": "安裝"
+      },
+      "apiKey": "API 密鑰"
+    },
+    "skills": {
+      "title": "技能",
+      "subtitle": "每個代理程式的技能允許清單和工作區技能。",
+      "useAll": "全部使用",
+      "disableAll": "全部停用",
+      "reloadConfig": "重新載入設定",
+      "loading": "載入中…",
+      "refresh": "重新整理",
+      "saving": "儲存中…",
+      "save": "儲存",
+      "loadConfigPrompt": "載入閘道器設定以設定每個代理程式的技能。",
+      "customAllowlist": "此代理程式使用自訂技能允許清單。",
+      "allEnabled": "所有技能皆已啟用。停用任何技能將建立每個代理程式的允許清單。",
+      "loadSkillsPrompt": "載入此代理程式的技能以檢視工作區特定項目。",
+      "filter": "篩選",
+      "searchPlaceholder": "搜尋技能",
+      "shown": "顯示",
+      "noSkills": "找不到技能。",
+      "groups": {
+        "workspace": "工作區技能",
+        "builtIn": "內建技能",
+        "installed": "已安裝技能",
+        "extra": "額外技能",
+        "other": "其他技能"
+      },
+      "status": {
+        "disabled": "已停用",
+        "blockedByAllowlist": "被允許清單封鎖",
+        "eligible": "符合資格",
+        "blocked": "被封鎖",
+        "missing": "遺漏：",
+        "reason": "原因："
+      }
+    }
+  },
   "overview": {
     "title": "概览",
     "gatewayAccess": {
@@ -70,12 +254,15 @@
       "configured": "已設定",
       "running": "執行中",
       "connected": "已連線",
-      "lastStart": "上次启动",
-      "lastProbe": "上次探测",
+      "lastStart": "上次啟動",
+      "lastProbe": "上次探測",
       "lastInbound": "上次接收",
       "yes": "是",
       "no": "否",
-      "accounts": "帳號"
+      "accounts": "帳號",
+      "probe": "探測",
+      "na": "不適用",
+      "mode": "模式"
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -110,7 +297,15 @@
     "nostr": {
       "title": "Nostr",
       "subtitle": "透過 Nostr 中继的去中心化私信（NIP-04）。",
-      "publicKey": "公钥",
+      "publicKey": "公鑰",
+      "running": "執行中",
+      "configured": "已設定",
+      "lastInbound": "上次接收",
+      "lastStart": "上次啟動",
+      "yes": "是",
+      "no": "否",
+      "na": "不適用",
+      "refresh": "重新整理",
       "profile": {
         "title": "资料",
         "noProfile": "未設定资料。点击「編輯资料」新增您的姓名、简介和头像。",
@@ -148,10 +343,21 @@
     "config": {
       "save": "儲存",
       "saving": "正在儲存…",
-      "schemaUnavailable": "结构不可用。请使用原始模式。",
-      "schemaError": "頻道設定结构不可用。",
-      "loading": "正在載入設定结构…",
-      "unsupported": "不支援的類型：{type}。请使用原始模式。"
+      "reload": "重新載入",
+      "schemaUnavailable": "結構不可用。請使用原始模式。",
+      "schemaError": "頻道設定結構不可用。",
+      "loading": "正在載入設定結構…",
+      "unsupported": "不支援的類型：{type}。請使用原始模式。",
+      "form": {
+        "unsupportedNode": "不支援的結構節點。請使用原始模式。",
+        "default": "預設值：{value}",
+        "empty": "沒有設定符合 \"{query}\"",
+        "emptySection": "此部分沒有設定",
+        "rawJson": "原始 JSON",
+        "addItem": "新增項目",
+        "remove": "移除",
+        "edit": "編輯"
+      }
     }
   },
   "chat": {
@@ -181,7 +387,14 @@
       "title": "結束专注模式"
     },
     "disabledReason": "disabledReason",
-    "error": "錯誤"
+    "error": "錯誤",
+    "compacting": "正在壓縮…",
+    "compacted": "已壓縮",
+    "message": "訊息",
+    "stop": "停止",
+    "newSession": "新會話",
+    "queue": "排隊",
+    "send": "傳送"
   },
   "skills": {
     "title": "技能",
@@ -202,7 +415,8 @@
       "enable": "啟用",
       "disable": "停用",
       "installing": "正在安裝…",
-      "install": "安裝"
+      "install": "安裝",
+      "saveKey": "儲存密鑰"
     },
     "apiKey": "API 密鑰"
   },
@@ -382,7 +596,9 @@
       "noPaired": "无配对裝置。",
       "errors": {
         "load": "錯誤"
-      }
+      },
+      "loading": "正在載入…",
+      "refresh": "重新整理"
     },
     "execBinding": {
       "title": "执行节点绑定",
@@ -499,7 +715,8 @@
       "thinking": "思考",
       "verbose": "詳細",
       "reasoning": "推理",
-      "actions": "操作"
+      "actions": "操作",
+      "delete": "刪除"
     },
     "empty": "未找到會話。",
     "levels": {
@@ -525,7 +742,8 @@
       "level": "级别",
       "subsystem": "子系統",
       "message": "訊息"
-    }
+    },
+    "export": "匯出"
   },
   "debug": {
     "title": "调试",

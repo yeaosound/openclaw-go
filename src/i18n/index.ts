@@ -23,13 +23,12 @@
  */
 
 import type { InterpolationParams, AvailableLocale } from "./types.js";
-import { DEFAULT_LOCALE, isAvailableLocale, type LocaleLoader } from "./types.js";
-
 // Import locale data
 import { en } from "./locales/en/index.js";
 import { zhCN } from "./locales/zh-CN/index.js";
 import { zhHK } from "./locales/zh-HK/index.js";
 import { zhTW } from "./locales/zh-TW/index.js";
+import { DEFAULT_LOCALE, isAvailableLocale, type LocaleLoader } from "./types.js";
 
 /**
  * Locale data storage

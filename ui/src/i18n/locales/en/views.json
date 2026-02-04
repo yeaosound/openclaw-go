@@ -1,4 +1,222 @@
 {
+  "agents": {
+    "title": "Agents",
+    "configured": "configured",
+    "loading": "Loading…",
+    "refresh": "Refresh",
+    "noAgents": "No agents found.",
+    "selectTitle": "Select an Agent",
+    "selectSubtitle": "Choose an agent from the sidebar to view details.",
+    "tabs": {
+      "overview": "Overview",
+      "files": "Files",
+      "tools": "Tools",
+      "skills": "Skills",
+      "channels": "Channels",
+      "cron": "Cron"
+    },
+    "overview": {
+      "title": "Overview",
+      "subtitle": "Workspace paths and identity metadata.",
+      "workspace": "Workspace",
+      "primaryModel": "Primary Model",
+      "identityName": "Identity Name",
+      "identityEmoji": "Identity Emoji",
+      "default": "Default",
+      "skillsFilter": "Skills Filter",
+      "yes": "yes",
+      "no": "no",
+      "selected": "selected",
+      "allSkills": "all skills",
+      "modelSelection": "Model Selection",
+      "primaryModelLabel": "Primary model",
+      "inheritDefault": "Inherit default",
+      "inheritDefaultWithModel": "Inherit default ({model})",
+      "fallbacks": "Fallbacks (comma-separated)",
+      "fallbacksPlaceholder": "provider/model, provider/model",
+      "reloadConfig": "Reload Config",
+      "saving": "Saving…",
+      "save": "Save",
+      "loading": "Loading…",
+      "unavailable": "Unavailable"
+    },
+    "context": {
+      "title": "Agent Context",
+      "workspaceSubtitle": "Workspace, identity, and model configuration.",
+      "cronSubtitle": "Workspace and scheduling targets."
+    },
+    "channels": {
+      "title": "Channels",
+      "subtitle": "Gateway-wide channel status snapshot.",
+      "refreshing": "Refreshing…",
+      "lastRefresh": "Last refresh:",
+      "never": "never",
+      "loadPrompt": "Load channels to see live status.",
+      "noChannels": "No channels found.",
+      "connected": "connected",
+      "accounts": "accounts",
+      "configured": "configured",
+      "notConfigured": "not configured",
+      "enabled": "enabled",
+      "disabled": "disabled"
+    },
+    "cron": {
+      "schedulerTitle": "Scheduler",
+      "schedulerSubtitle": "Gateway cron status.",
+      "enabled": "Enabled",
+      "yes": "Yes",
+      "no": "No",
+      "na": "n/a",
+      "jobs": "Jobs",
+      "nextWake": "Next wake",
+      "jobsTitle": "Agent Cron Jobs",
+      "jobsSubtitle": "Scheduled jobs targeting this agent.",
+      "noJobs": "No jobs assigned.",
+      "sessionTarget": "sessionTarget",
+      "wakeMode": "wakeMode"
+    },
+    "files": {
+      "title": "Core Files",
+      "subtitle": "Bootstrap persona, identity, and tool guidance.",
+      "loading": "Loading…",
+      "workspace": "Workspace:",
+      "loadPrompt": "Load the agent workspace files to edit core instructions.",
+      "noFiles": "No files found.",
+      "selectFile": "Select a file to edit.",
+      "reset": "Reset",
+      "saving": "Saving…",
+      "save": "Save",
+      "content": "Content",
+      "missing": "Missing",
+      "missingPill": "missing",
+      "missingMessage": "This file is missing. Saving will create it in the agent workspace."
+    },
+      "tools": {
+        "title": "Tools",
+        "subtitle": "Bundled, managed, and workspace skills.",
+        "loading": "Loading…",
+        "refresh": "Refresh",
+        "filter": "Filter",
+        "searchPlaceholder": "Search skills",
+        "shown": "{count} shown",
+        "noSkills": "No skills found.",
+        "error": "error",
+        "list": {
+          "description": "Description",
+          "source": "Source",
+          "disabled": "disabled"
+        },
+        "actions": {
+          "enable": "Enable",
+          "disable": "Disable",
+          "installing": "Installing…",
+          "install": "Install"
+        },
+        "apiKey": "API key",
+        "sections": {
+          "files": "Files",
+          "runtime": "Runtime",
+          "web": "Web",
+          "memory": "Memory",
+          "sessions": "Sessions",
+          "ui": "UI",
+          "messaging": "Messaging",
+          "automation": "Automation",
+          "nodes": "Nodes",
+          "agents": "Agents",
+          "media": "Media"
+        },
+        "enabled": "enabled",
+        "enableAll": "Enable All",
+        "disableAll": "Disable All",
+        "reloadConfig": "Reload Config",
+        "saving": "Saving…",
+        "save": "Save",
+        "loadPrompt": "Load the gateway config to adjust tool profiles.",
+        "explicitAllowlist": "This agent is using an explicit allowlist in config. Tool overrides are managed in the Config tab.",
+        "globalBlock": "Global tools.allow is set. Agent overrides cannot enable tools that are globally blocked.",
+        "profile": "Profile",
+        "source": "Source",
+        "status": "Status",
+        "unsaved": "unsaved",
+        "quickPresets": "Quick Presets",
+        "inherit": "Inherit",
+        "profiles": {
+          "minimal": "Minimal",
+          "coding": "Coding",
+          "messaging": "Messaging",
+          "full": "Full"
+        }
+      },
+    "skills": {
+      "title": "Skills",
+      "subtitle": "Per-agent skill allowlist and workspace skills.",
+      "useAll": "Use All",
+      "disableAll": "Disable All",
+      "reloadConfig": "Reload Config",
+      "loading": "Loading…",
+      "refresh": "Refresh",
+      "saving": "Saving…",
+      "save": "Save",
+      "loadConfigPrompt": "Load the gateway config to set per-agent skills.",
+      "customAllowlist": "This agent uses a custom skill allowlist.",
+      "allEnabled": "All skills are enabled. Disabling any skill will create a per-agent allowlist.",
+      "loadSkillsPrompt": "Load skills for this agent to view workspace-specific entries.",
+      "filter": "Filter",
+      "searchPlaceholder": "Search skills",
+      "shown": "shown",
+      "noSkills": "No skills found.",
+      "groups": {
+        "workspace": "Workspace Skills",
+        "builtIn": "Built-in Skills",
+        "installed": "Installed Skills",
+        "extra": "Extra Skills",
+        "other": "Other Skills"
+      },
+      "status": {
+        "disabled": "disabled",
+        "blockedByAllowlist": "blocked by allowlist",
+        "eligible": "eligible",
+        "blocked": "blocked",
+        "missing": "Missing:",
+        "reason": "Reason:"
+      }
+    }
+    },
+    "skills": {
+      "title": "Skills",
+      "subtitle": "Per-agent skill allowlist and workspace skills.",
+      "useAll": "Use All",
+      "disableAll": "Disable All",
+      "reloadConfig": "Reload Config",
+      "loading": "Loading…",
+      "refresh": "Refresh",
+      "saving": "Saving…",
+      "save": "Save",
+      "loadConfigPrompt": "Load the gateway config to set per-agent skills.",
+      "customAllowlist": "This agent uses a custom skill allowlist.",
+      "allEnabled": "All skills are enabled. Disabling any skill will create a per-agent allowlist.",
+      "loadSkillsPrompt": "Load skills for this agent to view workspace-specific entries.",
+      "filter": "Filter",
+      "searchPlaceholder": "Search skills",
+      "shown": "shown",
+      "noSkills": "No skills found.",
+      "groups": {
+        "workspace": "Workspace Skills",
+        "builtIn": "Built-in Skills",
+        "installed": "Installed Skills",
+        "extra": "Extra Skills",
+        "other": "Other Skills"
+      },
+      "status": {
+        "disabled": "disabled",
+        "blockedByAllowlist": "blocked by allowlist",
+        "eligible": "eligible",
+        "blocked": "blocked",
+        "missing": "Missing:",
+        "reason": "Reason:"
+      }
+    },
   "overview": {
     "title": "Overview",
     "gatewayAccess": {
@@ -75,7 +293,10 @@
       "lastInbound": "Last Inbound",
       "yes": "Yes",
       "no": "No",
-      "accounts": "Accounts"
+      "accounts": "Accounts",
+      "probe": "Probe",
+      "na": "n/a",
+      "mode": "Mode"
     },
     "whatsapp": {
       "title": "WhatsApp",
@@ -111,6 +332,22 @@
       "title": "Nostr",
       "subtitle": "Decentralized DMs via Nostr relays (NIP-04).",
       "publicKey": "Public Key",
+      "running": "Running",
+      "configured": "Configured",
+      "lastInbound": "Last inbound",
+      "lastStart": "Last start",
+      "yes": "Yes",
+      "no": "No",
+      "na": "n/a",
+      "profile": {
+        "title": "Profile",
+        "edit": "Edit Profile",
+        "noProfile": "No profile set. Click \"Edit Profile\" to add your name, bio, and avatar.",
+        "name": "Name",
+        "displayName": "Display Name",
+        "about": "About"
+      },
+      "refresh": "Refresh",
       "profile": {
         "title": "Profile",
         "noProfile": "No profile set. Click \"Edit Profile\" to add your name, bio, and avatar.",
@@ -148,10 +385,21 @@
     "config": {
       "save": "Save",
       "saving": "Saving…",
+      "reload": "Reload",
       "schemaUnavailable": "Schema unavailable. Use Raw.",
       "schemaError": "Channel config schema unavailable.",
       "loading": "Loading config schema…",
-      "unsupported": "Unsupported type: {type}. Use Raw mode."
+      "unsupported": "Unsupported type: {type}. Use Raw mode.",
+      "form": {
+        "unsupportedNode": "Unsupported schema node. Use Raw mode.",
+        "default": "Default: {value}",
+        "empty": "No settings match \"{query}\"",
+        "emptySection": "No settings in this section",
+        "rawJson": "Raw JSON",
+        "addItem": "Add Item",
+        "remove": "Remove",
+        "edit": "Edit"
+      }
     }
   },
   "chat": {
@@ -181,7 +429,14 @@
       "title": "Exit focus mode"
     },
     "disabledReason": "disabledReason",
-    "error": "error"
+    "error": "error",
+    "compacting": "Compacting…",
+    "compacted": "Compacted",
+    "message": "Message",
+    "stop": "Stop",
+    "newSession": "New session",
+    "queue": "Queue",
+    "send": "Send"
   },
   "skills": {
     "title": "Skills",
@@ -202,7 +457,8 @@
       "enable": "Enable",
       "disable": "Disable",
       "installing": "Installing…",
-      "install": "Install"
+      "install": "Install",
+      "saveKey": "Save key"
     },
     "apiKey": "API key"
   },
@@ -382,7 +638,9 @@
       "noPaired": "No paired devices.",
       "errors": {
         "load": "error"
-      }
+      },
+      "loading": "Loading…",
+      "refresh": "Refresh"
     },
     "execBinding": {
       "title": "Exec node binding",
@@ -499,7 +757,8 @@
       "thinking": "Thinking",
       "verbose": "Verbose",
       "reasoning": "Reasoning",
-      "actions": "Actions"
+      "actions": "Actions",
+      "delete": "Delete"
     },
     "empty": "No sessions found.",
     "levels": {
@@ -520,6 +779,7 @@
     "truncated": "Log output truncated; showing latest chunk.",
     "error": "error",
     "empty": "No log entries.",
+    "export": "Export",
     "columns": {
       "time": "Time",
       "level": "Level",

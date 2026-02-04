@@ -20,6 +20,9 @@ import {
   sendStickerDiscord,
   unpinMessageDiscord,
 } from "../../discord/send.js";
+import { resolveDiscordChannelId } from "../../discord/targets.js";
+import { t } from "../../i18n/index.js";
+import { withNormalizedTimestamp } from "../date-time.js";
 import {
   type ActionGate,
   jsonResult,
@@ -27,9 +30,6 @@ import {
   readStringArrayParam,
   readStringParam,
 } from "./common.js";
-import { withNormalizedTimestamp } from "../date-time.js";
-import { resolveDiscordChannelId } from "../../discord/targets.js";
-import { t } from "../../i18n/index.js";
 
 function parseDiscordMessageLink(link: string) {
   const normalized = link.trim();
@@ -72,7 +72,7 @@ export async function handleDiscordMessagingAction(
   switch (action) {
     case "react": {
       if (!isActionEnabled("reactions")) {
-        throw new Error(t('channel.tools.discord.reactionsDisabled'));
+        throw new Error(t("channel.tools.discord.reactionsDisabled"));
       }
       const channelId = resolveChannelId();
       const messageId = readStringParam(params, "messageId", {
@@ -104,7 +104,7 @@ export async function handleDiscordMessagingAction(
     }
     case "reactions": {
       if (!isActionEnabled("reactions")) {
-        throw new Error(t('channel.tools.discord.reactionsDisabled'));
+        throw new Error(t("channel.tools.discord.reactionsDisabled"));
       }
       const channelId = resolveChannelId();
       const messageId = readStringParam(params, "messageId", {
@@ -121,7 +121,7 @@ export async function handleDiscordMessagingAction(
     }
     case "sticker": {
       if (!isActionEnabled("stickers")) {
-        throw new Error(t('channel.tools.discord.stickersDisabled'));
+        throw new Error(t("channel.tools.discord.stickersDisabled"));
       }
       const to = readStringParam(params, "to", { required: true });
       const content = readStringParam(params, "content");
@@ -137,7 +137,7 @@ export async function handleDiscordMessagingAction(
     }
     case "poll": {
       if (!isActionEnabled("polls")) {
-        throw new Error(t('channel.tools.discord.pollsDisabled'));
+        throw new Error(t("channel.tools.discord.pollsDisabled"));
       }
       const to = readStringParam(params, "to", { required: true });
       const content = readStringParam(params, "content");
@@ -164,7 +164,7 @@ export async function handleDiscordMessagingAction(
     }
     case "permissions": {
       if (!isActionEnabled("permissions")) {
-        throw new Error(t('channel.tools.discord.permissionsDisabled'));
+        throw new Error(t("channel.tools.discord.permissionsDisabled"));
       }
       const channelId = resolveChannelId();
       const permissions = accountId
@@ -174,7 +174,7 @@ export async function handleDiscordMessagingAction(
     }
     case "fetchMessage": {
       if (!isActionEnabled("messages")) {
-        throw new Error(t('channel.tools.discord.messageReadsDisabled'));
+        throw new Error(t("channel.tools.discord.messageReadsDisabled"));
       }
       const messageLink = readStringParam(params, "messageLink");
       let guildId = readStringParam(params, "guildId");
@@ -204,7 +204,7 @@ export async function handleDiscordMessagingAction(
     }
     case "readMessages": {
       if (!isActionEnabled("messages")) {
-        throw new Error(t('channel.tools.discord.messageReadsDisabled'));
+        throw new Error(t("channel.tools.discord.messageReadsDisabled"));
       }
       const channelId = resolveChannelId();
       const query = {
@@ -226,7 +226,7 @@ export async function handleDiscordMessagingAction(
     }
     case "sendMessage": {
       if (!isActionEnabled("messages")) {
-        throw new Error(t('channel.tools.discord.messageSendsDisabled'));
+        throw new Error(t("channel.tools.discord.messageSendsDisabled"));
       }
       const to = readStringParam(params, "to", { required: true });
       const content = readStringParam(params, "content", {
@@ -246,7 +246,7 @@ export async function handleDiscordMessagingAction(
     }
     case "editMessage": {
       if (!isActionEnabled("messages")) {
-        throw new Error(t('channel.tools.discord.messageEditsDisabled'));
+        throw new Error(t("channel.tools.discord.messageEditsDisabled"));
       }
       const channelId = resolveChannelId();
       const messageId = readStringParam(params, "messageId", {
@@ -262,7 +262,7 @@ export async function handleDiscordMessagingAction(
     }
     case "deleteMessage": {
       if (!isActionEnabled("messages")) {
-        throw new Error(t('channel.tools.discord.messageDeletesDisabled'));
+        throw new Error(t("channel.tools.discord.messageDeletesDisabled"));
       }
       const channelId = resolveChannelId();
       const messageId = readStringParam(params, "messageId", {
@@ -277,7 +277,7 @@ export async function handleDiscordMessagingAction(
     }
     case "threadCreate": {
       if (!isActionEnabled("threads")) {
-        throw new Error(t('channel.tools.discord.threadsDisabled'));
+        throw new Error(t("channel.tools.discord.threadsDisabled"));
       }
       const channelId = resolveChannelId();
       const name = readStringParam(params, "name", { required: true });
@@ -298,7 +298,7 @@ export async function handleDiscordMessagingAction(
     }
     case "threadList": {
       if (!isActionEnabled("threads")) {
-        throw new Error(t('channel.tools.discord.threadsDisabled'));
+        throw new Error(t("channel.tools.discord.threadsDisabled"));
       }
       const guildId = readStringParam(params, "guildId", {
         required: true,
@@ -333,7 +333,7 @@ export async function handleDiscordMessagingAction(
     }
     case "threadReply": {
       if (!isActionEnabled("threads")) {
-        throw new Error(t('channel.tools.discord.threadsDisabled'));
+        throw new Error(t("channel.tools.discord.threadsDisabled"));
       }
       const channelId = resolveChannelId();
       const content = readStringParam(params, "content", {
@@ -350,7 +350,7 @@ export async function handleDiscordMessagingAction(
     }
     case "pinMessage": {
       if (!isActionEnabled("pins")) {
-        throw new Error(t('channel.tools.discord.pinsDisabled'));
+        throw new Error(t("channel.tools.discord.pinsDisabled"));
       }
       const channelId = resolveChannelId();
       const messageId = readStringParam(params, "messageId", {
@@ -365,7 +365,7 @@ export async function handleDiscordMessagingAction(
     }
     case "unpinMessage": {
       if (!isActionEnabled("pins")) {
-        throw new Error(t('channel.tools.discord.pinsDisabled'));
+        throw new Error(t("channel.tools.discord.pinsDisabled"));
       }
       const channelId = resolveChannelId();
       const messageId = readStringParam(params, "messageId", {
@@ -380,7 +380,7 @@ export async function handleDiscordMessagingAction(
     }
     case "listPins": {
       if (!isActionEnabled("pins")) {
-        throw new Error(t('channel.tools.discord.pinsDisabled'));
+        throw new Error(t("channel.tools.discord.pinsDisabled"));
       }
       const channelId = resolveChannelId();
       const pins = accountId
@@ -390,7 +390,7 @@ export async function handleDiscordMessagingAction(
     }
     case "searchMessages": {
       if (!isActionEnabled("search")) {
-        throw new Error(t('channel.tools.discord.searchDisabled'));
+        throw new Error(t("channel.tools.discord.searchDisabled"));
       }
       const guildId = readStringParam(params, "guildId", {
         required: true,

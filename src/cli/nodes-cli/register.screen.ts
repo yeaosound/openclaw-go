@@ -1,7 +1,9 @@
 import type { Command } from "commander";
-import { t } from "../../i18n/index.js";
+import type { NodesRpcOpts } from "./types.js";
 import { randomIdempotencyKey } from "../../gateway/call.js";
+import { t } from "../../i18n/index.js";
 import { defaultRuntime } from "../../runtime.js";
+import { shortenHomePath } from "../../utils.js";
 import {
   parseScreenRecordPayload,
   screenRecordTempPath,
@@ -10,13 +12,9 @@ import {
 import { parseDurationMs } from "../parse-duration.js";
 import { runNodesCommand } from "./cli-utils.js";
 import { callGatewayCli, nodesCallOpts, resolveNodeId } from "./rpc.js";
-import type { NodesRpcOpts } from "./types.js";
-import { shortenHomePath } from "../../utils.js";
 
 export function registerNodesScreenCommands(nodes: Command) {
-  const screen = nodes
-    .command("screen")
-    .description(t("cli.nodes.screen.description"));
+  const screen = nodes.command("screen").description(t("cli.nodes.screen.description"));
 
   nodesCallOpts(
     screen

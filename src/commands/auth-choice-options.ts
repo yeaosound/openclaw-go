@@ -1,6 +1,6 @@
 import type { AuthProfileStore } from "../agents/auth-profiles.js";
-import { t } from "../i18n/index.js";
 import type { AuthChoice } from "./onboard-types.js";
+import { t } from "../i18n/index.js";
 
 export type AuthChoiceOption = {
   value: AuthChoice;
@@ -179,7 +179,7 @@ export function buildAuthChoiceOptions(params: {
   options.push({
     value: "minimax-portal",
     label: "MiniMax OAuth",
-    hint: "OAuth new users enjoy a 3-day free trial of the MiniMax Coding Plan!",
+    hint: "Oauth plugin for MiniMax",
   });
   options.push({ value: "qwen-portal", label: "Qwen OAuth" });
   options.push({
@@ -201,7 +201,7 @@ export function buildAuthChoiceOptions(params: {
     hint: "Faster, higher output cost",
   });
   if (params.includeSkip) {
-    options.push({ value: "skip", label: t('common.skipForNow') });
+    options.push({ value: "skip", label: t("common.skipForNow") });
   }
 
   return options;
@@ -227,7 +227,7 @@ export function buildAuthChoiceGroups(params: { store: AuthProfileStore; include
   }));
 
   const skipOption = params.includeSkip
-    ? ({ value: "skip", label: t('common.skipForNow') } satisfies AuthChoiceOption)
+    ? ({ value: "skip", label: t("common.skipForNow") } satisfies AuthChoiceOption)
     : undefined;
 
   return { groups, skipOption };

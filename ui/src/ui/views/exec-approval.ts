@@ -1,20 +1,25 @@
 import { html, nothing } from "lit";
-
 import { t, translate } from "../../i18n/lit.js";
 import type { AppViewState } from "../app-view-state";
 
 function formatRemaining(ms: number): string {
   const remaining = Math.max(0, ms);
   const totalSeconds = Math.floor(remaining / 1000);
-  if (totalSeconds < 60) return `${totalSeconds}s`;
+  if (totalSeconds < 60) {
+    return `${totalSeconds}s`;
+  }
   const minutes = Math.floor(totalSeconds / 60);
-  if (minutes < 60) return `${minutes}m`;
+  if (minutes < 60) {
+    return `${minutes}m`;
+  }
   const hours = Math.floor(minutes / 60);
   return `${hours}h`;
 }
 
 function renderMetaRow(label: string, value?: string | null) {
-  if (!value) return nothing;
+  if (!value) {
+    return nothing;
+  }
   return html`<div class="exec-approval-meta-row"><span>${label}</span><span>${value}</span></div>`;
 }
 
@@ -26,7 +31,9 @@ function translateMetaRow(key: string, value?: string | null) {
 
 export function renderExecApprovalPrompt(state: AppViewState) {
   const active = state.execApprovalQueue[0];
-  if (!active) return nothing;
+  if (!active) {
+    return nothing;
+  }
   const request = active.request;
   const remainingMs = active.expiresAtMs - Date.now();
   const remaining = remainingMs > 0 ? `expires in ${formatRemaining(remainingMs)}` : "expired";

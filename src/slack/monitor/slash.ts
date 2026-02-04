@@ -1,7 +1,9 @@
 import type { SlackActionMiddlewareArgs, SlackCommandMiddlewareArgs } from "@slack/bolt";
 import type { ChatCommandDefinition, CommandArgs } from "../../auto-reply/commands-registry.js";
-import { resolveChunkMode } from "../../auto-reply/chunk.js";
+import type { ResolvedSlackAccount } from "../accounts.js";
+import type { SlackMonitorContext } from "./context.js";
 import { resolveEffectiveMessagesConfig } from "../../agents/identity.js";
+import { resolveChunkMode } from "../../auto-reply/chunk.js";
 import {
   buildCommandTextFromArgs,
   findCommandByNativeName,
@@ -9,24 +11,22 @@ import {
   parseCommandArgs,
   resolveCommandArgMenu,
 } from "../../auto-reply/commands-registry.js";
-import { listSkillCommandsForAgents } from "../../auto-reply/skill-commands.js";
-import { dispatchReplyWithDispatcher } from "../../auto-reply/reply/provider-dispatcher.js";
 import { finalizeInboundContext } from "../../auto-reply/reply/inbound-context.js";
+import { dispatchReplyWithDispatcher } from "../../auto-reply/reply/provider-dispatcher.js";
+import { listSkillCommandsForAgents } from "../../auto-reply/skill-commands.js";
+import { formatAllowlistMatchMeta } from "../../channels/allowlist-match.js";
+import { resolveCommandAuthorizedFromAuthorizers } from "../../channels/command-gating.js";
+import { resolveConversationLabel } from "../../channels/conversation-label.js";
 import { resolveNativeCommandsEnabled, resolveNativeSkillsEnabled } from "../../config/commands.js";
 import { resolveMarkdownTableMode } from "../../config/markdown-tables.js";
 import { danger, logVerbose } from "../../globals.js";
+import { t } from "../../i18n/index.js";
 import { buildPairingReply } from "../../pairing/pairing-messages.js";
 import {
   readChannelAllowFromStore,
   upsertChannelPairingRequest,
 } from "../../pairing/pairing-store.js";
 import { resolveAgentRoute } from "../../routing/resolve-route.js";
-import { resolveConversationLabel } from "../../channels/conversation-label.js";
-import { resolveCommandAuthorizedFromAuthorizers } from "../../channels/command-gating.js";
-import { formatAllowlistMatchMeta } from "../../channels/allowlist-match.js";
-
-import type { ResolvedSlackAccount } from "../accounts.js";
-
 import {
   normalizeAllowList,
   normalizeAllowListLower,
@@ -35,10 +35,9 @@ import {
 } from "./allow-list.js";
 import { resolveSlackChannelConfig, type SlackChannelConfigResolved } from "./channel-config.js";
 import { buildSlackSlashCommandMatcher, resolveSlackSlashCommandConfig } from "./commands.js";
-import type { SlackMonitorContext } from "./context.js";
+import { normalizeSlackChannelType } from "./context.js";
 import { isSlackChannelAllowedByPolicy } from "./policy.js";
 import { deliverSlackSlashReplies } from "./replies.js";
-import { t } from "../../i18n/index.js";
 
 type SlackBlock = { type: string; [key: string]: unknown };
 
@@ -167,7 +166,7 @@ export function registerSlackMonitorSlashCommands(params: {
     try {
       if (!prompt.trim()) {
         await ack({
-          text: t('channel.slack.slash.messageRequired'),
+          text: t("channel.slack.slash.messageRequired"),
           response_type: "ephemeral",
         });
         return;
@@ -179,8 +178,9 @@ export function registerSlackMonitorSlashCommands(params: {
       }
 
       const channelInfo = await ctx.resolveChannelName(command.channel_id);
-      const channelType =
+      const rawChannelType =
         channelInfo?.type ?? (command.channel_name === "directmessage" ? "im" : undefined);
+      const channelType = normalizeSlackChannelType(rawChannelType, command.channel_id);
       const isDirectMessage = channelType === "im";
       const isGroupDm = channelType === "mpim";
       const isRoom = channelType === "channel" || channelType === "group";
@@ -194,7 +194,7 @@ export function registerSlackMonitorSlashCommands(params: {
         })
       ) {
         await respond({
-          text: t('channel.slack.notAllowed'),
+          text: t("channel.slack.notAllowed"),
           response_type: "ephemeral",
         });
         return;
@@ -209,7 +209,7 @@ export function registerSlackMonitorSlashCommands(params: {
       if (isDirectMessage) {
         if (!ctx.dmEnabled || ctx.dmPolicy === "disabled") {
           await respond({
-            text: t('channel.slack.dmsDisabled'),
+            text: t("channel.slack.dmsDisabled"),
             response_type: "ephemeral",
           });
           return;
@@ -246,13 +246,13 @@ export function registerSlackMonitorSlashCommands(params: {
                 });
               }
             } else {
-          logVerbose(
-            `slack: blocked slash sender ${command.user_id} (dmPolicy=${ctx.dmPolicy}, ${allowMatchMeta})`,
-          );
-          await respond({
-            text: t('channel.slack.notAuthorized'),
-            response_type: "ephemeral",
-          });
+              logVerbose(
+                `slack: blocked slash sender ${command.user_id} (dmPolicy=${ctx.dmPolicy}, ${allowMatchMeta})`,
+              );
+              await respond({
+                text: t("channel.slack.notAuthorized"),
+                response_type: "ephemeral",
+              });
             }
             return;
           }
@@ -279,7 +279,7 @@ export function registerSlackMonitorSlashCommands(params: {
             })
           ) {
             await respond({
-              text: t('channel.slack.notAllowed'),
+              text: t("channel.slack.notAllowed"),
               response_type: "ephemeral",
             });
             return;
@@ -290,7 +290,7 @@ export function registerSlackMonitorSlashCommands(params: {
           const hasExplicitConfig = Boolean(channelConfig?.matchSource);
           if (!channelAllowed && (ctx.groupPolicy !== "open" || hasExplicitConfig)) {
             await respond({
-              text: t('channel.slack.notAllowed'),
+              text: t("channel.slack.notAllowed"),
               response_type: "ephemeral",
             });
             return;
@@ -311,7 +311,7 @@ export function registerSlackMonitorSlashCommands(params: {
         : false;
       if (channelUsersAllowlistConfigured && !channelUserAllowed) {
         await respond({
-          text: t('channel.slack.notAuthorizedHere'),
+          text: t("channel.slack.notAuthorizedHere"),
           response_type: "ephemeral",
         });
         return;
@@ -332,7 +332,7 @@ export function registerSlackMonitorSlashCommands(params: {
         });
         if (ctx.useAccessGroups && !commandAuthorized) {
           await respond({
-            text: t('channel.slack.notAuthorized'),
+            text: t("channel.slack.notAuthorized"),
             response_type: "ephemeral",
           });
           return;
@@ -474,7 +474,7 @@ export function registerSlackMonitorSlashCommands(params: {
     } catch (err) {
       runtime.error?.(danger(`slack slash handler failed: ${String(err)}`));
       await respond({
-        text: t('channel.slack.slash.error'),
+        text: t("channel.slack.slash.error"),
         response_type: "ephemeral",
       });
     }
@@ -569,14 +569,14 @@ export function registerSlackMonitorSlashCommands(params: {
       const parsed = parseSlackCommandArgValue(action?.value);
       if (!parsed) {
         await respondFn({
-          text: t('channel.slack.slash.buttonExpired'),
+          text: t("channel.slack.slash.buttonExpired"),
           response_type: "ephemeral",
         });
         return;
       }
       if (body.user?.id && parsed.userId !== body.user.id) {
         await respondFn({
-          text: t('channel.slack.slash.menuOtherUser'),
+          text: t("channel.slack.slash.menuOtherUser"),
           response_type: "ephemeral",
         });
         return;

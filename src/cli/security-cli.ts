@@ -1,5 +1,4 @@
 import type { Command } from "commander";
-
 import { loadConfig } from "../config/config.js";
 import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";

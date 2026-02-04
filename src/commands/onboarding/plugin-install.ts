@@ -1,16 +1,16 @@
 import fs from "node:fs";
 import path from "node:path";
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
 import type { ChannelPluginCatalogEntry } from "../../channels/plugins/catalog.js";
 import type { OpenClawConfig } from "../../config/config.js";
-import { createSubsystemLogger } from "../../logging/subsystem.js";
-import { recordPluginInstall } from "../../plugins/installs.js";
-import { enablePluginInConfig } from "../../plugins/enable.js";
-import { loadOpenClawPlugins } from "../../plugins/loader.js";
-import { installPluginFromNpmSpec } from "../../plugins/install.js";
-import { t } from "../../i18n/index.js";
 import type { RuntimeEnv } from "../../runtime.js";
 import type { WizardPrompter } from "../../wizard/prompts.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../../agents/agent-scope.js";
+import { t } from "../../i18n/index.js";
+import { createSubsystemLogger } from "../../logging/subsystem.js";
+import { enablePluginInConfig } from "../../plugins/enable.js";
+import { installPluginFromNpmSpec } from "../../plugins/install.js";
+import { recordPluginInstall } from "../../plugins/installs.js";
+import { loadOpenClawPlugins } from "../../plugins/loader.js";
 
 type InstallChoice = "npm" | "local" | "skip";
 
@@ -92,7 +92,7 @@ async function promptInstallChoice(params: {
   const options: Array<{ value: InstallChoice; label: string; hint?: string }> = [
     { value: "npm", label: `Download from npm (${entry.install.npmSpec})` },
     ...localOptions,
-    { value: "skip", label: t('common.skipForNow') },
+    { value: "skip", label: t("common.skipForNow") },
   ];
   const initialValue: InstallChoice =
     defaultChoice === "local" && !localPath ? "npm" : defaultChoice;

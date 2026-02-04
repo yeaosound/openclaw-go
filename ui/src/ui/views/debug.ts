@@ -1,7 +1,6 @@
 import { html, nothing } from "lit";
-
-import { formatEventPayload } from "../presenter";
 import type { EventLogEntry } from "../app-events";
+import { formatEventPayload } from "../presenter";
 import { t } from "../../i18n/lit.js";
 
 export type DebugProps = {

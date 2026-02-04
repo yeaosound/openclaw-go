@@ -1,37 +1,37 @@
-import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
-import { listChannelPluginCatalogEntries } from "../channels/plugins/catalog.js";
-import { listChannelPlugins, getChannelPlugin } from "../channels/plugins/index.js";
 import type { ChannelMeta } from "../channels/plugins/types.js";
-import {
-  formatChannelPrimerLine,
-  formatChannelSelectionLine,
-  listChatChannels,
-} from "../channels/registry.js";
 import type { OpenClawConfig } from "../config/config.js";
-import { isChannelConfigured } from "../config/plugin-auto-enable.js";
 import type { DmPolicy } from "../config/types.js";
-import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
-import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
 import type { RuntimeEnv } from "../runtime.js";
-import { formatDocsLink } from "../terminal/links.js";
-import { formatCliCommand } from "../cli/command-format.js";
-import { enablePluginInConfig } from "../plugins/enable.js";
 import type { WizardPrompter, WizardSelectOption } from "../wizard/prompts.js";
 import type { ChannelChoice } from "./onboard-types.js";
-import {
-  getChannelOnboardingAdapter,
-  listChannelOnboardingAdapters,
-} from "./onboarding/registry.js";
-import {
-  ensureOnboardingPluginInstalled,
-  reloadOnboardingPluginRegistry,
-} from "./onboarding/plugin-install.js";
 import type {
   ChannelOnboardingDmPolicy,
   ChannelOnboardingStatus,
   SetupChannelsOptions,
 } from "./onboarding/types.js";
+import { resolveAgentWorkspaceDir, resolveDefaultAgentId } from "../agents/agent-scope.js";
+import { listChannelPluginCatalogEntries } from "../channels/plugins/catalog.js";
+import { resolveChannelDefaultAccountId } from "../channels/plugins/helpers.js";
+import { listChannelPlugins, getChannelPlugin } from "../channels/plugins/index.js";
+import {
+  formatChannelPrimerLine,
+  formatChannelSelectionLine,
+  listChatChannels,
+} from "../channels/registry.js";
+import { formatCliCommand } from "../cli/command-format.js";
+import { isChannelConfigured } from "../config/plugin-auto-enable.js";
 import { t } from "../i18n/index.js";
+import { enablePluginInConfig } from "../plugins/enable.js";
+import { DEFAULT_ACCOUNT_ID, normalizeAccountId } from "../routing/session-key.js";
+import { formatDocsLink } from "../terminal/links.js";
+import {
+  ensureOnboardingPluginInstalled,
+  reloadOnboardingPluginRegistry,
+} from "./onboarding/plugin-install.js";
+import {
+  getChannelOnboardingAdapter,
+  listChannelOnboardingAdapters,
+} from "./onboarding/registry.js";
 
 type ConfiguredChannelAction = "update" | "disable" | "delete" | "skip";
 
@@ -55,19 +55,19 @@ async function promptConfiguredAction(params: {
   const { prompter, label, supportsDisable, supportsDelete } = params;
   const updateOption: WizardSelectOption<ConfiguredChannelAction> = {
     value: "update",
-    label: t('wizard.channels.action.modify'),
+    label: t("wizard.channels.action.modify"),
   };
   const disableOption: WizardSelectOption<ConfiguredChannelAction> = {
     value: "disable",
-    label: t('wizard.channels.action.disable'),
+    label: t("wizard.channels.action.disable"),
   };
   const deleteOption: WizardSelectOption<ConfiguredChannelAction> = {
     value: "delete",
-    label: t('wizard.channels.action.delete'),
+    label: t("wizard.channels.action.delete"),
   };
   const skipOption: WizardSelectOption<ConfiguredChannelAction> = {
     value: "skip",
-    label: t('wizard.channels.action.skip'),
+    label: t("wizard.channels.action.skip"),
   };
   const options: Array<WizardSelectOption<ConfiguredChannelAction>> = [
     updateOption,
@@ -76,7 +76,7 @@ async function promptConfiguredAction(params: {
     skipOption,
   ];
   return await prompter.select({
-    message: `${label} ${t('wizard.channels.configuredPrompt')}`,
+    message: `${label} ${t("wizard.channels.configuredPrompt")}`,
     options,
     initialValue: "update",
   });
@@ -99,7 +99,7 @@ async function promptRemovalAccountId(params: {
     return defaultAccountId;
   }
   const selected = await prompter.select({
-    message: `${label} ${t('wizard.channels.accountPrompt')}`,
+    message: `${label} ${t("wizard.channels.accountPrompt")}`,
     options: accountIds.map((accountId) => ({
       value: accountId,
       label: formatAccountLabel(accountId),
@@ -134,24 +134,24 @@ async function collectChannelStatus(params: {
     .filter((meta) => !statusByChannel.has(meta.id))
     .map((meta) => {
       const configured = isChannelConfigured(params.cfg, meta.id);
-      const statusLabel = configured 
-        ? `${t('wizard.channels.status.configured')} (${t('wizard.channels.status.pluginDisabled')})` 
-        : t('wizard.channels.status.notConfigured');
+      const statusLabel = configured
+        ? `${t("wizard.channels.status.configured")} (${t("wizard.channels.status.pluginDisabled")})`
+        : t("wizard.channels.status.notConfigured");
       return {
         channel: meta.id,
         configured,
         statusLines: [`${meta.label}: ${statusLabel}`],
-        selectionHint: configured 
-          ? `${t('wizard.channels.status.configured')} · ${t('wizard.channels.status.pluginDisabled')}` 
-          : t('wizard.channels.status.notConfigured'),
+        selectionHint: configured
+          ? `${t("wizard.channels.status.configured")} · ${t("wizard.channels.status.pluginDisabled")}`
+          : t("wizard.channels.status.notConfigured"),
         quickstartScore: 0,
       };
     });
   const catalogStatuses = catalogEntries.map((entry) => ({
     channel: entry.id,
     configured: false,
-    statusLines: [`${entry.meta.label}: ${t('wizard.channels.status.installPlugin')}`],
-    selectionHint: `${t('wizard.channels.status.plugin')} · ${t('wizard.channels.status.install')}`,
+    statusLines: [`${entry.meta.label}: ${t("wizard.channels.status.installPlugin")}`],
+    selectionHint: `${t("wizard.channels.status.plugin")} · ${t("wizard.channels.status.install")}`,
     quickstartScore: 0,
   }));
   const combinedStatuses = [...statusEntries, ...fallbackStatuses, ...catalogStatuses];
@@ -177,7 +177,7 @@ export async function noteChannelStatus(params: {
     accountOverrides: params.accountOverrides ?? {},
   });
   if (statusLines.length > 0) {
-    await params.prompter.note(statusLines.join("\n"), t('wizard.channels.status.title'));
+    await params.prompter.note(statusLines.join("\n"), t("wizard.channels.status.title"));
   }
 }
 
@@ -196,15 +196,15 @@ async function noteChannelPrimer(
   );
   await prompter.note(
     [
-      t('wizard.channels.how.dmSecurity'),
-      `${t('wizard.channels.how.approveWith')}: ${formatCliCommand("openclaw pairing approve <channel> <code>")}`,
-      t('wizard.channels.how.publicDms'),
-      t('wizard.channels.how.multiUser'),
+      t("wizard.channels.how.dmSecurity"),
+      `${t("wizard.channels.how.approveWith")}: ${formatCliCommand("openclaw pairing approve <channel> <code>")}`,
+      t("wizard.channels.how.publicDms"),
+      t("wizard.channels.how.multiUser"),
       `Docs: ${formatDocsLink("/start/pairing", "start/pairing")}`,
       "",
       ...channelLines,
     ].join("\n"),
-    t('wizard.channels.how.title'),
+    t("wizard.channels.how.title"),
   );
 }
 
@@ -238,7 +238,7 @@ async function maybeConfigureDmPolicies(params: {
   }
 
   const wants = await prompter.confirm({
-    message: t('wizard.channels.dmPolicy.confirm'),
+    message: t("wizard.channels.dmPolicy.confirm"),
     initialValue: false,
   });
   if (!wants) {
@@ -248,21 +248,21 @@ async function maybeConfigureDmPolicies(params: {
   let cfg = params.cfg;
   const selectPolicy = async (policy: ChannelOnboardingDmPolicy) => {
     await prompter.note(
-      t('wizard.channels.dmPolicy.note', {
+      t("wizard.channels.dmPolicy.note", {
         approveCommand: formatCliCommand(`openclaw pairing approve ${policy.channel} <code>`),
         policyKey: policy.policyKey,
         allowFromKey: policy.allowFromKey,
         docsLink: formatDocsLink("/start/pairing", "start/pairing"),
       }),
-      `${policy.label} ${t('wizard.channels.dmPolicy.accessTitle')}`,
+      `${policy.label} ${t("wizard.channels.dmPolicy.accessTitle")}`,
     );
     return (await prompter.select({
-      message: `${policy.label} ${t('wizard.channels.dmPolicy.selectTitle')}`,
+      message: `${policy.label} ${t("wizard.channels.dmPolicy.selectTitle")}`,
       options: [
-        { value: "pairing", label: t('wizard.channels.dmPolicy.pairing') },
-        { value: "allowlist", label: t('wizard.channels.dmPolicy.allowlist') },
-        { value: "open", label: t('wizard.channels.dmPolicy.open') },
-        { value: "disabled", label: t('wizard.channels.dmPolicy.disabled') },
+        { value: "pairing", label: t("wizard.channels.dmPolicy.pairing") },
+        { value: "allowlist", label: t("wizard.channels.dmPolicy.allowlist") },
+        { value: "open", label: t("wizard.channels.dmPolicy.open") },
+        { value: "disabled", label: t("wizard.channels.dmPolicy.disabled") },
       ],
     })) as DmPolicy;
   };
@@ -305,13 +305,13 @@ export async function setupChannels(
   const { installedPlugins, catalogEntries, statusByChannel, statusLines } =
     await collectChannelStatus({ cfg: next, options, accountOverrides });
   if (!options?.skipStatusNote && statusLines.length > 0) {
-    await prompter.note(statusLines.join("\n"), t('wizard.channels.statusNoteTitle'));
+    await prompter.note(statusLines.join("\n"), t("wizard.channels.statusNoteTitle"));
   }
 
   const shouldConfigure = options?.skipConfirm
     ? true
     : await prompter.confirm({
-        message: t('wizard.channels.setupConfirm'),
+        message: t("wizard.channels.setupConfirm"),
         initialValue: true,
       });
   if (!shouldConfigure) {
@@ -466,7 +466,10 @@ export async function setupChannels(
       workspaceDir,
     });
     if (!getChannelPlugin(channel)) {
-      await prompter.note(`${channel} ${t('wizard.channels.pluginNotAvailable')}`, t('wizard.channels.title'));
+      await prompter.note(
+        `${channel} ${t("wizard.channels.pluginNotAvailable")}`,
+        t("wizard.channels.title"),
+      );
       return false;
     }
     await refreshStatus(channel);
@@ -476,7 +479,10 @@ export async function setupChannels(
   const configureChannel = async (channel: ChannelChoice) => {
     const adapter = getChannelOnboardingAdapter(channel);
     if (!adapter) {
-      await prompter.note(`${channel} ${t('wizard.channels.noOnboarding')}`, t('wizard.channels.title'));
+      await prompter.note(
+        `${channel} ${t("wizard.channels.noOnboarding")}`,
+        t("wizard.channels.title"),
+      );
       return;
     }
     const result = await adapter.configure({
@@ -613,12 +619,12 @@ export async function setupChannels(
   if (options?.quickstartDefaults) {
     const { entries } = getChannelEntries();
     const choice = (await prompter.select({
-      message: t('wizard.channels.select.quickstart'),
+      message: t("wizard.channels.select.quickstart"),
       options: [
         ...buildSelectionOptions(entries),
         {
           value: "__skip__",
-          label: t('common.skipForNow'),
+          label: t("common.skipForNow"),
           hint: `You can add channels later via \`${formatCliCommand("openclaw channels add")}\``,
         },
       ],
@@ -633,13 +639,13 @@ export async function setupChannels(
     while (true) {
       const { entries } = getChannelEntries();
       const choice = (await prompter.select({
-        message: t('wizard.channels.selectPrompt'),
+        message: t("wizard.channels.selectPrompt"),
         options: [
           ...buildSelectionOptions(entries),
           {
             value: doneValue,
-            label: t('common.finished'),
-            hint: selection.length > 0 ? t('common.done') : t('common.skipForNow'),
+            label: t("common.finished"),
+            hint: selection.length > 0 ? t("common.done") : t("common.skipForNow"),
           },
         ],
         initialValue,
@@ -662,7 +668,7 @@ export async function setupChannels(
     .map((channel) => selectionNotes.get(channel))
     .filter((line): line is string => Boolean(line));
   if (selectedLines.length > 0) {
-    await prompter.note(selectedLines.join("\n"), t('wizard.channels.selectedTitle'));
+    await prompter.note(selectedLines.join("\n"), t("wizard.channels.selectedTitle"));
   }
 
   if (!options?.skipDmPolicyPrompt) {

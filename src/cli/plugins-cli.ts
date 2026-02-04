@@ -1,15 +1,14 @@
+import type { Command } from "commander";
 import fs from "node:fs";
 import path from "node:path";
-import type { Command } from "commander";
-
-import { loadConfig, writeConfigFile } from "../config/config.js";
 import type { OpenClawConfig } from "../config/config.js";
+import type { PluginRecord } from "../plugins/registry.js";
+import { loadConfig, writeConfigFile } from "../config/config.js";
 import { t } from "../i18n/index.js";
 import { resolveArchiveKind } from "../infra/archive.js";
 import { installPluginFromNpmSpec, installPluginFromPath } from "../plugins/install.js";
 import { recordPluginInstall } from "../plugins/installs.js";
 import { applyExclusiveSlotSelection } from "../plugins/slots.js";
-import type { PluginRecord } from "../plugins/registry.js";
 import { buildPluginStatusReport } from "../plugins/status.js";
 import { updateNpmInstalledPlugins } from "../plugins/update.js";
 import { defaultRuntime } from "../runtime.js";
@@ -101,7 +100,7 @@ function logSlotWarnings(warnings: string[]) {
 export function registerPluginsCli(program: Command) {
   const plugins = program
     .command("plugins")
-    .description(t('cli.plugins.description'))
+    .description(t("cli.plugins.description"))
     .addHelpText(
       "after",
       () =>
@@ -110,7 +109,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("list")
-    .description(t('cli.plugins.list.description'))
+    .description(t("cli.plugins.list.description"))
     .option("--json", "Print JSON")
     .option("--enabled", "Only show enabled plugins", false)
     .option("--verbose", "Show detailed entries", false)
@@ -184,7 +183,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("info")
-    .description(t('cli.plugins.show.description'))
+    .description(t("cli.plugins.show.description"))
     .argument("<id>", "Plugin id")
     .option("--json", "Print JSON")
     .action((id: string, opts: PluginInfoOptions) => {
@@ -262,7 +261,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("enable")
-    .description(t('cli.plugins.enable.description'))
+    .description(t("cli.plugins.enable.description"))
     .argument("<id>", "Plugin id")
     .action(async (id: string) => {
       const cfg = loadConfig();
@@ -288,7 +287,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("disable")
-    .description(t('cli.plugins.disable.description'))
+    .description(t("cli.plugins.disable.description"))
     .argument("<id>", "Plugin id")
     .action(async (id: string) => {
       const cfg = loadConfig();
@@ -311,7 +310,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("install")
-    .description(t('cli.plugins.install.description'))
+    .description(t("cli.plugins.install.description"))
     .argument("<path-or-spec>", "Path (.ts/.js/.zip/.tgz/.tar.gz) or an npm package spec")
     .option("-l, --link", "Link a local path instead of copying", false)
     .action(async (raw: string, opts: { link?: boolean }) => {
@@ -467,7 +466,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("update")
-    .description(t('cli.plugins.update.description'))
+    .description(t("cli.plugins.update.description"))
     .argument("[id]", "Plugin id (omit with --all)")
     .option("--all", "Update all tracked plugins", false)
     .option("--dry-run", "Show what would change without writing", false)
@@ -515,7 +514,7 @@ export function registerPluginsCli(program: Command) {
 
   plugins
     .command("doctor")
-    .description(t('cli.plugins.doctor.description'))
+    .description(t("cli.plugins.doctor.description"))
     .action(() => {
       const report = buildPluginStatusReport();
       const errors = report.plugins.filter((p) => p.status === "error");

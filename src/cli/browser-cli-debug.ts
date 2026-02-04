@@ -1,11 +1,10 @@
 import type { Command } from "commander";
-
-import { t } from "../i18n/index.js";
 import { danger } from "../globals.js";
+import { t } from "../i18n/index.js";
 import { defaultRuntime } from "../runtime.js";
+import { shortenHomePath } from "../utils.js";
 import { callBrowserRequest, type BrowserParentOpts } from "./browser-cli-shared.js";
 import { runCommandWithRuntime } from "./cli-utils.js";
-import { shortenHomePath } from "../utils.js";
 
 function runBrowserDebug(action: () => Promise<void>) {
   return runCommandWithRuntime(defaultRuntime, action, (err) => {
@@ -20,7 +19,7 @@ export function registerBrowserDebugCommands(
 ) {
   browser
     .command("highlight")
-    .description(t('cli.browser.highlight.description'))
+    .description(t("cli.browser.highlight.description"))
     .argument("<ref>", "Ref id from snapshot")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (ref: string, opts, cmd) => {
@@ -50,7 +49,7 @@ export function registerBrowserDebugCommands(
 
   browser
     .command("errors")
-    .description(t('cli.browser.errors.description'))
+    .description(t("cli.browser.errors.description"))
     .option("--clear", "Clear stored errors after reading", false)
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
@@ -90,7 +89,7 @@ export function registerBrowserDebugCommands(
 
   browser
     .command("requests")
-    .description(t('cli.browser.requests.description'))
+    .description(t("cli.browser.requests.description"))
     .option("--filter <text>", "Only show URLs that contain this substring")
     .option("--clear", "Clear stored requests after reading", false)
     .option("--target-id <id>", "CDP target id (or unique prefix)")
@@ -142,11 +141,11 @@ export function registerBrowserDebugCommands(
       });
     });
 
-  const trace = browser.command("trace").description(t('cli.browser.trace.description'));
+  const trace = browser.command("trace").description(t("cli.browser.trace.description"));
 
   trace
     .command("start")
-    .description(t('cli.browser.trace-start.description'))
+    .description(t("cli.browser.trace-start.description"))
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .option("--no-screenshots", "Disable screenshots")
     .option("--no-snapshots", "Disable snapshots")
@@ -180,7 +179,7 @@ export function registerBrowserDebugCommands(
 
   trace
     .command("stop")
-    .description(t('cli.browser.trace-stop.description'))
+    .description(t("cli.browser.trace-stop.description"))
     .option("--out <path>", "Output path for the trace zip")
     .option("--target-id <id>", "CDP target id (or unique prefix)")
     .action(async (opts, cmd) => {
