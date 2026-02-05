@@ -15,6 +15,7 @@ import {
 import {
   OPENROUTER_DEFAULT_MODEL_REF,
   VERCEL_AI_GATEWAY_DEFAULT_MODEL_REF,
+  X_AIO_DEFAULT_MODEL_REF,
   XIAOMI_DEFAULT_MODEL_REF,
   ZAI_DEFAULT_MODEL_REF,
 } from "./onboard-auth.credentials.js";
@@ -25,6 +26,17 @@ import {
   MOONSHOT_DEFAULT_MODEL_ID,
   MOONSHOT_DEFAULT_MODEL_REF,
 } from "./onboard-auth.models.js";
+
+const X_AIO_BASE_URL = "https://code-api.x-aio.com/v1";
+const X_AIO_DEFAULT_MODEL_ID = "Kimi-K2.5";
+const X_AIO_DEFAULT_CONTEXT_WINDOW = 256000;
+const X_AIO_DEFAULT_MAX_TOKENS = 16384;
+const X_AIO_DEFAULT_COST = {
+  input: 0,
+  output: 0,
+  cacheRead: 0,
+  cacheWrite: 0,
+};
 
 export function applyZaiConfig(cfg: OpenClawConfig): OpenClawConfig {
   const models = { ...cfg.agents?.defaults?.models };
@@ -236,6 +248,82 @@ export function applyKimiCodeConfig(cfg: OpenClawConfig): OpenClawConfig {
               }
             : undefined),
           primary: KIMI_CODING_MODEL_REF,
+        },
+      },
+    },
+  };
+}
+
+export function applyXAioProviderConfig(cfg: OpenClawConfig): OpenClawConfig {
+  const models = { ...cfg.agents?.defaults?.models };
+  models[X_AIO_DEFAULT_MODEL_REF] = {
+    ...models[X_AIO_DEFAULT_MODEL_REF],
+    alias: models[X_AIO_DEFAULT_MODEL_REF]?.alias ?? "X-AIO",
+  };
+
+  const providers = { ...cfg.models?.providers };
+  const existingProvider = providers["x-aio"];
+  const existingModels = Array.isArray(existingProvider?.models) ? existingProvider.models : [];
+  const defaultModel = {
+    id: X_AIO_DEFAULT_MODEL_ID,
+    name: "Kimi K2.5",
+    reasoning: false,
+    input: ["text"] as Array<"text" | "image">,
+    cost: X_AIO_DEFAULT_COST,
+    contextWindow: X_AIO_DEFAULT_CONTEXT_WINDOW,
+    maxTokens: X_AIO_DEFAULT_MAX_TOKENS,
+    compat: {
+      supportsDeveloperRole: false,
+    },
+  };
+  const hasDefaultModel = existingModels.some((model) => model.id === X_AIO_DEFAULT_MODEL_ID);
+  const mergedModels = hasDefaultModel ? existingModels : [...existingModels, defaultModel];
+  const { apiKey: existingApiKey, ...existingProviderRest } = (existingProvider ?? {}) as Record<
+    string,
+    unknown
+  > as { apiKey?: string };
+  const resolvedApiKey = typeof existingApiKey === "string" ? existingApiKey : undefined;
+  const normalizedApiKey = resolvedApiKey?.trim();
+  providers["x-aio"] = {
+    ...existingProviderRest,
+    baseUrl: X_AIO_BASE_URL,
+    api: "openai-completions",
+    ...(normalizedApiKey ? { apiKey: normalizedApiKey } : {}),
+    models: mergedModels.length > 0 ? mergedModels : [defaultModel],
+  };
+
+  return {
+    ...cfg,
+    agents: {
+      ...cfg.agents,
+      defaults: {
+        ...cfg.agents?.defaults,
+        models,
+      },
+    },
+    models: {
+      mode: cfg.models?.mode ?? "merge",
+      providers,
+    },
+  };
+}
+
+export function applyXAioConfig(cfg: OpenClawConfig): OpenClawConfig {
+  const next = applyXAioProviderConfig(cfg);
+  const existingModel = next.agents?.defaults?.model;
+  return {
+    ...next,
+    agents: {
+      ...next.agents,
+      defaults: {
+        ...next.agents?.defaults,
+        model: {
+          ...(existingModel && "fallbacks" in (existingModel as Record<string, unknown>)
+            ? {
+                fallbacks: (existingModel as { fallbacks?: string[] }).fallbacks,
+              }
+            : undefined),
+          primary: X_AIO_DEFAULT_MODEL_REF,
         },
       },
     },

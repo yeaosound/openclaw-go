@@ -24,6 +24,7 @@ export type AuthChoice =
   | "google-gemini-cli"
   | "zai-api-key"
   | "xiaomi-api-key"
+  | "x-aio-api-key"
   | "minimax-cloud"
   | "minimax"
   | "minimax-api"

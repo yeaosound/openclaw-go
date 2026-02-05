@@ -178,3 +178,17 @@ export async function setOpencodeZenApiKey(key: string, agentDir?: string) {
     agentDir: resolveAuthAgentDir(agentDir),
   });
 }
+
+export const X_AIO_DEFAULT_MODEL_REF = "x-aio/Kimi-K2.5";
+
+export async function setXAioApiKey(key: string, agentDir?: string) {
+  upsertAuthProfile({
+    profileId: "x-aio:default",
+    credential: {
+      type: "api_key",
+      provider: "x-aio",
+      key,
+    },
+    agentDir: resolveAuthAgentDir(agentDir),
+  });
+}

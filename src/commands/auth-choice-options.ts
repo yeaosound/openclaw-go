@@ -18,6 +18,7 @@ export type AuthChoiceGroupId =
   | "moonshot"
   | "zai"
   | "xiaomi"
+  | "x-aio"
   | "opencode-zen"
   | "minimax"
   | "synthetic"
@@ -110,6 +111,12 @@ const AUTH_CHOICE_GROUP_DEFS: {
     choices: ["xiaomi-api-key"],
   },
   {
+    value: "x-aio",
+    label: "X-AIO",
+    hint: "Kimi K2.5 (OpenAI-compatible)",
+    choices: ["x-aio-api-key"],
+  },
+  {
     value: "synthetic",
     label: "Synthetic",
     hint: "Anthropic-compatible (multi-model)",
@@ -172,6 +179,7 @@ export function buildAuthChoiceOptions(params: {
     hint: "Uses the bundled Gemini CLI auth plugin",
   });
   options.push({ value: "zai-api-key", label: "Z.AI (GLM 4.7) API key" });
+  options.push({ value: "x-aio-api-key", label: "X-AIO API key" });
   options.push({
     value: "xiaomi-api-key",
     label: "Xiaomi API key",

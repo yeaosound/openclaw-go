@@ -53,7 +53,9 @@ describe("models-config", () => {
       const previousMoonshot = process.env.MOONSHOT_API_KEY;
       const previousSynthetic = process.env.SYNTHETIC_API_KEY;
       const previousVenice = process.env.VENICE_API_KEY;
+      const previousXAio = process.env.X_AIO_API_KEY;
       const previousXiaomi = process.env.XIAOMI_API_KEY;
+
       delete process.env.COPILOT_GITHUB_TOKEN;
       delete process.env.GH_TOKEN;
       delete process.env.GITHUB_TOKEN;
@@ -62,6 +64,7 @@ describe("models-config", () => {
       delete process.env.MOONSHOT_API_KEY;
       delete process.env.SYNTHETIC_API_KEY;
       delete process.env.VENICE_API_KEY;
+      delete process.env.X_AIO_API_KEY;
       delete process.env.XIAOMI_API_KEY;
 
       try {
@@ -118,6 +121,11 @@ describe("models-config", () => {
           delete process.env.VENICE_API_KEY;
         } else {
           process.env.VENICE_API_KEY = previousVenice;
+        }
+        if (previousXAio === undefined) {
+          delete process.env.X_AIO_API_KEY;
+        } else {
+          process.env.X_AIO_API_KEY = previousXAio;
         }
         if (previousXiaomi === undefined) {
           delete process.env.XIAOMI_API_KEY;
@@ -177,6 +185,73 @@ describe("models-config", () => {
           delete process.env.MINIMAX_API_KEY;
         } else {
           process.env.MINIMAX_API_KEY = prevKey;
+        }
+      }
+    });
+  });
+  it("adds x-aio provider when X_AIO_API_KEY is set", async () => {
+    await withTempHome(async () => {
+      vi.resetModules();
+      const prevKey = process.env.X_AIO_API_KEY;
+      process.env.X_AIO_API_KEY = "sk-xaio-test";
+
+      const fetchSpy = vi.fn(async (input: string | URL) => {
+        const url = typeof input === "string" ? input : input.toString();
+        if (url === "https://dashboard.x-aio.com/api/index_view/code_plan_model_list") {
+          return new Response(
+            JSON.stringify({
+              code: "200",
+              data: [
+                { real_model_name: "Kimi-K2.5", context: 256, tags: ["推理"] },
+                { real_model_name: "Qwen3-VL-Embedding-8B", context: 8, tags: [] },
+              ],
+            }),
+            { status: 200, headers: { "content-type": "application/json" } },
+          );
+        }
+        if (url === "https://code-api.x-aio.com/v1/models") {
+          return new Response(
+            JSON.stringify({
+              object: "list",
+              data: [{ id: "Kimi-K2.5" }, { id: "Qwen3-VL-Embedding-8B" }],
+            }),
+            { status: 200, headers: { "content-type": "application/json" } },
+          );
+        }
+        return new Response("not found", { status: 404 });
+      });
+      vi.stubGlobal("fetch", fetchSpy);
+
+      try {
+        const { ensureOpenClawModelsJson } = await import("./models-config.js");
+        const { resolveOpenClawAgentDir } = await import("./agent-paths.js");
+
+        await ensureOpenClawModelsJson({});
+
+        const modelPath = path.join(resolveOpenClawAgentDir(), "models.json");
+        const raw = await fs.readFile(modelPath, "utf8");
+        const parsed = JSON.parse(raw) as {
+          providers: Record<
+            string,
+            {
+              baseUrl?: string;
+              apiKey?: string;
+              models?: Array<{ id: string }>;
+            }
+          >;
+        };
+
+        expect(parsed.providers["x-aio"]?.baseUrl).toBe("https://code-api.x-aio.com/v1");
+        expect(parsed.providers["x-aio"]?.apiKey).toBe("X_AIO_API_KEY");
+        const ids = parsed.providers["x-aio"]?.models?.map((model) => model.id);
+        expect(ids).toContain("Kimi-K2.5");
+        expect(ids).not.toContain("Qwen3-VL-Embedding-8B");
+      } finally {
+        vi.unstubAllGlobals();
+        if (prevKey === undefined) {
+          delete process.env.X_AIO_API_KEY;
+        } else {
+          process.env.X_AIO_API_KEY = prevKey;
         }
       }
     });

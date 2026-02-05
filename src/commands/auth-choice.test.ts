@@ -2,6 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it, vi } from "vitest";
+import type { ProviderPlugin } from "../plugins/types.js";
 import type { RuntimeEnv } from "../runtime.js";
 import type { WizardPrompter } from "../wizard/prompts.js";
 import type { AuthChoice } from "./onboard-types.js";
@@ -11,7 +12,7 @@ vi.mock("../providers/github-copilot-auth.js", () => ({
   githubCopilotLoginCommand: vi.fn(async () => {}),
 }));
 
-const resolvePluginProviders = vi.hoisted(() => vi.fn(() => []));
+const resolvePluginProviders = vi.hoisted(() => vi.fn((): ProviderPlugin[] => []));
 vi.mock("../plugins/providers.js", () => ({
   resolvePluginProviders,
 }));
@@ -185,6 +186,94 @@ describe("applyAuthChoice", () => {
       profiles?: Record<string, { key?: string }>;
     };
     expect(parsed.profiles?.["synthetic:default"]?.key).toBe("sk-synthetic-test");
+  });
+
+  it("prompts and writes X-AIO API key when selecting x-aio-api-key", async () => {
+    tempStateDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-auth-"));
+    process.env.OPENCLAW_STATE_DIR = tempStateDir;
+    process.env.OPENCLAW_AGENT_DIR = path.join(tempStateDir, "agent");
+    process.env.PI_CODING_AGENT_DIR = process.env.OPENCLAW_AGENT_DIR;
+
+    const fetchSpy = vi.fn(async (input: string | URL) => {
+      const url = typeof input === "string" ? input : input.toString();
+      if (url === "https://dashboard.x-aio.com/api/index_view/code_plan_model_list") {
+        return new Response(
+          JSON.stringify({
+            code: "200",
+            data: [
+              { real_model_name: "Kimi-K2.5", context: 256, tags: ["推理"] },
+              { real_model_name: "Qwen3-VL-Embedding-8B", context: 8, tags: [] },
+            ],
+          }),
+          { status: 200, headers: { "content-type": "application/json" } },
+        );
+      }
+      if (url === "https://code-api.x-aio.com/v1/models") {
+        return new Response(
+          JSON.stringify({
+            object: "list",
+            data: [{ id: "Kimi-K2.5" }, { id: "Qwen3-VL-Embedding-8B" }],
+          }),
+          { status: 200, headers: { "content-type": "application/json" } },
+        );
+      }
+      return new Response("not found", { status: 404 });
+    });
+    vi.stubGlobal("fetch", fetchSpy);
+
+    const text = vi.fn().mockResolvedValue("sk-xaio-test");
+    const select: WizardPrompter["select"] = vi.fn(async (params) => {
+      return (params.initialValue ?? params.options[0]?.value) as never;
+    });
+    const multiselect: WizardPrompter["multiselect"] = vi.fn(async () => []);
+    const confirm: WizardPrompter["confirm"] = vi.fn(async (params) => {
+      return params.message.includes("Enable Memory Search embeddings via X-AIO");
+    });
+    const prompter: WizardPrompter = {
+      intro: vi.fn(noopAsync),
+      outro: vi.fn(noopAsync),
+      note: vi.fn(noopAsync),
+      select,
+      multiselect,
+      text,
+      confirm,
+      progress: vi.fn(() => ({ update: noop, stop: noop })),
+    };
+    const runtime: RuntimeEnv = {
+      log: vi.fn(),
+      error: vi.fn(),
+      exit: vi.fn((code: number) => {
+        throw new Error(`exit:${code}`);
+      }),
+    };
+
+    const result = await applyAuthChoice({
+      authChoice: "x-aio-api-key",
+      config: {},
+      prompter,
+      runtime,
+      setDefaultModel: true,
+    });
+
+    expect(text).toHaveBeenCalledWith(expect.objectContaining({ message: "Enter X-AIO API key" }));
+
+    expect(result.config.auth?.profiles?.["x-aio:default"]).toMatchObject({
+      provider: "x-aio",
+      mode: "api_key",
+    });
+    expect(result.config.agents?.defaults?.model?.primary).toBe("x-aio/Kimi-K2.5");
+    expect(result.config.agents?.defaults?.memorySearch?.remote?.baseUrl).toBe(
+      "https://code-api.x-aio.com/v1",
+    );
+    expect(result.config.agents?.defaults?.memorySearch?.remote?.apiKey).toBe("sk-xaio-test");
+    expect(result.config.agents?.defaults?.memorySearch?.remote?.batch?.enabled).toBe(false);
+
+    const authProfilePath = authProfilePathFor(requireAgentDir());
+    const raw = await fs.readFile(authProfilePath, "utf8");
+    const parsed = JSON.parse(raw) as {
+      profiles?: Record<string, { key?: string }>;
+    };
+    expect(parsed.profiles?.["x-aio:default"]?.key).toBe("sk-xaio-test");
   });
 
   it("sets default model when selecting github-copilot", async () => {
@@ -512,7 +601,7 @@ describe("applyAuthChoice", () => {
                 {
                   profileId: "qwen-portal:default",
                   credential: {
-                    type: "oauth",
+                    type: "oauth" as const,
                     provider: "qwen-portal",
                     access: "access",
                     refresh: "refresh",
@@ -526,7 +615,7 @@ describe("applyAuthChoice", () => {
                     "qwen-portal": {
                       baseUrl: "https://portal.qwen.ai/v1",
                       apiKey: "qwen-oauth",
-                      api: "openai-completions",
+                      api: "openai-completions" as const,
                       models: [],
                     },
                   },
@@ -607,7 +696,7 @@ describe("applyAuthChoice", () => {
                 {
                   profileId: "minimax-portal:default",
                   credential: {
-                    type: "oauth",
+                    type: "oauth" as const,
                     provider: "minimax-portal",
                     access: "access",
                     refresh: "refresh",
@@ -621,7 +710,7 @@ describe("applyAuthChoice", () => {
                     "minimax-portal": {
                       baseUrl: "https://api.minimax.io/anthropic",
                       apiKey: "minimax-oauth",
-                      api: "anthropic-messages",
+                      api: "anthropic-messages" as const,
                       models: [],
                     },
                   },

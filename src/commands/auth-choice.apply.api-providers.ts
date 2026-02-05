@@ -2,6 +2,11 @@ import type { ApplyAuthChoiceParams, ApplyAuthChoiceResult } from "./auth-choice
 import { ensureAuthProfileStore, resolveAuthProfileOrder } from "../agents/auth-profiles.js";
 import { resolveEnvApiKey } from "../agents/model-auth.js";
 import {
+  fetchXAioAccessibleModelIds,
+  fetchXAioDashboardModels,
+  isXAioEmbeddingModelId,
+} from "../agents/x-aio-models.js";
+import {
   formatApiKeyPreview,
   normalizeApiKeyInput,
   validateApiKeyInput,
@@ -27,6 +32,8 @@ import {
   applyVeniceProviderConfig,
   applyVercelAiGatewayConfig,
   applyVercelAiGatewayProviderConfig,
+  applyXAioConfig,
+  applyXAioProviderConfig,
   applyXiaomiConfig,
   applyXiaomiProviderConfig,
   applyZaiConfig,
@@ -36,6 +43,7 @@ import {
   SYNTHETIC_DEFAULT_MODEL_REF,
   VENICE_DEFAULT_MODEL_REF,
   VERCEL_AI_GATEWAY_DEFAULT_MODEL_REF,
+  X_AIO_DEFAULT_MODEL_REF,
   XIAOMI_DEFAULT_MODEL_REF,
   setGeminiApiKey,
   setKimiCodingApiKey,
@@ -45,6 +53,7 @@ import {
   setSyntheticApiKey,
   setVeniceApiKey,
   setVercelAiGatewayApiKey,
+  setXAioApiKey,
   setXiaomiApiKey,
   setZaiApiKey,
   ZAI_DEFAULT_MODEL_REF,
@@ -492,6 +501,159 @@ export async function applyAuthChoiceApiProviders(
       nextConfig = applied.config;
       agentModelOverride = applied.agentModelOverride ?? agentModelOverride;
     }
+    return { config: nextConfig, agentModelOverride };
+  }
+
+  if (authChoice === "x-aio-api-key") {
+    const dashboardProgress = params.prompter.progress("Fetching X-AIO model catalog...");
+    let dashboardModels: Array<{
+      id: string;
+      contextWindow: number;
+      supportsVision: boolean;
+      supportsReasoning: boolean;
+    }> = [];
+    try {
+      dashboardModels = await fetchXAioDashboardModels();
+      dashboardProgress.stop(`Fetched ${dashboardModels.length} models.`);
+    } catch (err) {
+      dashboardProgress.stop("Failed to fetch model catalog.");
+      await params.prompter.note(
+        `X-AIO model catalog fetch failed (will continue): ${String(err)}`,
+        "X-AIO",
+      );
+    }
+
+    let apiKey = "";
+    const tokenProvider = params.opts?.tokenProvider?.trim().toLowerCase();
+    if (params.opts?.token && tokenProvider === "x-aio") {
+      apiKey = normalizeApiKeyInput(params.opts.token);
+    }
+
+    const envKey = !apiKey ? resolveEnvApiKey("x-aio") : null;
+    if (!apiKey && envKey) {
+      const useExisting = await params.prompter.confirm({
+        message: `Use existing X_AIO_API_KEY (${envKey.source}, ${formatApiKeyPreview(envKey.apiKey)})?`,
+        initialValue: true,
+      });
+      if (useExisting) {
+        apiKey = envKey.apiKey;
+      }
+    }
+
+    while (!apiKey) {
+      const entered = await params.prompter.text({
+        message: "Enter X-AIO API key",
+        validate: validateApiKeyInput,
+      });
+      apiKey = normalizeApiKeyInput(entered);
+    }
+
+    let accessibleIds: Set<string>;
+    for (;;) {
+      const progress = params.prompter.progress("Validating X-AIO API key...");
+      try {
+        accessibleIds = await fetchXAioAccessibleModelIds({ apiKey });
+        progress.stop(`Key valid. ${accessibleIds.size} models available.`);
+        break;
+      } catch (err) {
+        progress.stop("Key validation failed.");
+        const status = (err as { status?: number }).status;
+        const message =
+          status === 401 || status === 403
+            ? "API key is invalid or does not have access."
+            : `Request failed: ${String(err)}`;
+        await params.prompter.note(message, "X-AIO");
+        const entered = await params.prompter.text({
+          message: "Re-enter X-AIO API key",
+          validate: validateApiKeyInput,
+        });
+        apiKey = normalizeApiKeyInput(entered);
+      }
+    }
+
+    await setXAioApiKey(apiKey, params.agentDir);
+    nextConfig = applyAuthProfileConfig(nextConfig, {
+      profileId: "x-aio:default",
+      provider: "x-aio",
+      mode: "api_key",
+    });
+
+    {
+      const applied = await applyDefaultModelChoice({
+        config: nextConfig,
+        setDefaultModel: params.setDefaultModel,
+        defaultModel: X_AIO_DEFAULT_MODEL_REF,
+        applyDefaultConfig: applyXAioConfig,
+        applyProviderConfig: applyXAioProviderConfig,
+        noteDefault: X_AIO_DEFAULT_MODEL_REF,
+        noteAgentModel,
+        prompter: params.prompter,
+      });
+      nextConfig = applied.config;
+      agentModelOverride = applied.agentModelOverride ?? agentModelOverride;
+    }
+
+    const enableEmbeddings = await params.prompter.confirm({
+      message:
+        "Enable Memory Search embeddings via X-AIO? (stores the key in openclaw.json in plaintext)",
+      initialValue: true,
+    });
+
+    if (enableEmbeddings) {
+      const accessible = Array.from(accessibleIds).toSorted((a, b) => a.localeCompare(b));
+      const embeddingIds = accessible.filter(isXAioEmbeddingModelId);
+      const preferredEmbedding = "Qwen3-VL-Embedding-8B";
+      const embeddingSelection = await params.prompter.select({
+        message: "Select embedding model",
+        options: (embeddingIds.length > 0 ? embeddingIds : accessible).map((id) => ({
+          value: id,
+          label: id,
+          hint: embeddingIds.length > 0 && id === preferredEmbedding ? "recommended" : undefined,
+        })),
+        initialValue:
+          (embeddingIds.includes(preferredEmbedding) ? preferredEmbedding : undefined) ??
+          embeddingIds[0] ??
+          accessible[0] ??
+          preferredEmbedding,
+      });
+
+      const existing = nextConfig.agents?.defaults?.memorySearch;
+      const existingRemote = existing?.remote;
+      nextConfig = {
+        ...nextConfig,
+        agents: {
+          ...nextConfig.agents,
+          defaults: {
+            ...nextConfig.agents?.defaults,
+            memorySearch: {
+              ...existing,
+              enabled: existing?.enabled ?? true,
+              provider: "openai",
+              model: embeddingSelection,
+              remote: {
+                ...existingRemote,
+                baseUrl: "https://code-api.x-aio.com/v1",
+                apiKey,
+                batch: {
+                  ...existingRemote?.batch,
+                  enabled: false,
+                },
+              },
+            },
+          },
+        },
+      };
+
+      if (dashboardModels.length > 0) {
+        const llmCount = dashboardModels.filter((m) => !isXAioEmbeddingModelId(m.id)).length;
+        const embedCount = dashboardModels.length - llmCount;
+        await params.prompter.note(
+          `X-AIO catalog: ${llmCount} LLM models, ${embedCount} embedding models (dashboard).`,
+          "X-AIO",
+        );
+      }
+    }
+
     return { config: nextConfig, agentModelOverride };
   }
 

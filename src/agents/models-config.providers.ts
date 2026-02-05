@@ -13,6 +13,13 @@ import {
   SYNTHETIC_MODEL_CATALOG,
 } from "./synthetic-models.js";
 import { discoverVeniceModels, VENICE_BASE_URL } from "./venice-models.js";
+import {
+  X_AIO_BASE_URL,
+  buildXAioModelDefinition,
+  fetchXAioAccessibleModelIds,
+  fetchXAioDashboardModels,
+  isXAioEmbeddingModelId,
+} from "./x-aio-models.js";
 
 type ModelsConfig = NonNullable<OpenClawConfig["models"]>;
 export type ProviderConfig = NonNullable<ModelsConfig["providers"]>[string];
@@ -451,6 +458,41 @@ export async function resolveImplicitProviders(params: {
     resolveApiKeyFromProfiles({ provider: "xiaomi", store: authStore });
   if (xiaomiKey) {
     providers.xiaomi = { ...buildXiaomiProvider(), apiKey: xiaomiKey };
+  }
+
+  const xAioApiKey = resolveEnvApiKey("x-aio")?.apiKey;
+  const xAioApiKeyFromProfile = resolveApiKeyFromProfiles({ provider: "x-aio", store: authStore });
+  const resolvedXAioApiKey = (xAioApiKey ?? xAioApiKeyFromProfile ?? "").trim();
+  if (resolvedXAioApiKey) {
+    try {
+      const [dashboard, accessibleIds] = await Promise.all([
+        fetchXAioDashboardModels(),
+        fetchXAioAccessibleModelIds({ apiKey: resolvedXAioApiKey }),
+      ]);
+
+      const byId = new Map(dashboard.map((m) => [m.id, m] as const));
+      const apiKeyPlaceholder = resolveEnvApiKeyVarName("x-aio") ?? "x-aio-profile";
+      const ids = Array.from(accessibleIds).filter((id) => !isXAioEmbeddingModelId(id));
+      ids.sort((a, b) => a.localeCompare(b));
+      const models = ids.map((id) => {
+        const details = byId.get(id);
+        return buildXAioModelDefinition({
+          id,
+          contextWindow: details?.contextWindow,
+          supportsVision: details?.supportsVision,
+          supportsReasoning: details?.supportsReasoning,
+        });
+      });
+
+      providers["x-aio"] = {
+        baseUrl: X_AIO_BASE_URL,
+        api: "openai-completions",
+        apiKey: apiKeyPlaceholder,
+        models,
+      };
+    } catch (error) {
+      console.warn(`[x-aio] Failed to discover models: ${String(error)}`);
+    }
   }
 
   // Ollama provider - only add if explicitly configured

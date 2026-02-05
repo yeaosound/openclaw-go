@@ -94,6 +94,16 @@ describe("buildAuthChoiceOptions", () => {
     expect(options.some((opt) => opt.value === "chutes")).toBe(true);
   });
 
+  it("includes X-AIO auth choice", () => {
+    const store: AuthProfileStore = { version: 1, profiles: {} };
+    const options = buildAuthChoiceOptions({
+      store,
+      includeSkip: false,
+    });
+
+    expect(options.some((opt) => opt.value === "x-aio-api-key")).toBe(true);
+  });
+
   it("includes Qwen auth choice", () => {
     const store: AuthProfileStore = { version: 1, profiles: {} };
     const options = buildAuthChoiceOptions({

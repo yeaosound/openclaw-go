@@ -88,6 +88,7 @@ export function installTestEnv(): { cleanup: () => void; tempHome: string } {
     { key: "COPILOT_GITHUB_TOKEN", value: process.env.COPILOT_GITHUB_TOKEN },
     { key: "GH_TOKEN", value: process.env.GH_TOKEN },
     { key: "GITHUB_TOKEN", value: process.env.GITHUB_TOKEN },
+    { key: "X_AIO_API_KEY", value: process.env.X_AIO_API_KEY },
     { key: "NODE_OPTIONS", value: process.env.NODE_OPTIONS },
   ];
 
@@ -117,6 +118,7 @@ export function installTestEnv(): { cleanup: () => void; tempHome: string } {
   delete process.env.COPILOT_GITHUB_TOKEN;
   delete process.env.GH_TOKEN;
   delete process.env.GITHUB_TOKEN;
+  delete process.env.X_AIO_API_KEY;
   // Avoid leaking local dev tooling flags into tests (e.g. --inspect).
   delete process.env.NODE_OPTIONS;
 
